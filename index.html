@@ -1,1 +1,263 @@
-test 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sarferprod Daily Mix – 2026-03-19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f5f0e8;--ivory:#faf7f2;--linen:#ede8df;--sand:#d4c9b4;--taupe:#b8a898;--warm:#8a7d72;--brown:#5c4f44;--acc:#c9a87c;--acc-l:#e8d5b5;--sh:rgba(90,70,50,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);font-family:'DM Mono',monospace;color:var(--brown);min-height:100vh;padding:2rem 1.5rem 4rem;background-image:radial-gradient(ellipse at 18% 8%,rgba(201,168,124,.13) 0%,transparent 55%),radial-gradient(ellipse at 82% 92%,rgba(180,160,130,.10) 0%,transparent 55%)}
+.hero{text-align:center;padding:2.5rem 0 1rem;margin-bottom:1.2rem}
+.title-3d{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:600;letter-spacing:.04em;color:var(--brown);text-shadow:1px 1px 0 var(--acc),2px 2px 0 #c09060,3px 3px 0 #b07840,4px 4px 0 #a06830,5px 5px 0 rgba(80,50,20,.3),0 8px 20px rgba(80,50,20,.16);user-select:none}
+.subtitle{font-size:.72rem;font-weight:300;color:var(--taupe);letter-spacing:.22em;text-transform:uppercase;margin-top:.75rem}
+.bento{max-width:860px;margin:0 auto;display:grid;gap:1rem}
+.card{background:var(--ivory);border-radius:1.4rem;padding:1.6rem 1.8rem;box-shadow:0 2px 8px var(--sh),0 0 0 1px rgba(180,160,130,.2),inset 0 1px 0 rgba(255,255,255,.85)}
+/* share */
+.share-bar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--sand)}
+.share-label{font-size:.62rem;color:var(--taupe);letter-spacing:.12em;text-transform:uppercase}
+.share-btn{font-family:'DM Mono',monospace;font-size:.65rem;padding:5px 14px;border-radius:20px;border:1px solid var(--sand);background:var(--linen);color:var(--brown);cursor:pointer;text-decoration:none;transition:background .15s}
+.share-btn:hover{background:var(--acc-l)}
+.share-btn.wa{border-color:#25d366;color:#25d366}.share-btn.wa:hover{background:rgba(37,211,102,.1)}
+.share-btn.mail{border-color:var(--acc);color:var(--acc)}
+/* now playing */
+.np{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;background:var(--linen);border-radius:.9rem;margin-bottom:1rem;min-height:68px;border:1px solid rgba(180,160,130,.22)}
+.np img{width:52px;height:52px;object-fit:cover;border-radius:.5rem;border:1px solid var(--sand);flex-shrink:0;background:var(--sand)}
+.np-lbl{font-size:.58rem;color:var(--taupe);text-transform:uppercase;letter-spacing:.18em;margin-bottom:3px}
+.np-art{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;line-height:1.2}
+.np-tit{font-size:.68rem;color:var(--warm);margin-top:2px}
+/* canvas */
+#spectrogram{width:100%;height:88px;border-radius:.7rem;display:block;cursor:pointer;background:var(--linen);border:1px solid var(--sand);margin-bottom:.9rem}
+/* progress */
+.p-area{position:relative;height:40px;margin:0 0 .8rem}
+#pbar{position:absolute;top:16px;left:0;right:0;height:8px;background:var(--linen);border-radius:4px;overflow:visible;cursor:pointer;border:1px solid var(--sand)}
+#pfill{height:100%;width:0%;background:linear-gradient(90deg,var(--acc-l),var(--acc));border-radius:4px;pointer-events:none}
+#pthumb{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);width:16px;height:16px;background:var(--acc);border-radius:50%;box-shadow:0 0 0 3px var(--ivory),0 2px 6px rgba(0,0,0,.18);pointer-events:none}
+/* markers */
+.mk{position:absolute;top:11px;transform:translateX(-50%);width:4px;height:18px;background:var(--taupe);border-radius:2px;cursor:pointer;transition:all .18s;z-index:10}
+.mk:hover{width:7px;height:26px;top:7px;background:var(--acc)}
+.mk .tip{display:none;position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);background:var(--ivory);border:1px solid var(--sand);border-radius:.8rem;padding:.55rem;width:165px;box-shadow:0 8px 28px rgba(90,70,50,.2);z-index:200;text-align:center;pointer-events:none}
+.mk:hover .tip{display:block;animation:popIn .15s ease}
+@keyframes popIn{from{opacity:0;transform:translateX(-50%) scale(.88)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.tip img{width:100%;border-radius:.45rem;margin-bottom:.4rem;display:block;aspect-ratio:16/9;object-fit:cover;background:var(--sand)}
+.tip-art{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tip-tit{font-size:.62rem;color:var(--warm);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tip-hint{font-size:.55rem;color:var(--taupe);margin-top:4px;letter-spacing:.08em}
+@keyframes vib{0%{transform:translateX(-50%) rotate(-4deg) scale(1.2)}20%{transform:translateX(-50%) rotate(4deg) scale(1.15)}40%{transform:translateX(-50%) rotate(-3deg) scale(1.1)}60%{transform:translateX(-50%) rotate(3deg) scale(1.05)}80%{transform:translateX(-50%) rotate(-1deg)}100%{transform:translateX(-50%) rotate(0)}}
+.mk.vib{animation:vib .4s ease}
+/* controls */
+.ctrl{display:flex;align-items:center;gap:1rem}
+#btnPlay{width:50px;height:50px;border-radius:50%;background:var(--brown);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(90,60,30,.28);transition:transform .15s,background .2s;flex-shrink:0}
+#btnPlay:hover{background:var(--acc);transform:scale(1.08)}
+#btnPlay svg{width:22px;height:22px;fill:var(--ivory)}
+.time-lbl{font-size:.68rem;color:var(--warm);letter-spacing:.06em;white-space:nowrap}
+.vol{display:flex;align-items:center;gap:.55rem;margin-left:auto}
+.vol-ico{color:var(--taupe);font-size:.9rem}
+#volSlider{-webkit-appearance:none;width:88px;height:5px;border-radius:3px;background:linear-gradient(to right,var(--acc) 80%,var(--linen) 80%);outline:none;cursor:pointer;border:none}
+#volSlider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--acc);box-shadow:0 1px 5px rgba(0,0,0,.2)}
+/* tracklist */
+.tl-head{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.tl-cnt{font-size:.6rem;color:var(--taupe);font-weight:300;background:var(--linen);padding:2px 7px;border-radius:20px;letter-spacing:.1em}
+.tl-scroll{max-height:300px;overflow-y:auto;border-radius:.7rem;border:1px solid rgba(180,160,130,.2);scroll-behavior:smooth}
+.tl-scroll::-webkit-scrollbar{width:4px}.tl-scroll::-webkit-scrollbar-track{background:var(--linen)}.tl-scroll::-webkit-scrollbar-thumb{background:var(--sand);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:.68rem}
+thead th{position:sticky;top:0;background:var(--ivory);padding:.5rem .7rem;text-align:left;color:var(--taupe);letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--sand);font-weight:400;font-size:.6rem}
+tbody tr{transition:background .12s}tbody tr:hover{background:var(--linen)}
+tbody tr.act{background:var(--acc-l);border-left:3px solid var(--acc)}
+tbody td{padding:.55rem .7rem;border-bottom:1px solid rgba(180,160,130,.18);vertical-align:middle}
+.c-t{color:var(--taupe);white-space:nowrap;font-size:.63rem}
+.c-a{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-weight:600}
+.c-ti{color:var(--warm);max-width:180px}
+.c-l a{color:var(--acc);text-decoration:underline;text-underline-offset:2px;font-size:.62rem;background:rgba(201,168,124,.13);padding:2px 7px;border-radius:4px;transition:background .13s;white-space:nowrap}
+.c-l a:hover{background:rgba(201,168,124,.3)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="title-3d">Sarferprod Daily Mix</div>
+  <div class="subtitle">2026-03-19 &nbsp;·&nbsp; réalisé à 10:33 &nbsp;·&nbsp; 00:12:04</div>
+</div>
+<div class="bento">
+  <div class="card">
+    <div class="np">
+      <img id="npImg" src="" alt="">
+      <div><div class="np-lbl">En cours de lecture</div><div class="np-art" id="npArt">—</div><div class="np-tit" id="npTit">Appuyez sur play pour démarrer</div></div>
+    </div>
+    <canvas id="spectrogram"></canvas>
+    <div class="p-area" id="pArea">
+      <div id="pbar"><div id="pfill"></div><div id="pthumb"></div></div>
+    </div>
+    <div class="ctrl">
+      <button id="btnPlay" aria-label="Play/Pause">
+        <svg id="iPlay"  viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="iPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <span class="time-lbl" id="timeLbl">00:00:00 / 00:12:04</span>
+      <div class="vol"><span class="vol-ico">♪</span><input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.8"></div>
+    </div>
+    <audio id="aud" preload="metadata"><source src="https://drive.google.com/uc?export=download&id=1Gmr96c266lPp2tOOD2EHZjhRv1V0EL76" type="audio/mpeg"><source src="DailyMix_2026-03-19.mp3" type="audio/mpeg"></audio>
+    
+    <div class="share-bar">
+      <span class="share-label">Partager</span>
+      <a class="share-btn wa"   href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-03-19%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank">WhatsApp</a>
+      <a class="share-btn mail" href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-03-19&body=%C3%89coute%20le%20mix%20du%20jour%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank">Email</a>
+      <button class="share-btn copy" onclick="navigator.clipboard.writeText('https://sarfer02.github.io/sarferprod-dailymix');this.textContent='✔ Copié!'">Copier le lien</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="tl-head">Tracklist <span class="tl-cnt">26 titres</span></div>
+    <div class="tl-scroll"><table><thead><tr><th>Temps</th><th>Artiste</th><th>Titre</th><th>Lien</th></tr></thead><tbody id="tBody"></tbody></table></div>
+  </div>
+</div>
+<script>
+const TRACKS=[{"timestamp": "00:00:30", "timestamp_seconds": 30.772, "artist": "LAMONT DOZIER", "title": "You Make Me A Believer  (1981)", "url": "https://www.youtube.com/watch?v=fBebknyz02U", "thumbnail": "https://img.youtube.com/vi/fBebknyz02U/hqdefault.jpg", "channel": "DJ' PYL - Funk Disco Soul Groove"}, {"timestamp": "00:00:56", "timestamp_seconds": 56.772, "artist": "Nixon Boyd", "title": "You Will Always Get Away With It", "url": "https://www.youtube.com/watch?v=9lCSV4XUjcE", "thumbnail": "https://img.youtube.com/vi/9lCSV4XUjcE/hqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:01:22", "timestamp_seconds": 82.772, "artist": "Faster", "title": "than", "url": "https://www.youtube.com/watch?v=RBSf1lsszlg", "thumbnail": "https://img.youtube.com/vi/RBSf1lsszlg/hqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:01:48", "timestamp_seconds": 108.772, "artist": "YaH", "title": "Ra", "url": "https://www.youtube.com/watch?v=-pz1t_H0T20", "thumbnail": "https://img.youtube.com/vi/-pz1t_H0T20/hqdefault.jpg", "channel": "Paka The Plug"}, {"timestamp": "00:02:14", "timestamp_seconds": 134.772, "artist": "Paka The Plug", "title": "DFD Baby Lee &amp; Mr. Sizzles – Frozen Tundra", "url": "https://www.youtube.com/watch?v=zJuJXF6fdiI", "thumbnail": "https://img.youtube.com/vi/zJuJXF6fdiI/hqdefault.jpg", "channel": "Paka The Plug"}, {"timestamp": "00:02:40", "timestamp_seconds": 160.772, "artist": "Famoso, Shabaam Sahdeeq, QB Rap P", "title": "The Window", "url": "https://www.youtube.com/watch?v=2p52Rd3ZH_k", "thumbnail": "https://img.youtube.com/vi/2p52Rd3ZH_k/hqdefault.jpg", "channel": "Paka The Plug"}, {"timestamp": "00:03:06", "timestamp_seconds": 186.772, "artist": "Isam Hadjih", "title": "Divine", "url": "https://www.youtube.com/watch?v=qV_EGnzKRu8", "thumbnail": "https://img.youtube.com/vi/qV_EGnzKRu8/hqdefault.jpg", "channel": "Anjunadeep"}, {"timestamp": "00:03:32", "timestamp_seconds": 212.772, "artist": "Anjunadeep", "title": "An early jam session with @iamromaingarcia and @CRiMusic in Quebec ❤️ #producer", "url": "https://www.youtube.com/watch?v=pVLRortOrvw", "thumbnail": "https://img.youtube.com/vi/pVLRortOrvw/hqdefault.jpg", "channel": "Anjunadeep"}, {"timestamp": "00:03:47", "timestamp_seconds": 227.909, "artist": "MENTIS &amp; Kyma", "title": "Tell Me", "url": "https://www.youtube.com/watch?v=t8imY3gVBIQ", "thumbnail": "https://img.youtube.com/vi/t8imY3gVBIQ/hqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:04:13", "timestamp_seconds": 253.909, "artist": "Aqyila, Lou Xtwo", "title": "Bloom (Afro House Edit)", "url": "https://www.youtube.com/watch?v=pcwtC6SuRv0", "thumbnail": "https://img.youtube.com/vi/pcwtC6SuRv0/hqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:04:39", "timestamp_seconds": 279.909, "artist": "Laars", "title": "Alone", "url": "https://www.youtube.com/watch?v=pHaH_SxQXaw", "thumbnail": "https://img.youtube.com/vi/pHaH_SxQXaw/hqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:05:05", "timestamp_seconds": 305.909, "artist": "Iron Lung", "title": "Part I (Live on KEXP)", "url": "https://www.youtube.com/watch?v=IWT5V2x-R2c", "thumbnail": "https://img.youtube.com/vi/IWT5V2x-R2c/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:05:31", "timestamp_seconds": 331.909, "artist": "Iron Lung", "title": "Full Performance (Live on KEXP)", "url": "https://www.youtube.com/watch?v=K8kdGTmJzos", "thumbnail": "https://img.youtube.com/vi/K8kdGTmJzos/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:05:57", "timestamp_seconds": 357.909, "artist": "Iron Lung", "title": "Part II (Live on KEXP)", "url": "https://www.youtube.com/watch?v=06Y4metI694", "thumbnail": "https://img.youtube.com/vi/06Y4metI694/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:06:23", "timestamp_seconds": 383.909, "artist": "Iron Lung", "title": "Part IV (Live on KEXP)", "url": "https://www.youtube.com/watch?v=wZ8Pb4WnVKs", "thumbnail": "https://img.youtube.com/vi/wZ8Pb4WnVKs/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:06:49", "timestamp_seconds": 409.909, "artist": "Iron Lung", "title": "Part V (Live on KEXP)", "url": "https://www.youtube.com/watch?v=tN9ETC4fJgA", "thumbnail": "https://img.youtube.com/vi/tN9ETC4fJgA/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:07:15", "timestamp_seconds": 435.909, "artist": "KEXP", "title": "Iron Lung performs &quot;Shift Work&quot; and more Live on KEXP", "url": "https://www.youtube.com/watch?v=uT9vCeT0hg4", "thumbnail": "https://img.youtube.com/vi/uT9vCeT0hg4/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:07:41", "timestamp_seconds": 461.909, "artist": "Iron Lung", "title": "Part III (Live on KEXP)", "url": "https://www.youtube.com/watch?v=cdZsgLY2sE4", "thumbnail": "https://img.youtube.com/vi/cdZsgLY2sE4/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:08:07", "timestamp_seconds": 487.909, "artist": "Iron Lung", "title": "Part VI (Live on KEXP)", "url": "https://www.youtube.com/watch?v=uW6XAClq8vQ", "thumbnail": "https://img.youtube.com/vi/uW6XAClq8vQ/hqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:08:33", "timestamp_seconds": 513.909, "artist": "2 Meter Sessions", "title": "Nils Lofgren – Shine Silently | 2 Meter Sessions 1995 Live short", "url": "https://www.youtube.com/watch?v=xYh6khTRD9A", "thumbnail": "https://img.youtube.com/vi/xYh6khTRD9A/hqdefault.jpg", "channel": "2 Meter Sessions"}, {"timestamp": "00:08:59", "timestamp_seconds": 539.909, "artist": "2 Meter Sessions", "title": "Cardinals – I Like You | 2 Meter Sessions", "url": "https://www.youtube.com/watch?v=1IQ8zT7fQnk", "thumbnail": "https://img.youtube.com/vi/1IQ8zT7fQnk/hqdefault.jpg", "channel": "2 Meter Sessions"}, {"timestamp": "00:09:25", "timestamp_seconds": 565.909, "artist": "Kosmik Sun", "title": "Medium Interstellar (Full Album)", "url": "https://www.youtube.com/watch?v=P8hNX2FMwdw", "thumbnail": "https://img.youtube.com/vi/P8hNX2FMwdw/hqdefault.jpg", "channel": "Stoned Meadow Of Doom"}, {"timestamp": "00:09:51", "timestamp_seconds": 591.909, "artist": "La Belle Musique", "title": "Above &amp; Beyond at Mandarine Tent, Buenos Aires on June 6th! Ultimate night of dancing until dawn!✨", "url": "https://www.youtube.com/watch?v=l023QbEpL6Y", "thumbnail": "https://img.youtube.com/vi/l023QbEpL6Y/hqdefault.jpg", "channel": "La Belle Musique"}, {"timestamp": "00:10:17", "timestamp_seconds": 617.909, "artist": "The Shed", "title": "Mack The Knife ft Lois Majors, Chris Lee, Cyrus Baygents", "url": "https://www.youtube.com/watch?v=ILNjnDC7HSA", "thumbnail": "https://img.youtube.com/vi/ILNjnDC7HSA/hqdefault.jpg", "channel": "Berklee College of Music"}, {"timestamp": "00:10:43", "timestamp_seconds": 643.909, "artist": "Berklee College of Music", "title": "Mack The Knife ft Lois Majors, Chris Lee, Cyrus Baygents", "url": "https://www.youtube.com/watch?v=2s76_cTHU0A", "thumbnail": "https://img.youtube.com/vi/2s76_cTHU0A/hqdefault.jpg", "channel": "Berklee College of Music"}, {"timestamp": "00:11:09", "timestamp_seconds": 669.909, "artist": "Tears for Ears", "title": "&quot;Falling Head Over Heels Away From Me&quot;", "url": "https://www.youtube.com/watch?v=7NQIiq4hFII", "thumbnail": "https://img.youtube.com/vi/7NQIiq4hFII/hqdefault.jpg", "channel": "Bill McClintock"}];
+const aud=document.getElementById('aud');
+const btnPlay=document.getElementById('btnPlay');
+const iPlay=document.getElementById('iPlay'),iPause=document.getElementById('iPause');
+const pfill=document.getElementById('pfill'),pthumb=document.getElementById('pthumb');
+const pbar=document.getElementById('pbar'),pArea=document.getElementById('pArea');
+const timeLbl=document.getElementById('timeLbl');
+const volSlider=document.getElementById('volSlider');
+const tBody=document.getElementById('tBody');
+const npImg=document.getElementById('npImg'),npArt=document.getElementById('npArt'),npTit=document.getElementById('npTit');
+const cv=document.getElementById('spectrogram'),ctx=cv.getContext('2d');
+let raf,audioCtx,analyser,dataArr,markersBuilt=false,curIdx=-1,fakeT=0;
+
+aud.volume=0.8;
+
+volSlider.addEventListener('input',()=>{
+  aud.volume=parseFloat(volSlider.value);
+  const p=(aud.volume*100).toFixed(0);
+  volSlider.style.background=`linear-gradient(to right,var(--acc) ${p}%,var(--linen) ${p}%)`;
+});
+
+btnPlay.addEventListener('click',()=>{aud.paused?aud.play():aud.pause()});
+aud.addEventListener('play',()=>{iPlay.style.display='none';iPause.style.display='block';startSpectro()});
+aud.addEventListener('pause',()=>{iPlay.style.display='block';iPause.style.display='none';cancelAnimationFrame(raf)});
+
+function fmt(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=Math.floor(s%60);return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sc).padStart(2,'0')}`}
+
+aud.addEventListener('timeupdate',()=>{
+  const dur=aud.duration;
+  if(!dur||!isFinite(dur))return;
+  if(!markersBuilt)buildMarkers(dur);
+  const pct=(aud.currentTime/dur)*100;
+  pfill.style.width=pct+'%';pthumb.style.left=pct+'%';
+  timeLbl.textContent=fmt(aud.currentTime)+' / '+fmt(dur);
+  updateTrack(aud.currentTime);
+});
+aud.addEventListener('loadedmetadata',()=>{if(aud.duration&&isFinite(aud.duration))buildMarkers(aud.duration)});
+
+pbar.addEventListener('click',e=>{aud.currentTime=(e.offsetX/pbar.offsetWidth)*aud.duration});
+cv.addEventListener('click',e=>{
+  const r=(e.clientX-cv.getBoundingClientRect().left)/cv.offsetWidth;
+  aud.currentTime=r*aud.duration;
+  if(aud.paused)aud.play();
+});
+
+function updateTrack(t){
+  let idx=-1;
+  for(let i=0;i<TRACKS.length;i++){if(t>=TRACKS[i].timestamp_seconds)idx=i}
+  if(idx!==curIdx){
+    curIdx=idx;
+    if(idx>=0){npArt.textContent=TRACKS[idx].artist;npTit.textContent=TRACKS[idx].title;npImg.src=TRACKS[idx].thumbnail}
+    document.querySelectorAll('#tBody tr').forEach((r,i)=>r.classList.toggle('act',i===idx));
+    const rows=document.querySelectorAll('#tBody tr');
+    if(rows[idx])rows[idx].scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+TRACKS.forEach(t=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="c-t">${esc(t.timestamp)}</td><td class="c-a">${esc(t.artist)}</td><td class="c-ti">${esc(t.title)}</td><td class="c-l"><a onclick="window.open('${esc(t.url)}','_blank');return false;" href="#">▶ YouTube</a></td>`;
+  tBody.appendChild(tr);
+});
+
+// ── Repères : construits seulement après que audio.duration est connu et fini ──
+function buildMarkers(dur){
+  if(markersBuilt||!dur||!isFinite(dur))return;
+  markersBuilt=true;
+  pArea.querySelectorAll('.mk').forEach(m=>m.remove());
+  TRACKS.forEach(t=>{
+    if(t.timestamp_seconds<=0)return;
+    const pct=(t.timestamp_seconds/dur)*100;
+    if(pct>=99.5)return; // trop proche de la fin
+    const mk=document.createElement('div');
+    mk.className='mk';
+    mk.style.left=pct+'%';
+    mk.innerHTML=`<div class="tip"><img src="${t.thumbnail}" loading="lazy" alt=""><div class="tip-art">${esc(t.artist)}</div><div class="tip-tit">${esc(t.title)}</div><div class="tip-hint">clic → ouvre YouTube</div></div>`;
+    mk.addEventListener('click',()=>{
+      mk.classList.remove('vib');void mk.offsetWidth;mk.classList.add('vib');
+      aud.currentTime=t.timestamp_seconds;
+      if(aud.paused)aud.play();
+      setTimeout(()=>window.open(t.url,'_blank'),380);
+    });
+    pArea.appendChild(mk);
+  });
+}
+
+// ── Spectrogramme ─────────────────────────────────────────────────────────────
+function resizeCV(){cv.width=cv.offsetWidth*(window.devicePixelRatio||1);cv.height=88*(window.devicePixelRatio||1);cv.style.width='100%';cv.style.height='88px'}
+
+function startSpectro(){
+  if(!audioCtx){
+    try{
+      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      analyser=audioCtx.createAnalyser();analyser.fftSize=512;
+      dataArr=new Uint8Array(analyser.frequencyBinCount);
+      const src=audioCtx.createMediaElementSource(aud);
+      src.connect(analyser);analyser.connect(audioCtx.destination);
+    }catch(e){fakeDraw();return}
+  }
+  resizeCV();
+  function draw(){
+    if(aud.paused)return;
+    analyser.getByteFrequencyData(dataArr);
+    const W=cv.width,H=cv.height,dur=aud.duration||1;
+    const sx=Math.floor(W*(aud.currentTime/dur));
+    ctx.clearRect(0,0,W,H);
+    const bW=W/dataArr.length;
+    for(let i=0;i<dataArr.length;i++){
+      const v=dataArr[i]/255,bH=Math.max(2,v*H),x=i*bW;
+      const g=ctx.createLinearGradient(0,H-bH,0,H);
+      if(x<=sx){g.addColorStop(0,`rgba(201,168,124,${.9*v+.1})`);g.addColorStop(1,`rgba(160,115,65,${.5*v+.05})`)}
+      else{g.addColorStop(0,`rgba(185,175,160,${.5*v+.07})`);g.addColorStop(1,`rgba(155,145,130,${.3*v+.04})`)}
+      ctx.fillStyle=g;ctx.fillRect(x,H-bH,Math.max(1,bW-.8),bH);
+    }
+    ctx.save();ctx.strokeStyle='rgba(201,168,124,.95)';ctx.lineWidth=2;ctx.shadowColor='rgba(201,168,124,.5)';ctx.shadowBlur=6;
+    ctx.beginPath();ctx.moveTo(sx,0);ctx.lineTo(sx,H);ctx.stroke();ctx.restore();
+    raf=requestAnimationFrame(draw);
+  }
+  cancelAnimationFrame(raf);draw();
+}
+
+function fakeDraw(){
+  resizeCV();
+  const bars=128;
+  function draw(){
+    fakeT+=.04;
+    const W=cv.width,H=cv.height,dur=aud.duration||1;
+    const sx=Math.floor(W*(aud.currentTime/dur));
+    ctx.clearRect(0,0,W,H);
+    const bW=W/bars;
+    for(let i=0;i<bars;i++){
+      const v=(Math.sin(i*.18+fakeT)*.4+.5)*(Math.sin(i*.07-fakeT*.6)*.3+.7);
+      const bH=Math.max(2,v*H*.85),x=i*bW;
+      const g=ctx.createLinearGradient(0,H-bH,0,H);
+      if(x<=sx){g.addColorStop(0,`rgba(201,168,124,${.85*v+.1})`);g.addColorStop(1,`rgba(160,115,65,${.5*v+.05})`)}
+      else{g.addColorStop(0,`rgba(185,175,160,${.5*v+.07})`);g.addColorStop(1,`rgba(155,145,130,${.28*v+.04})`)}
+      ctx.fillStyle=g;ctx.fillRect(x,H-bH,Math.max(1,bW-.8),bH);
+    }
+    ctx.save();ctx.strokeStyle='rgba(201,168,124,.9)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(sx,0);ctx.lineTo(sx,H);ctx.stroke();ctx.restore();
+    raf=requestAnimationFrame(draw);
+  }
+  cancelAnimationFrame(raf);draw();
+}
+fakeDraw();
+aud.addEventListener('play',()=>{cancelAnimationFrame(raf);startSpectro()});
+</script>
+</body>
+</html>
