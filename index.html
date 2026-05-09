@@ -5,99 +5,256 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sarferprod Daily Mix — 2026-05-09</title>
 <style>
-  body { background:#0f0f0f; color:#fff; font-family:sans-serif; text-align:center; padding:20px; margin:0; }
-  .card { max-width:700px; margin:auto; background:#1a1a1a; padding:30px; border-radius:20px; border:1px solid #333; }
-  img.logo { width:120px; border-radius:50%; margin-bottom:10px; }
-  audio { width:100%; margin:20px 0; }
-  canvas#cv { width:100%; height:80px; display:block; margin-bottom:10px; }
-  .track-item { padding:12px 15px; border-bottom:1px solid #222; cursor:pointer; text-align:left; display:flex; align-items:center; gap:12px; }
-  .track-item:hover { background:#252525; color:#00f2ff; }
-  .track-item img { width:56px; height:42px; border-radius:4px; object-fit:cover; flex-shrink:0; }
-  .track-info { flex:1; overflow:hidden; }
-  .track-title { font-size:.9em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .track-ts { font-size:.75em; color:#888; width:52px; flex-shrink:0; }
-  .btn-wa { display:inline-block; margin-top:20px; padding:12px 25px; background:#25d366; color:#fff; text-decoration:none; border-radius:50px; font-weight:bold; }
-  .btn-sc { display:inline-block; margin-top:10px; padding:10px 22px; background:#f50; color:#fff; text-decoration:none; border-radius:50px; font-weight:bold; font-size:.85em; }
-  .meta { font-size:.8em; color:#666; margin-top:8px; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:#0a0a0a; color:#e8e0d4; font-family:'Segoe UI',sans-serif; min-height:100vh;
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(60,40,20,.4) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(40,25,10,.3) 0%, transparent 50%); }
+.wrapper { max-width:720px; margin:0 auto; padding:24px 16px 48px; }
+
+/* ── Header ── */
+.header { display:flex; align-items:center; gap:18px; margin-bottom:24px; }
+.logo-wrap { flex-shrink:0; }
+.logo-wrap a { display:block; }
+.logo-wrap img { width:72px; height:72px; border-radius:50%; object-fit:cover;
+  border:2px solid rgba(201,168,124,.4); box-shadow:0 0 20px rgba(201,168,124,.2); }
+.header-text h1 { font-size:1.4em; font-weight:700; color:#c9a87c; letter-spacing:.04em; }
+.header-text .sub { font-size:.85em; color:#7a6a58; margin-top:3px; }
+
+/* ── Now Playing ── */
+.now-playing { background:rgba(255,255,255,.03); border:1px solid rgba(201,168,124,.12);
+  border-radius:14px; padding:16px; margin-bottom:16px; display:flex; align-items:center; gap:14px; }
+.np-thumb { width:64px; height:48px; border-radius:6px; object-fit:cover; flex-shrink:0;
+  border:1px solid rgba(255,255,255,.08); }
+.np-info { flex:1; overflow:hidden; }
+.np-title { font-size:.95em; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#e8e0d4; }
+.np-artist { font-size:.78em; color:#7a6a58; margin-top:3px; }
+
+/* ── Spectrogramme ── */
+canvas#cv { width:100%; height:72px; display:block; border-radius:8px;
+  background:rgba(0,0,0,.3); margin-bottom:14px; }
+
+/* ── Player ── */
+audio { width:100%; margin-bottom:20px;
+  filter: hue-rotate(25deg) saturate(0.7) brightness(1.1); }
+
+/* ── Tracklist ── */
+.tracklist { border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.06); margin-bottom:20px; }
+.tl-header { background:rgba(201,168,124,.08); padding:10px 16px; font-size:.75em;
+  text-transform:uppercase; letter-spacing:.12em; color:#7a6a58; }
+.track-item { display:flex; align-items:center; gap:12px; padding:11px 14px;
+  border-bottom:1px solid rgba(255,255,255,.04); cursor:pointer; transition:background .15s; }
+.track-item:last-child { border-bottom:none; }
+.track-item:hover { background:rgba(201,168,124,.07); }
+.track-item.active { background:rgba(201,168,124,.12); border-left:3px solid #c9a87c; }
+.track-ts { font-size:.72em; color:#5a4a38; width:42px; flex-shrink:0; font-variant-numeric:tabular-nums; }
+.track-thumb { width:52px; height:39px; border-radius:4px; object-fit:cover; flex-shrink:0;
+  border:1px solid rgba(255,255,255,.06); }
+.track-info { flex:1; overflow:hidden; }
+.track-title { font-size:.88em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.track-artist { font-size:.73em; color:#7a6a58; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* ── Boutons ── */
+.btns { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+.btn { display:inline-flex; align-items:center; gap:7px; padding:11px 22px;
+  border-radius:50px; font-weight:600; font-size:.88em; text-decoration:none; transition:opacity .2s; }
+.btn:hover { opacity:.85; }
+.btn-wa { background:#25d366; color:#fff; }
+.btn-ml { background:#2a6099; color:#fff; }
+.btn-sc { background:#ff5500; color:#fff; }
+.total { font-size:.75em; color:#4a3a28; text-align:center; margin-top:14px; }
 </style>
 </head>
 <body>
-<div class="card">
-  <img class="logo" src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.display='none'">
-  <h1 style="margin:6px 0">Sarferprod Daily Mix</h1>
-  <p style="color:#aaa;margin:0">2026-05-09 — 12:05</p>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-wrap">
+      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank">
+        <img src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.display='none'">
+      </a>
+    </div>
+    <div class="header-text">
+      <h1>Sarferprod Daily Mix</h1>
+      <div class="sub">2026-05-09 &nbsp;·&nbsp; 20:30 &nbsp;·&nbsp; 00:08:21</div>
+    </div>
+  </div>
+
+  <!-- Now Playing -->
+  <div class="now-playing">
+    <img id="np-img" class="np-thumb" src="Radio_SARFERPROD.jpeg" alt="">
+    <div class="np-info">
+      <div class="np-title" id="np-title">— Intro —</div>
+      <div class="np-artist" id="np-artist">Sarferprod</div>
+    </div>
+  </div>
+
+  <!-- Spectrogramme -->
   <canvas id="cv"></canvas>
+
+  <!-- Lecteur audio -->
   <audio id="p" controls src="DailyMix_2026-05-09.mp3"></audio>
-  <div id="l"></div>
-  <p class="meta">Durée totale : 00:13:49</p>
-  <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="btn-wa">📲 Partager sur WhatsApp</a><br>
-  <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="btn-sc">🎵 SoundCloud</a>
+
+  <!-- Tracklist -->
+  <div class="tracklist">
+    <div class="tl-header">Tracklist — 8 titres</div>
+    <div id="tl"></div>
+  </div>
+
+  <!-- Boutons partage -->
+  <div class="btns">
+    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="btn btn-wa">📲 WhatsApp</a>
+    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-09&body=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="btn btn-ml">✉️ Email</a>
+    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="btn btn-sc">🎵 SoundCloud</a>
+  </div>
+  <div class="total">Durée totale : 00:08:21</div>
+
 </div>
 <script>
-const ts=[{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "Morabeza Tobacco", "title": "Famine", "url": "https://www.youtube.com/watch?v=iemcVW9U0GU", "thumbnail": "https://img.youtube.com/vi/iemcVW9U0GU/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:01:36", "timestamp_seconds": 96.8, "artist": "paer", "title": "Mean It", "url": "https://www.youtube.com/watch?v=-qbyLC4miJA", "thumbnail": "https://img.youtube.com/vi/-qbyLC4miJA/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:02:42", "timestamp_seconds": 162.8, "artist": "Nexeri, Elle Blue", "title": "Say You Won&#39;t Let Go", "url": "https://www.youtube.com/watch?v=QxSLSNdXsSI", "thumbnail": "https://img.youtube.com/vi/QxSLSNdXsSI/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:03:48", "timestamp_seconds": 228.8, "artist": "Aberci", "title": "Top Diesel", "url": "https://www.youtube.com/watch?v=nz8vLQ5OQ3E", "thumbnail": "https://img.youtube.com/vi/nz8vLQ5OQ3E/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:04:54", "timestamp_seconds": 294.8, "artist": "Nause", "title": "Made Of (Afro House Remode)", "url": "https://www.youtube.com/watch?v=bHvgR8oKudw", "thumbnail": "https://img.youtube.com/vi/bHvgR8oKudw/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:06:00", "timestamp_seconds": 360.8, "artist": "Vakula", "title": "Break Time", "url": "https://www.youtube.com/watch?v=0pyM9hiLVqc", "thumbnail": "https://img.youtube.com/vi/0pyM9hiLVqc/mqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:07:06", "timestamp_seconds": 426.8, "artist": "Spiritual Cramp", "title": "You&#39;ve Got My Number (Live on KEXP)", "url": "https://www.youtube.com/watch?v=TOTaj86c9Ec", "thumbnail": "https://img.youtube.com/vi/TOTaj86c9Ec/mqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:08:12", "timestamp_seconds": 492.8, "artist": "Spiritual Cramp", "title": "Young Offenders (Live on KEXP)", "url": "https://www.youtube.com/watch?v=qIhYzrGGcis", "thumbnail": "https://img.youtube.com/vi/qIhYzrGGcis/mqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:09:18", "timestamp_seconds": 558.8, "artist": "Spiritual Cramp", "title": "Full Performance (Live on KEXP)", "url": "https://www.youtube.com/watch?v=zM7iXrVW7Q0", "thumbnail": "https://img.youtube.com/vi/zM7iXrVW7Q0/mqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:10:24", "timestamp_seconds": 624.8, "artist": "2 Meter Sessions", "title": "Pure Raw Soul &amp; Blues \ud83c\udfb8 Robert Finley at 2 Meter Sessions", "url": "https://www.youtube.com/watch?v=vCZnYWu2u2w", "thumbnail": "https://img.youtube.com/vi/vCZnYWu2u2w/mqdefault.jpg", "channel": "2 Meter Sessions"}, {"timestamp": "00:11:09", "timestamp_seconds": 669.1, "artist": "Alcestice", "title": "Watch Me (Full Album)", "url": "https://www.youtube.com/watch?v=5UdUtpT4XrU", "thumbnail": "https://img.youtube.com/vi/5UdUtpT4XrU/mqdefault.jpg", "channel": "Stoned Meadow Of Doom"}, {"timestamp": "00:12:15", "timestamp_seconds": 735.1, "artist": "Sciama", "title": "Shifting Formants [SMDE59]", "url": "https://www.youtube.com/watch?v=z8tUKqlEYYs", "thumbnail": "https://img.youtube.com/vi/z8tUKqlEYYs/mqdefault.jpg", "channel": "SamuraiMusicTV"}];
-const p=document.getElementById('p');
-ts.forEach(t=>{
-  let d=document.createElement('div'); d.className='track-item';
-  let m=Math.floor(t.timestamp_seconds/60), s=Math.floor(t.timestamp_seconds%60).toString().padStart(2,'0');
-  d.innerHTML=`<span class="track-ts">${m}:${s}</span><img src="${t.thumbnail||''}" onerror="this.style.display='none'">
-    <div class="track-info"><div class="track-title"><b>${t.artist||''}</b> — ${t.title}</div>
-    <div style="font-size:.7em;color:#555">${t.channel||''}</div></div>`;
-  d.onclick=()=>{p.currentTime=t.timestamp_seconds; p.play();};
-  document.getElementById('l').appendChild(d);
+const TRACKS       = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "DJ' PYL - Funk Disco Soul Groove", "title": "Party Mix Old School Funk &amp; Disco Remix 70&#39;s &amp; 80&#39;s by DJ&#39; PYL #Saturday9May2026", "url": "https://www.youtube.com/watch?v=iazlFtyoEvY", "thumbnail": "https://img.youtube.com/vi/iazlFtyoEvY/mqdefault.jpg", "channel": "DJ' PYL - Funk Disco Soul Groove"}, {"timestamp": "00:01:36", "timestamp_seconds": 96.8, "artist": "Gun Outfit", "title": "So Easy to Love", "url": "https://www.youtube.com/watch?v=bB1-R1BFNzY", "thumbnail": "https://img.youtube.com/vi/bB1-R1BFNzY/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:02:42", "timestamp_seconds": 162.8, "artist": "Belters Only &amp; Seamus D", "title": "My Love", "url": "https://www.youtube.com/watch?v=PC_lVpMxSvc", "thumbnail": "https://img.youtube.com/vi/PC_lVpMxSvc/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:03:48", "timestamp_seconds": 228.8, "artist": "Kcik", "title": "43 (Bonsoir)", "url": "https://www.youtube.com/watch?v=9ertFX1G-kY", "thumbnail": "https://img.youtube.com/vi/9ertFX1G-kY/mqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:04:54", "timestamp_seconds": 294.8, "artist": "2 Meter Sessions", "title": "Robert Finley: A Soulful Message of Gratitude 🙌 #shorts #blues", "url": "https://www.youtube.com/watch?v=c-mqSjXM9uo", "thumbnail": "https://img.youtube.com/vi/c-mqSjXM9uo/mqdefault.jpg", "channel": "2 Meter Sessions"}, {"timestamp": "00:05:25", "timestamp_seconds": 325.6, "artist": "La Belle Musique", "title": "♥️ So beautiful | from @pianist_nightingale | #beautiful #piano #melodic #aesthetic #atmospheric", "url": "https://www.youtube.com/watch?v=XyJwxVj4hE8", "thumbnail": "https://img.youtube.com/vi/XyJwxVj4hE8/mqdefault.jpg", "channel": "La Belle Musique"}, {"timestamp": "00:05:40", "timestamp_seconds": 340.2, "artist": "Kaskade, Layton Giordani, Natalie Jane", "title": "Meet Again", "url": "https://www.youtube.com/watch?v=IZX50_lNz7U", "thumbnail": "https://img.youtube.com/vi/IZX50_lNz7U/mqdefault.jpg", "channel": "Proximity"}, {"timestamp": "00:06:46", "timestamp_seconds": 406.2, "artist": "Sanny", "title": "Grape Juice | Sofar A Coruña", "url": "https://www.youtube.com/watch?v=wAU8VLkhhdc", "thumbnail": "https://img.youtube.com/vi/wAU8VLkhhdc/mqdefault.jpg", "channel": "Sofar Sounds"}];
+const INTRO_END    = 30.8;
+const OUTRO_START  = 472.2;
+const LOGO         = "Radio_SARFERPROD.jpeg";
+const SC_URL       = "https://soundcloud.com/user-403414255/radio-coocool-01";
+
+const player   = document.getElementById('p');
+const npImg    = document.getElementById('np-img');
+const npTitle  = document.getElementById('np-title');
+const npArtist = document.getElementById('np-artist');
+const tlDiv    = document.getElementById('tl');
+
+// ── Build tracklist ──────────────────────────────────────────────────────────
+TRACKS.forEach((t, i) => {
+  const d   = document.createElement('div');
+  d.className = 'track-item';
+  d.id = 'tr' + i;
+  const s   = Math.floor(t.timestamp_seconds);
+  const mm  = Math.floor(s / 60);
+  const ss  = (s % 60).toString().padStart(2, '0');
+  const tit = t.title || '';
+  const art = t.artist || t.channel || '';
+  const thu = t.thumbnail || LOGO;
+  d.innerHTML = `
+    <span class="track-ts">${mm}:${ss}</span>
+    <img class="track-thumb" src="${thu}" onerror="this.src=LOGO" alt="">
+    <div class="track-info">
+      <div class="track-title">${tit}</div>
+      <div class="track-artist">${art}</div>
+    </div>`;
+  d.onclick = () => { player.currentTime = t.timestamp_seconds; player.play(); };
+  tlDiv.appendChild(d);
 });
 
-// Visualiseur spectral
-const cv=document.getElementById('cv');
-const ctx=cv.getContext('2d');
-let raf,analyser,dataArr,audioCtx,fakeT=0;
-function resizeCV(){cv.width=cv.offsetWidth*devicePixelRatio||600;cv.height=80*devicePixelRatio||80;}
-window.addEventListener('resize',resizeCV);resizeCV();
-function startSpectro(){
-  if(!audioCtx){
-    try{
-      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-      analyser=audioCtx.createAnalyser();analyser.fftSize=512;
-      dataArr=new Uint8Array(analyser.frequencyBinCount);
-      const src=audioCtx.createMediaElementSource(p);
-      src.connect(analyser);analyser.connect(audioCtx.destination);
-    }catch(e){fakeDraw();return}
+// ── Now Playing update ───────────────────────────────────────────────────────
+function updateNP() {
+  const ct = player.currentTime;
+  // Intro
+  if (ct < INTRO_END) {
+    npImg.src       = LOGO;
+    npImg.onclick   = () => window.open(SC_URL, '_blank');
+    npImg.style.cursor = 'pointer';
+    npTitle.textContent  = '— Intro —';
+    npArtist.textContent = 'Sarferprod';
+    document.querySelectorAll('.track-item').forEach(e => e.classList.remove('active'));
+    return;
   }
-  function draw(){
-    if(p.paused)return;
-    analyser.getByteFrequencyData(dataArr);
-    const W=cv.width,H=cv.height;
-    ctx.clearRect(0,0,W,H);
-    const bW=W/dataArr.length;
-    for(let i=0;i<dataArr.length;i++){
-      const v=dataArr[i]/255,bH=Math.max(2,v*H),x=i*bW;
-      const g=ctx.createLinearGradient(0,H-bH,0,H);
-      g.addColorStop(0,`rgba(201,168,124,${.9*v+.1})`);g.addColorStop(1,`rgba(160,115,65,${.5*v+.05})`);
-      ctx.fillStyle=g;ctx.fillRect(x,H-bH,Math.max(1,bW-.8),bH);
-    }
-    raf=requestAnimationFrame(draw);
+  // Outro
+  if (OUTRO_START > 0 && ct >= OUTRO_START) {
+    npImg.src       = LOGO;
+    npImg.onclick   = () => window.open(SC_URL, '_blank');
+    npImg.style.cursor = 'pointer';
+    npTitle.textContent  = '— Outro —';
+    npArtist.textContent = 'Sarferprod';
+    document.querySelectorAll('.track-item').forEach(e => e.classList.remove('active'));
+    return;
   }
-  cancelAnimationFrame(raf);draw();
+  // Titres
+  let cur = null, curIdx = -1;
+  for (let i = 0; i < TRACKS.length; i++) {
+    if (ct >= TRACKS[i].timestamp_seconds) { cur = TRACKS[i]; curIdx = i; }
+    else break;
+  }
+  if (cur) {
+    npImg.src              = cur.thumbnail || LOGO;
+    npImg.onclick          = cur.url ? () => window.open(cur.url, '_blank') : null;
+    npImg.style.cursor     = cur.url ? 'pointer' : 'default';
+    npTitle.textContent    = cur.title  || '';
+    npArtist.textContent   = cur.artist || cur.channel || '';
+    document.querySelectorAll('.track-item').forEach((e, i) => {
+      e.classList.toggle('active', i === curIdx);
+    });
+  }
 }
-function fakeDraw(){
-  const bars=128;
-  function draw(){
-    fakeT+=.04;
-    const W=cv.width,H=cv.height;
-    ctx.clearRect(0,0,W,H);
-    const bW=W/bars;
-    for(let i=0;i<bars;i++){
-      const v=(Math.sin(i*.18+fakeT)*.4+.5)*(Math.sin(i*.07-fakeT*.6)*.3+.7);
-      const bH=Math.max(2,v*H*.85),x=i*bW;
-      const g=ctx.createLinearGradient(0,H-bH,0,H);
-      g.addColorStop(0,`rgba(201,168,124,${.85*v+.1})`);g.addColorStop(1,`rgba(160,115,65,${.5*v+.05})`);
-      ctx.fillStyle=g;ctx.fillRect(x,H-bH,Math.max(1,bW-.8),bH);
-    }
-    raf=requestAnimationFrame(draw);
-  }
-  cancelAnimationFrame(raf);draw();
+player.addEventListener('timeupdate', updateNP);
+
+// ── Spectrogramme ────────────────────────────────────────────────────────────
+const cv  = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let raf, analyser, dataArr, audioCtx, fakeT = 0;
+
+function resizeCV() {
+  cv.width  = (cv.offsetWidth  || 600) * devicePixelRatio;
+  cv.height = (cv.offsetHeight || 72)  * devicePixelRatio;
 }
+window.addEventListener('resize', resizeCV);
+resizeCV();
+
+function drawSpectro() {
+  if (player.paused) return;
+  analyser.getByteFrequencyData(dataArr);
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  const bW = W / dataArr.length;
+  for (let i = 0; i < dataArr.length; i++) {
+    const v  = dataArr[i] / 255;
+    const bH = Math.max(2, v * H);
+    const x  = i * bW;
+    const g  = ctx.createLinearGradient(0, H - bH, 0, H);
+    g.addColorStop(0, `rgba(201,168,124,${.9*v+.1})`);
+    g.addColorStop(1, `rgba(120,80,30,${.5*v+.05})`);
+    ctx.fillStyle = g;
+    ctx.fillRect(x, H - bH, Math.max(1, bW - .8), bH);
+  }
+  raf = requestAnimationFrame(drawSpectro);
+}
+
+function fakeDraw() {
+  fakeT += .035;
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  const bars = 128, bW = W / bars;
+  for (let i = 0; i < bars; i++) {
+    const v  = (Math.sin(i*.18 + fakeT)*.4+.5) * (Math.sin(i*.07 - fakeT*.6)*.3+.7);
+    const bH = Math.max(2, v * H * .82);
+    const x  = i * bW;
+    const g  = ctx.createLinearGradient(0, H - bH, 0, H);
+    g.addColorStop(0, `rgba(201,168,124,${.8*v+.08})`);
+    g.addColorStop(1, `rgba(120,80,30,${.4*v+.04})`);
+    ctx.fillStyle = g;
+    ctx.fillRect(x, H - bH, Math.max(1, bW - .8), bH);
+  }
+  raf = requestAnimationFrame(fakeDraw);
+}
+
+function startSpectro() {
+  cancelAnimationFrame(raf);
+  if (!audioCtx) {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 512;
+      dataArr  = new Uint8Array(analyser.frequencyBinCount);
+      const src = audioCtx.createMediaElementSource(player);
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+    } catch(e) { fakeDraw(); return; }
+  }
+  drawSpectro();
+}
+
 fakeDraw();
-p.addEventListener('play',()=>{cancelAnimationFrame(raf);startSpectro();});
+player.addEventListener('play',  () => startSpectro());
+player.addEventListener('pause', () => { cancelAnimationFrame(raf); fakeDraw(); });
 </script>
 </body>
 </html>
