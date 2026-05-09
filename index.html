@@ -3,235 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sarferprod Daily Mix — 2026-05-09</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<title>Sarferprod Daily Mix — {meta['date']}</title>
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
-body { background:#0a0a0a; color:#e8e0d4; font-family:'Segoe UI',sans-serif; min-height:100vh;
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(60,40,20,.4) 0%, transparent 60%),
-                    radial-gradient(ellipse at 80% 20%, rgba(40,25,10,.3) 0%, transparent 50%); }
-.wrapper { max-width:720px; margin:0 auto; padding:24px 16px 48px; }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f0e8;--bg2:#ede8de;--bg3:#e4ddd2;--card:#ffffff;
+  --text:#2a2218;--text2:#7a6e60;--text3:#b0a898;
+  --accent:#8b6f47;--accent2:#c4a882;--accent3:#e8d5b7;
+  --border:#ddd5c5;--shadow:rgba(100,80,50,.10);
+}
+body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh}
+.page{max-width:760px;margin:0 auto;padding:32px 18px 60px}
 
-/* ── Header ── */
-.header { display:flex; align-items:center; gap:18px; margin-bottom:24px; }
-.logo-wrap { flex-shrink:0; }
-.logo-wrap a { display:block; }
-.logo-wrap img { width:72px; height:72px; border-radius:50%; object-fit:cover;
-  border:2px solid rgba(201,168,124,.4); box-shadow:0 0 20px rgba(201,168,124,.2); }
-.header-text h1 { font-size:1.4em; font-weight:700; color:#c9a87c; letter-spacing:.04em; }
-.header-text .sub { font-size:.85em; color:#7a6a58; margin-top:3px; }
+/* ── Titre 3D ── */
+.brand{text-align:center;margin-bottom:6px;padding:28px 0 10px}
+.brand h1{
+  font-size:clamp(2em,6vw,3.4em);font-weight:600;letter-spacing:.06em;
+  color:var(--text);
+  text-shadow:
+    1px 1px 0 var(--accent3),
+    2px 2px 0 var(--accent2),
+    3px 3px 0 var(--accent),
+    4px 4px 0 rgba(139,111,71,.35),
+    5px 5px 8px rgba(100,80,50,.20);
+  line-height:1.1
+}
+.brand .sub{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text3);letter-spacing:.14em;margin-top:6px}
+
+/* ── Bento grid ── */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.bento .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 2px 12px var(--shadow)}
+.card-full{grid-column:1/-1}
 
 /* ── Now Playing ── */
-.now-playing { background:rgba(255,255,255,.03); border:1px solid rgba(201,168,124,.12);
-  border-radius:14px; padding:16px; margin-bottom:16px; display:flex; align-items:center; gap:14px; }
-.np-thumb { width:64px; height:48px; border-radius:6px; object-fit:cover; flex-shrink:0;
-  border:1px solid rgba(255,255,255,.08); }
-.np-info { flex:1; overflow:hidden; }
-.np-title { font-size:.95em; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#e8e0d4; }
-.np-artist { font-size:.78em; color:#7a6a58; margin-top:3px; }
+.np{display:flex;align-items:center;gap:14px}
+.np-thumb{width:70px;height:52px;border-radius:10px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;transition:transform .2s;cursor:pointer}
+.np-thumb:hover{transform:scale(1.06)}
+.np-label{font-family:'DM Mono',monospace;font-size:.6em;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;margin-bottom:4px}
+.np-title{font-size:1em;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-artist{font-size:.78em;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ── Spectrogramme ── */
-canvas#cv { width:100%; height:72px; display:block; border-radius:8px;
-  background:rgba(0,0,0,.3); margin-bottom:14px; }
+.spectro-wrap{position:relative;height:80px;border-radius:12px;overflow:hidden;background:var(--bg3)}
+canvas#cv{position:absolute;inset:0;width:100%;height:100%}
+.spectro-cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);opacity:.7;pointer-events:none;transition:left .25s linear}
 
-/* ── Player ── */
-audio { width:100%; margin-bottom:20px;
-  filter: hue-rotate(25deg) saturate(0.7) brightness(1.1); }
+/* ── Player custom ── */
+.player-block{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px}
+.progress-wrap{position:relative;margin-bottom:14px}
+.progress-bar{width:100%;height:6px;border-radius:3px;background:var(--bg3);-webkit-appearance:none;appearance:none;cursor:pointer;outline:none}
+.progress-bar::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--card);box-shadow:0 1px 4px var(--shadow);cursor:pointer;margin-top:-4px}
+.progress-bar::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent) var(--prog,0%),var(--bg3) var(--prog,0%))}
+
+/* ── Repères sur la barre ── */
+.markers{position:absolute;top:0;left:0;right:0;height:6px;pointer-events:none}
+.marker{position:absolute;top:-3px;width:2px;height:12px;background:var(--accent2);border-radius:1px;transform:translateX(-50%);pointer-events:all;cursor:pointer;transition:all .18s;z-index:10}
+.marker:hover{width:4px;height:18px;top:-6px;background:var(--accent);z-index:20}
+.marker-tooltip{display:none;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:7px;box-shadow:0 4px 16px var(--shadow);pointer-events:none;z-index:30}
+.marker:hover .marker-tooltip{display:block}
+.marker-tooltip img{width:100%;height:60px;object-fit:cover;border-radius:6px;display:block;margin-bottom:4px}
+.marker-tooltip .mt-title{font-size:.7em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.marker-tooltip .mt-ts{font-family:'DM Mono',monospace;font-size:.62em;color:var(--text3)}
+.marker.clicked{animation:vibrate .3s ease}
+@keyframes vibrate{0%,100%{transform:translateX(-50%)}20%{transform:translateX(calc(-50% - 3px))}40%{transform:translateX(calc(-50% + 3px))}60%{transform:translateX(calc(-50% - 2px))}80%{transform:translateX(calc(-50% + 2px))}}
+
+.controls{display:flex;align-items:center;gap:14px}
+.btn-play{width:44px;height:44px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px var(--shadow);transition:transform .15s}
+.btn-play:hover{transform:scale(1.08)}
+.btn-play svg{fill:#fff;width:18px;height:18px}
+.time-disp{font-family:'DM Mono',monospace;font-size:.75em;color:var(--text2);white-space:nowrap}
+.vol-wrap{display:flex;align-items:center;gap:7px;margin-left:auto}
+.vol-wrap svg{width:16px;height:16px;fill:var(--text3)}
+.vol-slider{width:72px;height:4px;border-radius:2px;-webkit-appearance:none;appearance:none;background:var(--bg3);cursor:pointer;outline:none}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--accent2);border:none;cursor:pointer}
 
 /* ── Tracklist ── */
-.tracklist { border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.06); margin-bottom:20px; }
-.tl-header { background:rgba(201,168,124,.08); padding:10px 16px; font-size:.75em;
-  text-transform:uppercase; letter-spacing:.12em; color:#7a6a58; }
-.track-item { display:flex; align-items:center; gap:12px; padding:11px 14px;
-  border-bottom:1px solid rgba(255,255,255,.04); cursor:pointer; transition:background .15s; }
-.track-item:last-child { border-bottom:none; }
-.track-item:hover { background:rgba(201,168,124,.07); }
-.track-item.active { background:rgba(201,168,124,.12); border-left:3px solid #c9a87c; }
-.track-ts { font-size:.72em; color:#5a4a38; width:42px; flex-shrink:0; font-variant-numeric:tabular-nums; }
-.track-thumb { width:52px; height:39px; border-radius:4px; object-fit:cover; flex-shrink:0;
-  border:1px solid rgba(255,255,255,.06); }
-.track-info { flex:1; overflow:hidden; }
-.track-title { font-size:.88em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.track-artist { font-size:.73em; color:#7a6a58; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tl-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px}
+.tl-head{padding:12px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tl-head span{font-family:'DM Mono',monospace;font-size:.68em;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.tl-body{max-height:340px;overflow-y:auto}
+.tl-body::-webkit-scrollbar{width:4px}
+.tl-body::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:2px}
+.tl-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .14s}
+.tl-row:last-child{border-bottom:none}
+.tl-row:hover{background:var(--bg3)}
+.tl-row.active{background:var(--accent3);border-left:3px solid var(--accent)}
+.tl-ts{font-family:'DM Mono',monospace;font-size:.68em;color:var(--text3);width:40px;flex-shrink:0}
+.tl-thumb{width:48px;height:36px;border-radius:5px;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
+.tl-info{flex:1;overflow:hidden}
+.tl-title{font-size:.88em;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-artist{font-size:.72em;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-link{flex-shrink:0;font-family:'DM Mono',monospace;font-size:.65em;color:var(--accent);text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+.tl-link:hover{color:var(--text)}
 
-/* ── Boutons ── */
-.btns { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
-.btn { display:inline-flex; align-items:center; gap:7px; padding:11px 22px;
-  border-radius:50px; font-weight:600; font-size:.88em; text-decoration:none; transition:opacity .2s; }
-.btn:hover { opacity:.85; }
-.btn-wa { background:#25d366; color:#fff; }
-.btn-ml { background:#2a6099; color:#fff; }
-.btn-sc { background:#ff5500; color:#fff; }
-.total { font-size:.75em; color:#4a3a28; text-align:center; margin-top:14px; }
+/* ── Durée des morceaux dans la tracklist ── */
+.tl-dur{font-family:'DM Mono',monospace;font-size:.63em;color:var(--text3);white-space:nowrap;flex-shrink:0}
+
+/* ── Boutons partage ── */
+.share-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.shr-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:50px;font-family:'DM Mono',monospace;font-size:.75em;letter-spacing:.06em;text-decoration:none;border:1.5px solid var(--border);color:var(--text2);background:var(--card);transition:all .15s}
+.shr-btn:hover{background:var(--bg3);border-color:var(--accent2);color:var(--text)}
+.shr-wa{background:#25d366;border-color:#25d366;color:#fff}
+.shr-wa:hover{background:#1fbb58;color:#fff}
+
+/* ── Logo bento ── */
+.logo-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px}
+.logo-card a img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent2);box-shadow:0 2px 12px var(--shadow);transition:transform .2s}
+.logo-card a:hover img{transform:scale(1.06)}
+.logo-card .sc-link{font-family:'DM Mono',monospace;font-size:.62em;letter-spacing:.1em;color:var(--accent);text-decoration:none;text-align:center}
+.logo-card .sc-link:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="page">
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo-wrap">
+  <!-- Titre 3D -->
+  <div class="brand">
+    <h1>Sarferprod Daily Mix</h1>
+    <div class="sub">2026-05-09 &nbsp;·&nbsp; 20:46 &nbsp;·&nbsp; 00:01:07</div>
+  </div>
+
+  <!-- Bento row 1 : NowPlaying + Logo -->
+  <div class="bento" style="margin-bottom:14px">
+    <div class="card" style="grid-column:1/2">
+      <div class="np-label">En cours</div>
+      <div class="np" style="margin-top:8px">
+        <img id="np-img" class="np-thumb" src="Radio_SARFERPROD.jpeg" alt="" onerror="this.style.display='none'">
+        <div style="overflow:hidden">
+          <div class="np-title" id="np-title">— Intro —</div>
+          <div class="np-artist" id="np-artist">Sarferprod</div>
+        </div>
+      </div>
+    </div>
+    <div class="card logo-card" style="grid-column:2/3">
       <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank">
         <img src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.display='none'">
       </a>
-    </div>
-    <div class="header-text">
-      <h1>Sarferprod Daily Mix</h1>
-      <div class="sub">2026-05-09 &nbsp;·&nbsp; 20:30 &nbsp;·&nbsp; 00:08:21</div>
-    </div>
-  </div>
-
-  <!-- Now Playing -->
-  <div class="now-playing">
-    <img id="np-img" class="np-thumb" src="Radio_SARFERPROD.jpeg" alt="">
-    <div class="np-info">
-      <div class="np-title" id="np-title">— Intro —</div>
-      <div class="np-artist" id="np-artist">Sarferprod</div>
+      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="sc-link">SoundCloud ↗</a>
     </div>
   </div>
 
   <!-- Spectrogramme -->
-  <canvas id="cv"></canvas>
+  <div class="card card-full" style="padding:14px;margin-bottom:14px;border-radius:18px;border:1px solid var(--border);background:var(--card);box-shadow:0 2px 12px var(--shadow)">
+    <div class="spectro-wrap">
+      <canvas id="cv"></canvas>
+      <div class="spectro-cursor" id="sc-cursor"></div>
+    </div>
+  </div>
 
-  <!-- Lecteur audio -->
-  <audio id="p" controls src="DailyMix_2026-05-09.mp3"></audio>
+  <!-- Player -->
+  <div class="player-block">
+    <!-- Barre de progression + repères -->
+    <div class="progress-wrap">
+      <div class="markers" id="markers"></div>
+      <input type="range" id="prog" class="progress-bar" min="0" max="1000" value="0" step="1">
+    </div>
+    <div class="controls">
+      <button class="btn-play" id="btn-play" aria-label="Play/Pause">
+        <svg id="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <span class="time-disp" id="time-disp">0:00 / 0:00</span>
+      <div class="vol-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        <input type="range" id="vol" class="vol-slider" min="0" max="1" step="0.01" value="1">
+      </div>
+    </div>
+  </div>
 
   <!-- Tracklist -->
-  <div class="tracklist">
-    <div class="tl-header">Tracklist — 8 titres</div>
-    <div id="tl"></div>
+  <div class="tl-card">
+    <div class="tl-head">
+      <span>Tracklist</span>
+      <span id="tl-count">1 titres</span>
+    </div>
+    <div class="tl-body" id="tl-body"></div>
   </div>
 
   <!-- Boutons partage -->
-  <div class="btns">
-    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="btn btn-wa">📲 WhatsApp</a>
-    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-09&body=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="btn btn-ml">✉️ Email</a>
-    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="btn btn-sc">🎵 SoundCloud</a>
+  <div class="share-row">
+    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="shr-btn shr-wa">📲 WhatsApp</a>
+    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-09&body=Sarferprod%20Daily%20Mix%202026-05-09%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="shr-btn">✉️ Email</a>
+    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="shr-btn">🎵 SoundCloud</a>
   </div>
-  <div class="total">Durée totale : 00:08:21</div>
 
-</div>
+</div><!-- /page -->
+
+<audio id="audio" src="DailyMix_2026-05-09.mp3" preload="metadata"></audio>
+
 <script>
-const TRACKS       = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "DJ' PYL - Funk Disco Soul Groove", "title": "Party Mix Old School Funk &amp; Disco Remix 70&#39;s &amp; 80&#39;s by DJ&#39; PYL #Saturday9May2026", "url": "https://www.youtube.com/watch?v=iazlFtyoEvY", "thumbnail": "https://img.youtube.com/vi/iazlFtyoEvY/mqdefault.jpg", "channel": "DJ' PYL - Funk Disco Soul Groove"}, {"timestamp": "00:01:36", "timestamp_seconds": 96.8, "artist": "Gun Outfit", "title": "So Easy to Love", "url": "https://www.youtube.com/watch?v=bB1-R1BFNzY", "thumbnail": "https://img.youtube.com/vi/bB1-R1BFNzY/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:02:42", "timestamp_seconds": 162.8, "artist": "Belters Only &amp; Seamus D", "title": "My Love", "url": "https://www.youtube.com/watch?v=PC_lVpMxSvc", "thumbnail": "https://img.youtube.com/vi/PC_lVpMxSvc/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:03:48", "timestamp_seconds": 228.8, "artist": "Kcik", "title": "43 (Bonsoir)", "url": "https://www.youtube.com/watch?v=9ertFX1G-kY", "thumbnail": "https://img.youtube.com/vi/9ertFX1G-kY/mqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:04:54", "timestamp_seconds": 294.8, "artist": "2 Meter Sessions", "title": "Robert Finley: A Soulful Message of Gratitude 🙌 #shorts #blues", "url": "https://www.youtube.com/watch?v=c-mqSjXM9uo", "thumbnail": "https://img.youtube.com/vi/c-mqSjXM9uo/mqdefault.jpg", "channel": "2 Meter Sessions"}, {"timestamp": "00:05:25", "timestamp_seconds": 325.6, "artist": "La Belle Musique", "title": "♥️ So beautiful | from @pianist_nightingale | #beautiful #piano #melodic #aesthetic #atmospheric", "url": "https://www.youtube.com/watch?v=XyJwxVj4hE8", "thumbnail": "https://img.youtube.com/vi/XyJwxVj4hE8/mqdefault.jpg", "channel": "La Belle Musique"}, {"timestamp": "00:05:40", "timestamp_seconds": 340.2, "artist": "Kaskade, Layton Giordani, Natalie Jane", "title": "Meet Again", "url": "https://www.youtube.com/watch?v=IZX50_lNz7U", "thumbnail": "https://img.youtube.com/vi/IZX50_lNz7U/mqdefault.jpg", "channel": "Proximity"}, {"timestamp": "00:06:46", "timestamp_seconds": 406.2, "artist": "Sanny", "title": "Grape Juice | Sofar A Coruña", "url": "https://www.youtube.com/watch?v=wAU8VLkhhdc", "thumbnail": "https://img.youtube.com/vi/wAU8VLkhhdc/mqdefault.jpg", "channel": "Sofar Sounds"}];
-const INTRO_END    = 30.8;
-const OUTRO_START  = 472.2;
-const LOGO         = "Radio_SARFERPROD.jpeg";
-const SC_URL       = "https://soundcloud.com/user-403414255/radio-coocool-01";
+const TRACKS      = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "La Belle Musique", "title": "✨ Chris Stussy will rock Buenos Aires! Get your tickets now for a night of pure house vibes 🔥#vibes", "url": "https://www.youtube.com/watch?v=Cf9jdW49cns", "thumbnail": "https://img.youtube.com/vi/Cf9jdW49cns/mqdefault.jpg", "channel": "La Belle Musique"}];
+const INTRO_END   = 30.8;
+const OUTRO_START = 38.3;
+const LOGO        = "Radio_SARFERPROD.jpeg";
+const SC_URL      = "https://soundcloud.com/user-403414255/radio-coocool-01";
 
-const player   = document.getElementById('p');
-const npImg    = document.getElementById('np-img');
-const npTitle  = document.getElementById('np-title');
-const npArtist = document.getElementById('np-artist');
-const tlDiv    = document.getElementById('tl');
+const audio   = document.getElementById('audio');
+const btnPlay = document.getElementById('btn-play');
+const icoPlay = document.getElementById('ico-play');
+const progBar = document.getElementById('prog');
+const timeDisp= document.getElementById('time-disp');
+const volBar  = document.getElementById('vol');
+const npImg   = document.getElementById('np-img');
+const npTitle = document.getElementById('np-title');
+const npArtist= document.getElementById('np-artist');
+const tlBody  = document.getElementById('tl-body');
+const markersDiv = document.getElementById('markers');
+const cursor  = document.getElementById('sc-cursor');
 
-// ── Build tracklist ──────────────────────────────────────────────────────────
-TRACKS.forEach((t, i) => {
-  const d   = document.createElement('div');
-  d.className = 'track-item';
-  d.id = 'tr' + i;
-  const s   = Math.floor(t.timestamp_seconds);
-  const mm  = Math.floor(s / 60);
-  const ss  = (s % 60).toString().padStart(2, '0');
-  const tit = t.title || '';
-  const art = t.artist || t.channel || '';
-  const thu = t.thumbnail || LOGO;
-  d.innerHTML = `
-    <span class="track-ts">${mm}:${ss}</span>
-    <img class="track-thumb" src="${thu}" onerror="this.src=LOGO" alt="">
-    <div class="track-info">
-      <div class="track-title">${tit}</div>
-      <div class="track-artist">${art}</div>
+// ── Play / Pause ─────────────────────────────────────────────────────────────
+const PLAY_SVG  = '<path d="M8 5v14l11-7z"/>';
+const PAUSE_SVG = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+btnPlay.onclick = () => audio.paused ? audio.play() : audio.pause();
+audio.addEventListener('play',  () => icoPlay.innerHTML = PAUSE_SVG);
+audio.addEventListener('pause', () => icoPlay.innerHTML = PLAY_SVG);
+
+// ── Volume ───────────────────────────────────────────────────────────────────
+volBar.oninput = () => { audio.volume = parseFloat(volBar.value); };
+
+// ── Progress bar ─────────────────────────────────────────────────────────────
+function fmt(s) {
+  s = Math.floor(s);
+  return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0');
+}
+audio.addEventListener('timeupdate', () => {
+  const pct = audio.duration ? audio.currentTime / audio.duration : 0;
+  progBar.value = Math.round(pct * 1000);
+  progBar.style.setProperty('--prog', (pct*100).toFixed(2)+'%');
+  timeDisp.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration||0);
+  // curseur spectro
+  cursor.style.left = (pct*100).toFixed(2)+'%';
+  updateNP();
+  updateTL();
+});
+progBar.oninput = () => {
+  if (audio.duration) audio.currentTime = (progBar.value/1000) * audio.duration;
+};
+
+// ── Repères sur la barre ─────────────────────────────────────────────────────
+audio.addEventListener('loadedmetadata', () => {
+  markersDiv.innerHTML = '';
+  const dur = audio.duration;
+  TRACKS.forEach((t, i) => {
+    const pct = (t.timestamp_seconds / dur) * 100;
+    const mk  = document.createElement('div');
+    mk.className = 'marker';
+    mk.style.left = pct.toFixed(2) + '%';
+    const s   = Math.floor(t.timestamp_seconds);
+    const mm  = Math.floor(s/60);
+    const ss  = (s%60).toString().padStart(2,'0');
+    const tit = (t.title || '').substring(0, 28);
+    const thu = t.thumbnail || LOGO;
+    mk.innerHTML = `<div class="marker-tooltip">
+      <img src="${thu}" onerror="this.src='${LOGO}'">
+      <div class="mt-title">${tit}</div>
+      <div class="mt-ts">${mm}:${ss}</div>
     </div>`;
-  d.onclick = () => { player.currentTime = t.timestamp_seconds; player.play(); };
-  tlDiv.appendChild(d);
+    mk.addEventListener('click', () => {
+      audio.currentTime = t.timestamp_seconds;
+      audio.play();
+      mk.classList.add('clicked');
+      if (t.url) setTimeout(() => window.open(t.url, '_blank'), 350);
+      setTimeout(() => mk.classList.remove('clicked'), 400);
+    });
+    markersDiv.appendChild(mk);
+  });
 });
 
-// ── Now Playing update ───────────────────────────────────────────────────────
+// ── Build tracklist ───────────────────────────────────────────────────────────
+TRACKS.forEach((t, i) => {
+  const row = document.createElement('div');
+  row.className = 'tl-row';
+  row.id = 'tr'+i;
+  const s  = Math.floor(t.timestamp_seconds);
+  const mm = Math.floor(s/60), ss = (s%60).toString().padStart(2,'0');
+  const dur = t.duration_s ? fmt(t.duration_s) : '';
+  const thu = t.thumbnail || LOGO;
+  const tit = t.title || '';
+  const art = t.artist || t.channel || '';
+  const url = t.url || '#';
+  row.innerHTML = `
+    <span class="tl-ts">${mm}:${ss}</span>
+    <img class="tl-thumb" src="${thu}" onerror="this.src='${LOGO}'">
+    <div class="tl-info">
+      <div class="tl-title">${tit}</div>
+      <div class="tl-artist">${art}</div>
+    </div>
+    ${dur ? '<span class="tl-dur">'+dur+'</span>' : ''}
+    <a class="tl-link" href="${url}" target="_blank" onclick="event.stopPropagation()">↗ YouTube</a>`;
+  row.onclick = () => { audio.currentTime = t.timestamp_seconds; audio.play(); };
+  tlBody.appendChild(row);
+});
+
+// ── Now Playing ───────────────────────────────────────────────────────────────
+let lastIdx = -2;
 function updateNP() {
-  const ct = player.currentTime;
-  // Intro
+  const ct = audio.currentTime;
   if (ct < INTRO_END) {
-    npImg.src       = LOGO;
-    npImg.onclick   = () => window.open(SC_URL, '_blank');
-    npImg.style.cursor = 'pointer';
-    npTitle.textContent  = '— Intro —';
-    npArtist.textContent = 'Sarferprod';
-    document.querySelectorAll('.track-item').forEach(e => e.classList.remove('active'));
+    if (lastIdx === -1) return;
+    lastIdx = -1;
+    npImg.src = LOGO; npImg.onclick = () => window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
+    npTitle.textContent = '— Intro —'; npArtist.textContent = 'Sarferprod';
     return;
   }
-  // Outro
   if (OUTRO_START > 0 && ct >= OUTRO_START) {
-    npImg.src       = LOGO;
-    npImg.onclick   = () => window.open(SC_URL, '_blank');
-    npImg.style.cursor = 'pointer';
-    npTitle.textContent  = '— Outro —';
-    npArtist.textContent = 'Sarferprod';
-    document.querySelectorAll('.track-item').forEach(e => e.classList.remove('active'));
+    if (lastIdx === -3) return;
+    lastIdx = -3;
+    npImg.src = LOGO; npImg.onclick = () => window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
+    npTitle.textContent = '— Outro —'; npArtist.textContent = 'Sarferprod';
     return;
   }
-  // Titres
-  let cur = null, curIdx = -1;
+  let cur = null, idx = -1;
   for (let i = 0; i < TRACKS.length; i++) {
-    if (ct >= TRACKS[i].timestamp_seconds) { cur = TRACKS[i]; curIdx = i; }
+    if (ct >= TRACKS[i].timestamp_seconds) { cur = TRACKS[i]; idx = i; }
     else break;
   }
+  if (idx === lastIdx) return;
+  lastIdx = idx;
   if (cur) {
-    npImg.src              = cur.thumbnail || LOGO;
-    npImg.onclick          = cur.url ? () => window.open(cur.url, '_blank') : null;
-    npImg.style.cursor     = cur.url ? 'pointer' : 'default';
-    npTitle.textContent    = cur.title  || '';
-    npArtist.textContent   = cur.artist || cur.channel || '';
-    document.querySelectorAll('.track-item').forEach((e, i) => {
-      e.classList.toggle('active', i === curIdx);
-    });
+    npImg.src = cur.thumbnail || LOGO;
+    npImg.onclick = cur.url ? () => window.open(cur.url,'_blank') : null;
+    npImg.style.cursor = cur.url ? 'pointer' : 'default';
+    npTitle.textContent  = cur.title  || '';
+    npArtist.textContent = cur.artist || cur.channel || '';
   }
 }
-player.addEventListener('timeupdate', updateNP);
 
-// ── Spectrogramme ────────────────────────────────────────────────────────────
+// ── Tracklist auto-scroll + highlight ─────────────────────────────────────────
+let lastTLIdx = -2;
+function updateTL() {
+  const ct = audio.currentTime;
+  let idx = -1;
+  for (let i = 0; i < TRACKS.length; i++) {
+    if (ct >= TRACKS[i].timestamp_seconds) idx = i; else break;
+  }
+  if (idx === lastTLIdx) return;
+  lastTLIdx = idx;
+  document.querySelectorAll('.tl-row').forEach((r,i) => {
+    r.classList.toggle('active', i === idx);
+  });
+  if (idx >= 0) {
+    const el = document.getElementById('tr'+idx);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+}
+
+// ── Spectrogramme ─────────────────────────────────────────────────────────────
 const cv  = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 let raf, analyser, dataArr, audioCtx, fakeT = 0;
 
-function resizeCV() {
-  cv.width  = (cv.offsetWidth  || 600) * devicePixelRatio;
-  cv.height = (cv.offsetHeight || 72)  * devicePixelRatio;
+function resize() {
+  cv.width  = cv.offsetWidth  * devicePixelRatio || 700;
+  cv.height = cv.offsetHeight * devicePixelRatio || 80;
 }
-window.addEventListener('resize', resizeCV);
-resizeCV();
+window.addEventListener('resize', resize); resize();
 
-function drawSpectro() {
-  if (player.paused) return;
+function drawReal() {
+  if (audio.paused) return;
   analyser.getByteFrequencyData(dataArr);
-  const W = cv.width, H = cv.height;
-  ctx.clearRect(0, 0, W, H);
-  const bW = W / dataArr.length;
-  for (let i = 0; i < dataArr.length; i++) {
-    const v  = dataArr[i] / 255;
-    const bH = Math.max(2, v * H);
-    const x  = i * bW;
-    const g  = ctx.createLinearGradient(0, H - bH, 0, H);
-    g.addColorStop(0, `rgba(201,168,124,${.9*v+.1})`);
-    g.addColorStop(1, `rgba(120,80,30,${.5*v+.05})`);
-    ctx.fillStyle = g;
-    ctx.fillRect(x, H - bH, Math.max(1, bW - .8), bH);
+  const W = cv.width, H = cv.height, bW = W/dataArr.length;
+  const prog = audio.duration ? audio.currentTime/audio.duration : 0;
+  ctx.clearRect(0,0,W,H);
+  for (let i=0; i<dataArr.length; i++) {
+    const v  = dataArr[i]/255, bH = Math.max(2,v*H), x = i*bW;
+    const played = x/W < prog;
+    const g = ctx.createLinearGradient(0,H-bH,0,H);
+    if (played) {
+      g.addColorStop(0, `rgba(139,111,71,${.95*v+.1})`);
+      g.addColorStop(1, `rgba(100,70,30,${.6*v+.08})`);
+    } else {
+      g.addColorStop(0, `rgba(196,168,130,${.55*v+.08})`);
+      g.addColorStop(1, `rgba(180,155,115,${.3*v+.04})`);
+    }
+    ctx.fillStyle=g; ctx.fillRect(x, H-bH, Math.max(1,bW-.8), bH);
   }
-  raf = requestAnimationFrame(drawSpectro);
+  raf = requestAnimationFrame(drawReal);
 }
 
 function fakeDraw() {
-  fakeT += .035;
-  const W = cv.width, H = cv.height;
-  ctx.clearRect(0, 0, W, H);
-  const bars = 128, bW = W / bars;
-  for (let i = 0; i < bars; i++) {
-    const v  = (Math.sin(i*.18 + fakeT)*.4+.5) * (Math.sin(i*.07 - fakeT*.6)*.3+.7);
-    const bH = Math.max(2, v * H * .82);
-    const x  = i * bW;
-    const g  = ctx.createLinearGradient(0, H - bH, 0, H);
-    g.addColorStop(0, `rgba(201,168,124,${.8*v+.08})`);
-    g.addColorStop(1, `rgba(120,80,30,${.4*v+.04})`);
-    ctx.fillStyle = g;
-    ctx.fillRect(x, H - bH, Math.max(1, bW - .8), bH);
+  fakeT += .03;
+  const W = cv.width, H = cv.height, bars = 140, bW = W/bars;
+  const prog = audio.duration ? audio.currentTime/audio.duration : 0;
+  ctx.clearRect(0,0,W,H);
+  for (let i=0; i<bars; i++) {
+    const v  = (Math.sin(i*.16+fakeT)*.38+.5)*(Math.sin(i*.07-fakeT*.55)*.28+.72);
+    const bH = Math.max(2, v*H*.78), x = i*bW;
+    const played = x/W < prog;
+    const g = ctx.createLinearGradient(0,H-bH,0,H);
+    if (played) {
+      g.addColorStop(0, `rgba(139,111,71,${.85*v+.1})`);
+      g.addColorStop(1, `rgba(100,70,30,${.5*v+.08})`);
+    } else {
+      g.addColorStop(0, `rgba(196,168,130,${.45*v+.07})`);
+      g.addColorStop(1, `rgba(180,155,115,${.25*v+.04})`);
+    }
+    ctx.fillStyle=g; ctx.fillRect(x, H-bH, Math.max(1,bW-.8), bH);
   }
   raf = requestAnimationFrame(fakeDraw);
 }
@@ -240,21 +407,19 @@ function startSpectro() {
   cancelAnimationFrame(raf);
   if (!audioCtx) {
     try {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 512;
+      audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser(); analyser.fftSize = 512;
       dataArr  = new Uint8Array(analyser.frequencyBinCount);
-      const src = audioCtx.createMediaElementSource(player);
-      src.connect(analyser);
-      analyser.connect(audioCtx.destination);
+      const src = audioCtx.createMediaElementSource(audio);
+      src.connect(analyser); analyser.connect(audioCtx.destination);
     } catch(e) { fakeDraw(); return; }
   }
-  drawSpectro();
+  drawReal();
 }
 
 fakeDraw();
-player.addEventListener('play',  () => startSpectro());
-player.addEventListener('pause', () => { cancelAnimationFrame(raf); fakeDraw(); });
+audio.addEventListener('play',  () => startSpectro());
+audio.addEventListener('pause', () => { cancelAnimationFrame(raf); fakeDraw(); });
 </script>
 </body>
 </html>
