@@ -3,132 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap" rel="stylesheet">
 <title>Sarferprod Daily Mix — {meta['date']}</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f5f0e8;--bg2:#ede8de;--bg3:#e4ddd2;--card:#ffffff;
-  --text:#2a2218;--text2:#7a6e60;--text3:#b0a898;
-  --accent:#8b6f47;--accent2:#c4a882;--accent3:#e8d5b7;
-  --border:#ddd5c5;--shadow:rgba(100,80,50,.10);
+  --bg:#2e1f0e;--bg2:#3d2a14;--bg3:#4a3318;
+  --card:#f5efe3;--card2:#ede5d4;--card3:#e4d8c0;
+  --text:#1a0f04;--text2:#5a3e20;--text3:#9a7a50;
+  --acc:#8b4e10;--acc2:#c47830;--acc3:#e8c080;
+  --border:#c8a870;--bcard:#d4b888;
 }
-body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh}
-.page{max-width:760px;margin:0 auto;padding:32px 18px 60px}
-
-/* ── Titre 3D ── */
-.brand{text-align:center;margin-bottom:6px;padding:28px 0 10px}
+body{background:var(--bg);color:var(--card);font-family:'Georgia',serif;min-height:100vh}
+.page{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.brand{text-align:center;padding:20px 0 14px}
 .brand h1{
-  font-size:clamp(2em,6vw,3.4em);font-weight:600;letter-spacing:.06em;
-  color:var(--text);
-  text-shadow:
-    1px 1px 0 var(--accent3),
-    2px 2px 0 var(--accent2),
-    3px 3px 0 var(--accent),
-    4px 4px 0 rgba(139,111,71,.35),
-    5px 5px 8px rgba(100,80,50,.20);
-  line-height:1.1
+  font-family:'Rubik Dirt',cursive;font-size:clamp(1.6em,5.5vw,2.8em);font-weight:400;
+  color:var(--acc3);letter-spacing:.03em;line-height:1.1;
+  text-shadow:2px 3px 0 var(--acc),4px 6px 0 rgba(20,8,0,.5),0 0 30px rgba(232,192,128,.15)
 }
-.brand .sub{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text3);letter-spacing:.14em;margin-top:6px}
-
-/* ── Bento grid ── */
-.bento{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.bento .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 2px 12px var(--shadow)}
+.brand .sub{font-family:monospace;font-size:.7em;color:var(--text3);letter-spacing:.14em;margin-top:7px}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--bcard);border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.35)}
 .card-full{grid-column:1/-1}
-
-/* ── Now Playing ── */
-.np{display:flex;align-items:center;gap:14px}
-.np-thumb{width:70px;height:52px;border-radius:10px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;transition:transform .2s;cursor:pointer}
-.np-thumb:hover{transform:scale(1.06)}
-.np-label{font-family:'DM Mono',monospace;font-size:.6em;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;margin-bottom:4px}
-.np-title{font-size:1em;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.np-artist{font-size:.78em;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ── Spectrogramme ── */
-.spectro-wrap{position:relative;height:80px;border-radius:12px;overflow:hidden;background:var(--bg3)}
-canvas#cv{position:absolute;inset:0;width:100%;height:100%}
-.spectro-cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);opacity:.7;pointer-events:none;transition:left .25s linear}
-
-/* ── Player custom ── */
-.player-block{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px}
-.progress-wrap{position:relative;margin-bottom:14px}
-.progress-bar{width:100%;height:6px;border-radius:3px;background:var(--bg3);-webkit-appearance:none;appearance:none;cursor:pointer;outline:none}
-.progress-bar::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--card);box-shadow:0 1px 4px var(--shadow);cursor:pointer;margin-top:-4px}
-.progress-bar::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent) var(--prog,0%),var(--bg3) var(--prog,0%))}
-
-/* ── Repères sur la barre ── */
-.markers{position:absolute;top:0;left:0;right:0;height:6px;pointer-events:none}
-.marker{position:absolute;top:-3px;width:2px;height:12px;background:var(--accent2);border-radius:1px;transform:translateX(-50%);pointer-events:all;cursor:pointer;transition:all .18s;z-index:10}
-.marker:hover{width:4px;height:18px;top:-6px;background:var(--accent);z-index:20}
-.marker-tooltip{display:none;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:7px;box-shadow:0 4px 16px var(--shadow);pointer-events:none;z-index:30}
-.marker:hover .marker-tooltip{display:block}
-.marker-tooltip img{width:100%;height:60px;object-fit:cover;border-radius:6px;display:block;margin-bottom:4px}
-.marker-tooltip .mt-title{font-size:.7em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
-.marker-tooltip .mt-ts{font-family:'DM Mono',monospace;font-size:.62em;color:var(--text3)}
-.marker.clicked{animation:vibrate .3s ease}
-@keyframes vibrate{0%,100%{transform:translateX(-50%)}20%{transform:translateX(calc(-50% - 3px))}40%{transform:translateX(calc(-50% + 3px))}60%{transform:translateX(calc(-50% - 2px))}80%{transform:translateX(calc(-50% + 2px))}}
-
-.controls{display:flex;align-items:center;gap:14px}
-.btn-play{width:44px;height:44px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px var(--shadow);transition:transform .15s}
-.btn-play:hover{transform:scale(1.08)}
-.btn-play svg{fill:#fff;width:18px;height:18px}
-.time-disp{font-family:'DM Mono',monospace;font-size:.75em;color:var(--text2);white-space:nowrap}
-.vol-wrap{display:flex;align-items:center;gap:7px;margin-left:auto}
-.vol-wrap svg{width:16px;height:16px;fill:var(--text3)}
-.vol-slider{width:72px;height:4px;border-radius:2px;-webkit-appearance:none;appearance:none;background:var(--bg3);cursor:pointer;outline:none}
-.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--accent2);border:none;cursor:pointer}
-
-/* ── Tracklist ── */
-.tl-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px}
-.tl-head{padding:12px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.tl-head span{font-family:'DM Mono',monospace;font-size:.68em;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
-.tl-body{max-height:340px;overflow-y:auto}
-.tl-body::-webkit-scrollbar{width:4px}
-.tl-body::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:2px}
-.tl-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .14s}
-.tl-row:last-child{border-bottom:none}
-.tl-row:hover{background:var(--bg3)}
-.tl-row.active{background:var(--accent3);border-left:3px solid var(--accent)}
-.tl-ts{font-family:'DM Mono',monospace;font-size:.68em;color:var(--text3);width:40px;flex-shrink:0}
-.tl-thumb{width:48px;height:36px;border-radius:5px;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
+.np-label{font-family:monospace;font-size:.58em;letter-spacing:.15em;color:var(--text3);text-transform:uppercase;margin-bottom:7px}
+.np{display:flex;align-items:center;gap:12px}
+.np-thumb{width:66px;height:50px;border-radius:8px;object-fit:cover;border:1px solid var(--bcard);flex-shrink:0;background:var(--card2);cursor:pointer;transition:transform .18s,box-shadow .18s}
+.np-thumb:hover{transform:scale(1.07);box-shadow:0 3px 12px rgba(139,78,16,.4)}
+.np-title{font-size:.92em;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-artist{font-size:.74em;color:var(--text2);margin-top:2px}
+.logo-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}
+.logo-img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid var(--acc2);box-shadow:0 2px 12px rgba(0,0,0,.4);cursor:pointer;transition:all .22s;display:block}
+.logo-img:hover{transform:scale(1.1) rotate(-4deg);box-shadow:0 6px 22px rgba(196,120,48,.55);border-color:var(--acc3);filter:brightness(1.08)}
+.sc-lnk{font-family:monospace;font-size:.6em;color:var(--acc2);text-decoration:none;letter-spacing:.08em;transition:color .15s}
+.sc-lnk:hover{color:var(--text);text-decoration:underline}
+.spectro-wrap{position:relative;height:72px;border-radius:10px;overflow:hidden;background:var(--bg3)}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.spectro-cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--acc3);opacity:.7;pointer-events:none}
+.player-card{background:var(--bg2);border:1px solid var(--bg3);border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,.3);margin-bottom:12px}
+.prog-wrap{position:relative;margin-bottom:14px;height:24px;display:flex;align-items:center}
+.prog-bg{position:absolute;left:0;right:0;height:5px;background:var(--bg3);border-radius:3px}
+.prog-fill{position:absolute;left:0;height:5px;background:linear-gradient(to right,var(--acc),var(--acc2));border-radius:3px;transition:width .25s linear}
+.prog-thumb{position:absolute;width:14px;height:14px;background:var(--card);border:2px solid var(--acc2);border-radius:50%;box-shadow:0 1px 6px rgba(0,0,0,.4);cursor:pointer;transform:translateX(-50%);transition:transform .15s}
+.prog-thumb:hover{transform:translateX(-50%) scale(1.25)}
+.markers-layer{position:absolute;left:0;right:0;top:0;height:24px;pointer-events:none}
+.mk{position:absolute;top:6px;width:3px;height:12px;background:var(--acc2);border-radius:1px;transform:translateX(-50%);cursor:pointer;pointer-events:all;transition:all .18s;z-index:5}
+.mk:hover{width:5px;height:20px;top:2px;background:var(--acc3);z-index:10}
+.mk-tip{display:none;position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:118px;background:var(--card);border:1px solid var(--bcard);border-radius:9px;padding:7px;box-shadow:0 4px 18px rgba(0,0,0,.45);pointer-events:none;z-index:30}
+.mk:hover .mk-tip{display:block}
+.mk-tip img{width:100%;height:56px;object-fit:cover;border-radius:5px;margin-bottom:4px;background:var(--card2)}
+.mk-tip-title{font-size:.65em;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk-tip-ts{font-family:monospace;font-size:.58em;color:var(--text3)}
+.mk.clicked{animation:vib .32s ease}
+@keyframes vib{0%,100%{transform:translateX(-50%)}20%{transform:translateX(calc(-50% - 3px))}40%{transform:translateX(calc(-50% + 3px))}60%{transform:translateX(calc(-50% - 2px))}80%{transform:translateX(calc(-50% + 2px))}}
+.controls{display:flex;align-items:center;gap:12px}
+.btn-play{width:42px;height:42px;border-radius:50%;background:var(--acc);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .17s;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.btn-play:hover{background:var(--acc2);transform:scale(1.1);box-shadow:0 4px 14px rgba(196,120,48,.5)}
+.btn-play svg{fill:var(--card);width:17px;height:17px}
+.time{font-family:monospace;font-size:.7em;color:var(--text3)}
+.vol{display:flex;align-items:center;gap:6px;margin-left:auto}
+.vol svg{width:14px;height:14px;fill:var(--text3)}
+.vol input{width:66px;height:3px;accent-color:var(--acc2);cursor:pointer}
+.tl-card{background:var(--card);border:1px solid var(--bcard);border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.35);margin-bottom:12px}
+.tl-head{padding:10px 16px;background:var(--card2);border-bottom:1px solid var(--bcard);display:flex;justify-content:space-between;align-items:center}
+.tl-head span{font-family:monospace;font-size:.62em;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
+.tl-body{max-height:320px;overflow-y:auto}
+.tl-body::-webkit-scrollbar{width:3px}
+.tl-body::-webkit-scrollbar-thumb{background:var(--bcard);border-radius:2px}
+.tl-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--card2);cursor:pointer;transition:background .13s}
+.tl-row:hover{background:var(--card3)}
+.tl-row.active{background:var(--acc3);border-left:3px solid var(--acc)}
+.tl-ts{font-family:monospace;font-size:.65em;color:var(--text3);width:38px;flex-shrink:0}
+.tl-thumb{width:46px;height:34px;background:var(--card2);border-radius:5px;border:1px solid var(--bcard);flex-shrink:0;object-fit:cover;transition:transform .15s}
+.tl-row:hover .tl-thumb{transform:scale(1.06)}
 .tl-info{flex:1;overflow:hidden}
-.tl-title{font-size:.88em;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tl-artist{font-size:.72em;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tl-link{flex-shrink:0;font-family:'DM Mono',monospace;font-size:.65em;color:var(--accent);text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
-.tl-link:hover{color:var(--text)}
-
-/* ── Durée des morceaux dans la tracklist ── */
-.tl-dur{font-family:'DM Mono',monospace;font-size:.63em;color:var(--text3);white-space:nowrap;flex-shrink:0}
-
-/* ── Boutons partage ── */
-.share-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
-.shr-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:50px;font-family:'DM Mono',monospace;font-size:.75em;letter-spacing:.06em;text-decoration:none;border:1.5px solid var(--border);color:var(--text2);background:var(--card);transition:all .15s}
-.shr-btn:hover{background:var(--bg3);border-color:var(--accent2);color:var(--text)}
+.tl-title{font-size:.84em;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .13s}
+.tl-row:hover .tl-title{color:var(--acc)}
+.tl-artist{font-size:.7em;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-dur{font-family:monospace;font-size:.6em;color:var(--text3);flex-shrink:0}
+.tl-yt{font-family:monospace;font-size:.6em;color:var(--acc);text-decoration:underline;text-underline-offset:2px;white-space:nowrap;flex-shrink:0;padding:2px 6px;border-radius:4px;transition:all .13s}
+.tl-yt:hover{background:var(--acc);color:var(--card);text-decoration:none}
+.share{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.shr{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:50px;font-family:monospace;font-size:.7em;letter-spacing:.05em;cursor:pointer;border:1px solid var(--bg3);color:var(--text3);background:var(--bg2);text-decoration:none;transition:all .15s}
+.shr:hover{background:var(--bg3);border-color:var(--acc2);color:var(--card)}
 .shr-wa{background:#25d366;border-color:#25d366;color:#fff}
-.shr-wa:hover{background:#1fbb58;color:#fff}
-
-/* ── Logo bento ── */
-.logo-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px}
-.logo-card a img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent2);box-shadow:0 2px 12px var(--shadow);transition:transform .2s}
-.logo-card a:hover img{transform:scale(1.06)}
-.logo-card .sc-link{font-family:'DM Mono',monospace;font-size:.62em;letter-spacing:.1em;color:var(--accent);text-decoration:none;text-align:center}
-.logo-card .sc-link:hover{text-decoration:underline}
+.shr-wa:hover{background:#1fbb58;border-color:#1fbb58;color:#fff}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- Titre 3D -->
   <div class="brand">
     <h1>Sarferprod Daily Mix</h1>
-    <div class="sub">2026-05-10 &nbsp;·&nbsp; 08:17 &nbsp;·&nbsp; 00:02:05</div>
+    <div class="sub">2026-05-10 &nbsp;·&nbsp; 09:22 &nbsp;·&nbsp; 00:11:46</div>
   </div>
 
-  <!-- Bento row 1 : NowPlaying + Logo -->
-  <div class="bento" style="margin-bottom:14px">
-    <div class="card" style="grid-column:1/2">
+  <div class="bento">
+    <div class="card">
       <div class="np-label">En cours</div>
-      <div class="np" style="margin-top:8px">
+      <div class="np">
         <img id="np-img" class="np-thumb" src="Radio_SARFERPROD.jpeg" alt="" onerror="this.style.display='none'">
         <div style="overflow:hidden">
           <div class="np-title" id="np-title">— Intro —</div>
@@ -136,290 +109,248 @@ canvas#cv{position:absolute;inset:0;width:100%;height:100%}
         </div>
       </div>
     </div>
-    <div class="card logo-card" style="grid-column:2/3">
+    <div class="card logo-card">
       <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank">
-        <img src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.display='none'">
+        <img class="logo-img" src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.background='var(--acc2)'">
       </a>
-      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="sc-link">SoundCloud ↗</a>
+      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="sc-lnk">SoundCloud ↗</a>
     </div>
   </div>
 
-  <!-- Spectrogramme -->
-  <div class="card card-full" style="padding:14px;margin-bottom:14px;border-radius:18px;border:1px solid var(--border);background:var(--card);box-shadow:0 2px 12px var(--shadow)">
+  <div class="card card-full" style="padding:14px;margin-bottom:12px">
     <div class="spectro-wrap">
       <canvas id="cv"></canvas>
-      <div class="spectro-cursor" id="sc-cursor"></div>
+      <div class="spectro-cursor" id="sc-cur"></div>
     </div>
   </div>
 
-  <!-- Player -->
-  <div class="player-block">
-    <!-- Barre de progression + repères -->
-    <div class="progress-wrap">
-      <div class="markers" id="markers"></div>
-      <input type="range" id="prog" class="progress-bar" min="0" max="1000" value="0" step="1">
+  <div class="player-card">
+    <div class="prog-wrap">
+      <div class="prog-bg"></div>
+      <div class="prog-fill" id="prog-fill"></div>
+      <div class="prog-thumb" id="prog-thumb"></div>
+      <div class="markers-layer" id="mkl"></div>
     </div>
     <div class="controls">
-      <button class="btn-play" id="btn-play" aria-label="Play/Pause">
-        <svg id="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <button class="btn-play" id="btn-play">
+        <svg id="ico" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </button>
-      <span class="time-disp" id="time-disp">0:00 / 0:00</span>
-      <div class="vol-wrap">
+      <span class="time" id="time-disp">0:00 / 0:00</span>
+      <div class="vol">
         <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-        <input type="range" id="vol" class="vol-slider" min="0" max="1" step="0.01" value="1">
+        <input type="range" id="vol" min="0" max="1" step="0.01" value="1">
       </div>
     </div>
   </div>
 
-  <!-- Tracklist -->
   <div class="tl-card">
     <div class="tl-head">
       <span>Tracklist</span>
-      <span id="tl-count">1 titres</span>
+      <span>12 titres</span>
     </div>
     <div class="tl-body" id="tl-body"></div>
   </div>
 
-  <!-- Boutons partage -->
-  <div class="share-row">
-    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="shr-btn shr-wa">📲 WhatsApp</a>
-    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-10&body=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="shr-btn">✉️ Email</a>
-    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="shr-btn">🎵 SoundCloud</a>
+  <div class="share">
+    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="shr shr-wa">📲 WhatsApp</a>
+    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-10&body=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="shr">✉️ Email</a>
+    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="shr">🎵 SoundCloud</a>
   </div>
 
-</div><!-- /page -->
-
+</div>
 <audio id="audio" src="DailyMix_2026-05-10.mp3" preload="metadata"></audio>
 
 <script>
-const TRACKS      = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "Saraph", "title": "Bingece | Sofar Ankara", "url": "https://www.youtube.com/watch?v=2qstOOyBViI", "thumbnail": "https://img.youtube.com/vi/2qstOOyBViI/mqdefault.jpg", "channel": "Sofar Sounds"}];
+const TRACKS      = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "Slow Pony", "title": "Jesus In A Snow Globe", "url": "https://www.youtube.com/watch?v=w-jDKl5iK8g", "thumbnail": "https://img.youtube.com/vi/w-jDKl5iK8g/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:01:36", "timestamp_seconds": 96.8, "artist": "Juke the Tiger", "title": "I'll Still Call You In The Morning", "url": "https://www.youtube.com/watch?v=mUiLXop1YDE", "thumbnail": "https://img.youtube.com/vi/mUiLXop1YDE/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:02:42", "timestamp_seconds": 162.8, "artist": "triple j", "title": "joey valence & brae take you behind their like a version #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=YNG8pZ-MyMk", "thumbnail": "https://img.youtube.com/vi/YNG8pZ-MyMk/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:03:45", "timestamp_seconds": 225.8, "artist": "triple j", "title": "joey valence & brae perform 'bust down' for like a version #jvb #likeaversion", "url": "https://www.youtube.com/watch?v=QB8XPAPyYMo", "thumbnail": "https://img.youtube.com/vi/QB8XPAPyYMo/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:14", "timestamp_seconds": 254.7, "artist": "triple j", "title": "joey valence & brae cover amyl and the sniffers #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=JsYGLosyUVM", "thumbnail": "https://img.youtube.com/vi/JsYGLosyUVM/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:30", "timestamp_seconds": 270.8, "artist": "triple j", "title": "joey valence & brae cover 'security' for like a version #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=Aq3e0X-JCxQ", "thumbnail": "https://img.youtube.com/vi/Aq3e0X-JCxQ/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:55", "timestamp_seconds": 295.1, "artist": "triple j", "title": "Joey Valence & Brae cover Amyl and the Sniffers' 'Security' for Like A Version", "url": "https://www.youtube.com/watch?v=lu06XPjaML4", "thumbnail": "https://img.youtube.com/vi/lu06XPjaML4/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:06:01", "timestamp_seconds": 361.1, "artist": "OT The Real", "title": "Villain (Full Album)", "url": "https://www.youtube.com/watch?v=8xMaAhLCLQ4", "thumbnail": "https://img.youtube.com/vi/8xMaAhLCLQ4/mqdefault.jpg", "channel": "Paka The Plug"}, {"timestamp": "00:07:07", "timestamp_seconds": 427.1, "artist": "Wuki & Allegra Miles", "title": "Daydream", "url": "https://www.youtube.com/watch?v=dVKj82tVpMI", "thumbnail": "https://img.youtube.com/vi/dVKj82tVpMI/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:08:13", "timestamp_seconds": 493.1, "artist": "DJ Life", "title": "Skytree", "url": "https://www.youtube.com/watch?v=nK4Rrtv-ddM", "thumbnail": "https://img.youtube.com/vi/nK4Rrtv-ddM/mqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:09:19", "timestamp_seconds": 559.1, "artist": "KEXP", "title": "Spiritual Cramp performs \"Dog In A Cage\" & more Live on KEXP", "url": "https://www.youtube.com/watch?v=BR1Ip06XoUA", "thumbnail": "https://img.youtube.com/vi/BR1Ip06XoUA/mqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:10:12", "timestamp_seconds": 612.2, "artist": "Spiritual Cramp", "title": "Jerk It Out (Live on KEXP)", "url": "https://www.youtube.com/watch?v=nVN_1dqCLAY", "thumbnail": "https://img.youtube.com/vi/nVN_1dqCLAY/mqdefault.jpg", "channel": "KEXP"}];
 const INTRO_END   = 30.8;
-const OUTRO_START = 96.8;
+const OUTRO_START = 678.2;
 const LOGO        = "Radio_SARFERPROD.jpeg";
 const SC_URL      = "https://soundcloud.com/user-403414255/radio-coocool-01";
 
-const audio   = document.getElementById('audio');
-const btnPlay = document.getElementById('btn-play');
-const icoPlay = document.getElementById('ico-play');
-const progBar = document.getElementById('prog');
-const timeDisp= document.getElementById('time-disp');
-const volBar  = document.getElementById('vol');
-const npImg   = document.getElementById('np-img');
-const npTitle = document.getElementById('np-title');
-const npArtist= document.getElementById('np-artist');
-const tlBody  = document.getElementById('tl-body');
-const markersDiv = document.getElementById('markers');
-const cursor  = document.getElementById('sc-cursor');
+const audio    = document.getElementById('audio');
+const btnPlay  = document.getElementById('btn-play');
+const ico      = document.getElementById('ico');
+const progFill = document.getElementById('prog-fill');
+const progThumb= document.getElementById('prog-thumb');
+const timeDisp = document.getElementById('time-disp');
+const volBar   = document.getElementById('vol');
+const npImg    = document.getElementById('np-img');
+const npTitle  = document.getElementById('np-title');
+const npArtist = document.getElementById('np-artist');
+const tlBody   = document.getElementById('tl-body');
+const mkl      = document.getElementById('mkl');
+const scCur    = document.getElementById('sc-cur');
 
-// ── Play / Pause ─────────────────────────────────────────────────────────────
-const PLAY_SVG  = '<path d="M8 5v14l11-7z"/>';
-const PAUSE_SVG = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+const PLAY_P  = 'M8 5v14l11-7z';
+const PAUSE_P = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
 btnPlay.onclick = () => audio.paused ? audio.play() : audio.pause();
-audio.addEventListener('play',  () => icoPlay.innerHTML = PAUSE_SVG);
-audio.addEventListener('pause', () => icoPlay.innerHTML = PLAY_SVG);
+audio.addEventListener('play',  () => ico.innerHTML = '<path d="'+PAUSE_P+'"/>');
+audio.addEventListener('pause', () => ico.innerHTML = '<path d="'+PLAY_P+'"/>');
+volBar.oninput  = () => audio.volume = parseFloat(volBar.value);
 
-// ── Volume ───────────────────────────────────────────────────────────────────
-volBar.oninput = () => { audio.volume = parseFloat(volBar.value); };
-
-// ── Progress bar ─────────────────────────────────────────────────────────────
-function fmt(s) {
-  s = Math.floor(s);
-  return Math.floor(s/60) + ':' + (s%60).toString().padStart(2,'0');
+function fmt(s){
+  s = Math.floor(s||0);
+  return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
 }
+
 audio.addEventListener('timeupdate', () => {
-  const pct = audio.duration ? audio.currentTime / audio.duration : 0;
-  progBar.value = Math.round(pct * 1000);
-  progBar.style.setProperty('--prog', (pct*100).toFixed(2)+'%');
-  timeDisp.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration||0);
-  // curseur spectro
-  cursor.style.left = (pct*100).toFixed(2)+'%';
+  const pct = audio.duration ? audio.currentTime/audio.duration : 0;
+  const p   = (pct*100).toFixed(2)+'%';
+  progFill.style.width  = p;
+  progThumb.style.left  = p;
+  scCur.style.left      = p;
+  timeDisp.textContent  = fmt(audio.currentTime)+' / '+fmt(audio.duration);
   updateNP();
   updateTL();
 });
-progBar.oninput = () => {
-  if (audio.duration) audio.currentTime = (progBar.value/1000) * audio.duration;
-};
 
-// ── Repères sur la barre ─────────────────────────────────────────────────────
+// Clic sur la barre de progression
+document.querySelector('.prog-wrap').addEventListener('click', function(e){
+  const rect = this.getBoundingClientRect();
+  const pct  = Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  if(audio.duration) audio.currentTime = pct*audio.duration;
+});
+
+// Repères sur la barre
 audio.addEventListener('loadedmetadata', () => {
-  markersDiv.innerHTML = '';
-  const dur = audio.duration;
-  TRACKS.forEach((t, i) => {
-    const pct = (t.timestamp_seconds / dur) * 100;
+  mkl.innerHTML = '';
+  TRACKS.forEach((t,i) => {
+    const pct = audio.duration ? (t.timestamp_seconds/audio.duration)*100 : 0;
     const mk  = document.createElement('div');
-    mk.className = 'marker';
-    mk.style.left = pct.toFixed(2) + '%';
-    const s   = Math.floor(t.timestamp_seconds);
-    const mm  = Math.floor(s/60);
-    const ss  = (s%60).toString().padStart(2,'0');
-    const tit = (t.title || '').substring(0, 28);
-    const thu = t.thumbnail || LOGO;
-    mk.innerHTML = `<div class="marker-tooltip">
+    mk.className = 'mk';
+    mk.style.left = pct.toFixed(2)+'%';
+    const s  = Math.floor(t.timestamp_seconds);
+    const ts = Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
+    const thu = t.thumbnail||LOGO;
+    const tit = (t.title||'').substring(0,26);
+    mk.innerHTML = `<div class="mk-tip">
       <img src="${thu}" onerror="this.src='${LOGO}'">
-      <div class="mt-title">${tit}</div>
-      <div class="mt-ts">${mm}:${ss}</div>
+      <div class="mk-tip-title">${tit}</div>
+      <div class="mk-tip-ts">${ts}</div>
     </div>`;
-    mk.addEventListener('click', () => {
+    mk.addEventListener('click', e => {
+      e.stopPropagation();
       audio.currentTime = t.timestamp_seconds;
       audio.play();
       mk.classList.add('clicked');
-      if (t.url) setTimeout(() => window.open(t.url, '_blank'), 350);
-      setTimeout(() => mk.classList.remove('clicked'), 400);
+      if(t.url) setTimeout(()=>window.open(t.url,'_blank'),350);
+      setTimeout(()=>mk.classList.remove('clicked'),400);
     });
-    markersDiv.appendChild(mk);
+    mkl.appendChild(mk);
   });
 });
 
-// ── Build tracklist ───────────────────────────────────────────────────────────
-TRACKS.forEach((t, i) => {
+// Tracklist
+TRACKS.forEach((t,i) => {
   const row = document.createElement('div');
   row.className = 'tl-row';
   row.id = 'tr'+i;
-  const s  = Math.floor(t.timestamp_seconds);
-  const mm = Math.floor(s/60), ss = (s%60).toString().padStart(2,'0');
+  const s   = Math.floor(t.timestamp_seconds);
+  const ts  = Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
   const dur = t.duration_s ? fmt(t.duration_s) : '';
-  const thu = t.thumbnail || LOGO;
-  const tit = t.title || '';
-  const art = t.artist || t.channel || '';
-  const url = t.url || '#';
+  const thu = t.thumbnail||LOGO;
+  const url = t.url||'#';
   row.innerHTML = `
-    <span class="tl-ts">${mm}:${ss}</span>
+    <span class="tl-ts">${ts}</span>
     <img class="tl-thumb" src="${thu}" onerror="this.src='${LOGO}'">
     <div class="tl-info">
-      <div class="tl-title">${tit}</div>
-      <div class="tl-artist">${art}</div>
+      <div class="tl-title">${t.title||''}</div>
+      <div class="tl-artist">${t.artist||t.channel||''}</div>
     </div>
-    ${dur ? '<span class="tl-dur">'+dur+'</span>' : ''}
-    <a class="tl-link" href="${url}" target="_blank" onclick="event.stopPropagation()">↗ YouTube</a>`;
+    ${dur?'<span class="tl-dur">'+dur+'</span>':''}
+    <a class="tl-yt" href="${url}" target="_blank" onclick="event.stopPropagation()">↗ YouTube</a>`;
   row.onclick = () => { audio.currentTime = t.timestamp_seconds; audio.play(); };
   tlBody.appendChild(row);
 });
 
-// ── Now Playing ───────────────────────────────────────────────────────────────
-let lastIdx = -2;
-function updateNP() {
+// Now Playing
+let lastNPIdx = -99;
+function updateNP(){
   const ct = audio.currentTime;
-  if (ct < INTRO_END) {
-    if (lastIdx === -1) return;
-    lastIdx = -1;
-    npImg.src = LOGO; npImg.onclick = () => window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
-    npTitle.textContent = '— Intro —'; npArtist.textContent = 'Sarferprod';
-    return;
+  if(ct < INTRO_END){
+    if(lastNPIdx===-1) return; lastNPIdx=-1;
+    npImg.src=LOGO; npImg.onclick=()=>window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
+    npTitle.textContent='— Intro —'; npArtist.textContent='Sarferprod'; return;
   }
-  if (OUTRO_START > 0 && ct >= OUTRO_START) {
-    if (lastIdx === -3) return;
-    lastIdx = -3;
-    npImg.src = LOGO; npImg.onclick = () => window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
-    npTitle.textContent = '— Outro —'; npArtist.textContent = 'Sarferprod';
-    return;
+  if(OUTRO_START>0 && ct>=OUTRO_START){
+    if(lastNPIdx===-2) return; lastNPIdx=-2;
+    npImg.src=LOGO; npImg.onclick=()=>window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
+    npTitle.textContent='— Outro —'; npArtist.textContent='Sarferprod'; return;
   }
-  let cur = null, idx = -1;
-  for (let i = 0; i < TRACKS.length; i++) {
-    if (ct >= TRACKS[i].timestamp_seconds) { cur = TRACKS[i]; idx = i; }
-    else break;
+  let cur=null,idx=-1;
+  for(let i=0;i<TRACKS.length;i++){
+    if(ct>=TRACKS[i].timestamp_seconds){cur=TRACKS[i];idx=i;} else break;
   }
-  if (idx === lastIdx) return;
-  lastIdx = idx;
-  if (cur) {
-    npImg.src = cur.thumbnail || LOGO;
-    npImg.onclick = cur.url ? () => window.open(cur.url,'_blank') : null;
-    npImg.style.cursor = cur.url ? 'pointer' : 'default';
-    npTitle.textContent  = cur.title  || '';
-    npArtist.textContent = cur.artist || cur.channel || '';
+  if(idx===lastNPIdx) return; lastNPIdx=idx;
+  if(cur){
+    npImg.src=cur.thumbnail||LOGO;
+    npImg.onclick=cur.url?()=>window.open(cur.url,'_blank'):null;
+    npImg.style.cursor=cur.url?'pointer':'default';
+    npTitle.textContent=cur.title||'';
+    npArtist.textContent=cur.artist||cur.channel||'';
   }
 }
 
-// ── Tracklist auto-scroll + highlight ─────────────────────────────────────────
-let lastTLIdx = -2;
-function updateTL() {
-  const ct = audio.currentTime;
-  let idx = -1;
-  for (let i = 0; i < TRACKS.length; i++) {
-    if (ct >= TRACKS[i].timestamp_seconds) idx = i; else break;
-  }
-  if (idx === lastTLIdx) return;
-  lastTLIdx = idx;
-  document.querySelectorAll('.tl-row').forEach((r,i) => {
-    r.classList.toggle('active', i === idx);
-  });
-  if (idx >= 0) {
-    const el = document.getElementById('tr'+idx);
-    if (el) el.scrollIntoView({behavior:'smooth', block:'nearest'});
-  }
+// Tracklist scroll + highlight
+let lastTLIdx=-99;
+function updateTL(){
+  const ct=audio.currentTime; let idx=-1;
+  for(let i=0;i<TRACKS.length;i++){if(ct>=TRACKS[i].timestamp_seconds) idx=i; else break;}
+  if(idx===lastTLIdx) return; lastTLIdx=idx;
+  document.querySelectorAll('.tl-row').forEach((r,i)=>r.classList.toggle('active',i===idx));
+  if(idx>=0){const el=document.getElementById('tr'+idx);if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});}
 }
 
-// ── Spectrogramme ─────────────────────────────────────────────────────────────
+// Spectrogramme
 const cv  = document.getElementById('cv');
 const ctx = cv.getContext('2d');
-let raf, analyser, dataArr, audioCtx, fakeT = 0;
+let raf,analyser,dataArr,audioCtx,fakeT=0;
+function resize(){cv.width=(cv.offsetWidth||680)*devicePixelRatio;cv.height=(cv.offsetHeight||72)*devicePixelRatio;}
+window.addEventListener('resize',resize); resize();
 
-function resize() {
-  cv.width  = cv.offsetWidth  * devicePixelRatio || 700;
-  cv.height = cv.offsetHeight * devicePixelRatio || 80;
-}
-window.addEventListener('resize', resize); resize();
-
-function drawReal() {
-  if (audio.paused) return;
+function drawReal(){
+  if(audio.paused) return;
   analyser.getByteFrequencyData(dataArr);
-  const W = cv.width, H = cv.height, bW = W/dataArr.length;
-  const prog = audio.duration ? audio.currentTime/audio.duration : 0;
+  const W=cv.width,H=cv.height,bW=W/dataArr.length;
+  const prog=audio.duration?audio.currentTime/audio.duration:0;
   ctx.clearRect(0,0,W,H);
-  for (let i=0; i<dataArr.length; i++) {
-    const v  = dataArr[i]/255, bH = Math.max(2,v*H), x = i*bW;
-    const played = x/W < prog;
-    const g = ctx.createLinearGradient(0,H-bH,0,H);
-    if (played) {
-      g.addColorStop(0, `rgba(139,111,71,${.95*v+.1})`);
-      g.addColorStop(1, `rgba(100,70,30,${.6*v+.08})`);
-    } else {
-      g.addColorStop(0, `rgba(196,168,130,${.55*v+.08})`);
-      g.addColorStop(1, `rgba(180,155,115,${.3*v+.04})`);
-    }
-    ctx.fillStyle=g; ctx.fillRect(x, H-bH, Math.max(1,bW-.8), bH);
+  for(let i=0;i<dataArr.length;i++){
+    const v=dataArr[i]/255,bH=Math.max(2,v*H),x=i*bW;
+    ctx.fillStyle=(x/W<prog)?`rgba(196,120,48,${.95*v+.08})`:`rgba(100,70,35,${.55*v+.1})`;
+    ctx.fillRect(x,H-bH,Math.max(1,bW-.7),bH);
   }
-  raf = requestAnimationFrame(drawReal);
+  raf=requestAnimationFrame(drawReal);
 }
-
-function fakeDraw() {
-  fakeT += .03;
-  const W = cv.width, H = cv.height, bars = 140, bW = W/bars;
-  const prog = audio.duration ? audio.currentTime/audio.duration : 0;
+function fakeDraw(){
+  fakeT+=.026;
+  const W=cv.width,H=cv.height,bars=160,bW=W/bars;
+  const prog=audio.duration?audio.currentTime/audio.duration:0;
   ctx.clearRect(0,0,W,H);
-  for (let i=0; i<bars; i++) {
-    const v  = (Math.sin(i*.16+fakeT)*.38+.5)*(Math.sin(i*.07-fakeT*.55)*.28+.72);
-    const bH = Math.max(2, v*H*.78), x = i*bW;
-    const played = x/W < prog;
-    const g = ctx.createLinearGradient(0,H-bH,0,H);
-    if (played) {
-      g.addColorStop(0, `rgba(139,111,71,${.85*v+.1})`);
-      g.addColorStop(1, `rgba(100,70,30,${.5*v+.08})`);
-    } else {
-      g.addColorStop(0, `rgba(196,168,130,${.45*v+.07})`);
-      g.addColorStop(1, `rgba(180,155,115,${.25*v+.04})`);
-    }
-    ctx.fillStyle=g; ctx.fillRect(x, H-bH, Math.max(1,bW-.8), bH);
+  for(let i=0;i<bars;i++){
+    const v=(Math.sin(i*.15+fakeT)*.38+.52)*(Math.sin(i*.08-fakeT*.5)*.25+.75);
+    const bH=Math.max(2,v*H*.82),x=i*bW;
+    ctx.fillStyle=(x/W<prog)?`rgba(196,120,48,${.95*v+.08})`:`rgba(100,70,35,${.55*v+.1})`;
+    ctx.fillRect(x,H-bH,Math.max(1,bW-.7),bH);
   }
-  raf = requestAnimationFrame(fakeDraw);
+  raf=requestAnimationFrame(fakeDraw);
 }
-
-function startSpectro() {
+function startSpectro(){
   cancelAnimationFrame(raf);
-  if (!audioCtx) {
-    try {
-      audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser(); analyser.fftSize = 512;
-      dataArr  = new Uint8Array(analyser.frequencyBinCount);
-      const src = audioCtx.createMediaElementSource(audio);
-      src.connect(analyser); analyser.connect(audioCtx.destination);
-    } catch(e) { fakeDraw(); return; }
+  if(!audioCtx){
+    try{
+      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      analyser=audioCtx.createAnalyser();analyser.fftSize=512;
+      dataArr=new Uint8Array(analyser.frequencyBinCount);
+      const src=audioCtx.createMediaElementSource(audio);
+      src.connect(analyser);analyser.connect(audioCtx.destination);
+    }catch(e){fakeDraw();return;}
   }
   drawReal();
 }
-
 fakeDraw();
-audio.addEventListener('play',  () => startSpectro());
-audio.addEventListener('pause', () => { cancelAnimationFrame(raf); fakeDraw(); });
+audio.addEventListener('play',  ()=>startSpectro());
+audio.addEventListener('pause', ()=>{cancelAnimationFrame(raf);fakeDraw();});
 </script>
 </body>
 </html>
