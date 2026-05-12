@@ -7,21 +7,11 @@
 <title>Sarferprod Daily Mix — {meta['date']}</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#2e1f0e;--bg2:#3d2a14;--bg3:#4a3318;
-  --card:#f5efe3;--card2:#ede5d4;--card3:#e4d8c0;
-  --text:#1a0f04;--text2:#5a3e20;--text3:#9a7a50;
-  --acc:#8b4e10;--acc2:#c47830;--acc3:#e8c080;
-  --border:#c8a870;--bcard:#d4b888;
-}
+:root{--bg:#2e1f0e;--bg2:#3d2a14;--bg3:#4a3318;--card:#f5efe3;--card2:#ede5d4;--card3:#e4d8c0;--text:#1a0f04;--text2:#5a3e20;--text3:#9a7a50;--acc:#8b4e10;--acc2:#c47830;--acc3:#e8c080;--bcard:#d4b888;}
 body{background:var(--bg);color:var(--card);font-family:'Georgia',serif;min-height:100vh}
 .page{max-width:720px;margin:0 auto;padding:24px 16px 48px}
 .brand{text-align:center;padding:20px 0 14px}
-.brand h1{
-  font-family:'Rubik Dirt',cursive;font-size:clamp(1.6em,5.5vw,2.8em);font-weight:400;
-  color:var(--acc3);letter-spacing:.03em;line-height:1.1;
-  text-shadow:2px 3px 0 var(--acc),4px 6px 0 rgba(20,8,0,.5),0 0 30px rgba(232,192,128,.15)
-}
+.brand h1{font-family:'Rubik Dirt',cursive;font-size:clamp(1.6em,5.5vw,2.8em);font-weight:400;color:var(--acc3);letter-spacing:.03em;line-height:1.1;text-shadow:2px 3px 0 var(--acc),4px 6px 0 rgba(20,8,0,.5),0 0 30px rgba(232,192,128,.15)}
 .brand .sub{font-family:monospace;font-size:.7em;color:var(--text3);letter-spacing:.14em;margin-top:7px}
 .bento{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .card{background:var(--card);border:1px solid var(--bcard);border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.35)}
@@ -39,13 +29,12 @@ body{background:var(--bg);color:var(--card);font-family:'Georgia',serif;min-heig
 .sc-lnk:hover{color:var(--text);text-decoration:underline}
 .spectro-wrap{position:relative;height:72px;border-radius:10px;overflow:hidden;background:var(--bg3)}
 canvas{position:absolute;inset:0;width:100%;height:100%}
-.spectro-cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--acc3);opacity:.7;pointer-events:none}
+.sc-cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--acc3);opacity:.8;pointer-events:none}
 .player-card{background:var(--bg2);border:1px solid var(--bg3);border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,.3);margin-bottom:12px}
-.prog-wrap{position:relative;margin-bottom:14px;height:24px;display:flex;align-items:center}
+.prog-wrap{position:relative;margin-bottom:14px;height:24px;display:flex;align-items:center;cursor:pointer}
 .prog-bg{position:absolute;left:0;right:0;height:5px;background:var(--bg3);border-radius:3px}
-.prog-fill{position:absolute;left:0;height:5px;background:linear-gradient(to right,var(--acc),var(--acc2));border-radius:3px;transition:width .25s linear}
-.prog-thumb{position:absolute;width:14px;height:14px;background:var(--card);border:2px solid var(--acc2);border-radius:50%;box-shadow:0 1px 6px rgba(0,0,0,.4);cursor:pointer;transform:translateX(-50%);transition:transform .15s}
-.prog-thumb:hover{transform:translateX(-50%) scale(1.25)}
+.prog-fill{position:absolute;left:0;height:5px;background:linear-gradient(to right,var(--acc),var(--acc2));border-radius:3px}
+.prog-thumb{position:absolute;width:14px;height:14px;background:var(--card);border:2px solid var(--acc2);border-radius:50%;box-shadow:0 1px 6px rgba(0,0,0,.4);transform:translateX(-50%);pointer-events:none}
 .markers-layer{position:absolute;left:0;right:0;top:0;height:24px;pointer-events:none}
 .mk{position:absolute;top:6px;width:3px;height:12px;background:var(--acc2);border-radius:1px;transform:translateX(-50%);cursor:pointer;pointer-events:all;transition:all .18s;z-index:5}
 .mk:hover{width:5px;height:20px;top:2px;background:var(--acc3);z-index:10}
@@ -80,7 +69,6 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 .tl-title{font-size:.84em;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .13s}
 .tl-row:hover .tl-title{color:var(--acc)}
 .tl-artist{font-size:.7em;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tl-dur{font-family:monospace;font-size:.6em;color:var(--text3);flex-shrink:0}
 .tl-yt{font-family:monospace;font-size:.6em;color:var(--acc);text-decoration:underline;text-underline-offset:2px;white-space:nowrap;flex-shrink:0;padding:2px 6px;border-radius:4px;transition:all .13s}
 .tl-yt:hover{background:var(--acc);color:var(--card);text-decoration:none}
 .share{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
@@ -92,17 +80,15 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 </head>
 <body>
 <div class="page">
-
   <div class="brand">
     <h1>Sarferprod Daily Mix</h1>
-    <div class="sub">2026-05-10 &nbsp;·&nbsp; 09:22 &nbsp;·&nbsp; 00:11:46</div>
+    <div class="sub">{meta['date']} &nbsp;·&nbsp; {meta.get('time','')} &nbsp;·&nbsp; {meta.get('total_duration','')}</div>
   </div>
-
   <div class="bento">
     <div class="card">
       <div class="np-label">En cours</div>
       <div class="np">
-        <img id="np-img" class="np-thumb" src="Radio_SARFERPROD.jpeg" alt="" onerror="this.style.display='none'">
+        <img id="np-img" class="np-thumb" src="{LOGO_FILENAME}" alt="" onerror="this.style.display='none'">
         <div style="overflow:hidden">
           <div class="np-title" id="np-title">— Intro —</div>
           <div class="np-artist" id="np-artist">Sarferprod</div>
@@ -110,22 +96,20 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
       </div>
     </div>
     <div class="card logo-card">
-      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank">
-        <img class="logo-img" src="Radio_SARFERPROD.jpeg" alt="Sarferprod" onerror="this.style.background='var(--acc2)'">
+      <a href="{SOUNDCLOUD_URL}" target="_blank">
+        <img class="logo-img" src="{LOGO_FILENAME}" alt="Sarferprod" onerror="this.style.background='var(--acc2)'">
       </a>
-      <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="sc-lnk">SoundCloud ↗</a>
+      <a href="{SOUNDCLOUD_URL}" target="_blank" class="sc-lnk">SoundCloud ↗</a>
     </div>
   </div>
-
   <div class="card card-full" style="padding:14px;margin-bottom:12px">
     <div class="spectro-wrap">
       <canvas id="cv"></canvas>
-      <div class="spectro-cursor" id="sc-cur"></div>
+      <div class="sc-cursor" id="sc-cur"></div>
     </div>
   </div>
-
   <div class="player-card">
-    <div class="prog-wrap">
+    <div class="prog-wrap" id="prog-wrap">
       <div class="prog-bg"></div>
       <div class="prog-fill" id="prog-fill"></div>
       <div class="prog-thumb" id="prog-thumb"></div>
@@ -142,175 +126,111 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
       </div>
     </div>
   </div>
-
   <div class="tl-card">
-    <div class="tl-head">
-      <span>Tracklist</span>
-      <span>12 titres</span>
-    </div>
+    <div class="tl-head"><span>Tracklist</span><span>{nb_tracks} titres</span></div>
     <div class="tl-body" id="tl-body"></div>
   </div>
-
   <div class="share">
-    <a href="https://wa.me/?text=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" target="_blank" class="shr shr-wa">📲 WhatsApp</a>
-    <a href="mailto:?subject=Sarferprod%20Daily%20Mix%202026-05-10&body=Sarferprod%20Daily%20Mix%202026-05-10%20%E2%86%92%20https://sarfer02.github.io/sarferprod-dailymix" class="shr">✉️ Email</a>
-    <a href="https://soundcloud.com/user-403414255/radio-coocool-01" target="_blank" class="shr">🎵 SoundCloud</a>
+    <a href="{wa_link}" target="_blank" class="shr shr-wa">📲 WhatsApp</a>
+    <a href="{ml_link}" class="shr">✉️ Email</a>
+    <a href="{SOUNDCLOUD_URL}" target="_blank" class="shr">🎵 SoundCloud</a>
   </div>
-
 </div>
-<audio id="audio" src="DailyMix_2026-05-10.mp3" preload="metadata"></audio>
-
+<audio id="audio" src="{mp3_name}" preload="metadata"></audio>
 <script>
-const TRACKS      = [{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "Slow Pony", "title": "Jesus In A Snow Globe", "url": "https://www.youtube.com/watch?v=w-jDKl5iK8g", "thumbnail": "https://img.youtube.com/vi/w-jDKl5iK8g/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:01:36", "timestamp_seconds": 96.8, "artist": "Juke the Tiger", "title": "I'll Still Call You In The Morning", "url": "https://www.youtube.com/watch?v=mUiLXop1YDE", "thumbnail": "https://img.youtube.com/vi/mUiLXop1YDE/mqdefault.jpg", "channel": "David Dean Burkhart"}, {"timestamp": "00:02:42", "timestamp_seconds": 162.8, "artist": "triple j", "title": "joey valence & brae take you behind their like a version #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=YNG8pZ-MyMk", "thumbnail": "https://img.youtube.com/vi/YNG8pZ-MyMk/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:03:45", "timestamp_seconds": 225.8, "artist": "triple j", "title": "joey valence & brae perform 'bust down' for like a version #jvb #likeaversion", "url": "https://www.youtube.com/watch?v=QB8XPAPyYMo", "thumbnail": "https://img.youtube.com/vi/QB8XPAPyYMo/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:14", "timestamp_seconds": 254.7, "artist": "triple j", "title": "joey valence & brae cover amyl and the sniffers #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=JsYGLosyUVM", "thumbnail": "https://img.youtube.com/vi/JsYGLosyUVM/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:30", "timestamp_seconds": 270.8, "artist": "triple j", "title": "joey valence & brae cover 'security' for like a version #jvb #amylandthesniffers #likeaversion", "url": "https://www.youtube.com/watch?v=Aq3e0X-JCxQ", "thumbnail": "https://img.youtube.com/vi/Aq3e0X-JCxQ/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:04:55", "timestamp_seconds": 295.1, "artist": "triple j", "title": "Joey Valence & Brae cover Amyl and the Sniffers' 'Security' for Like A Version", "url": "https://www.youtube.com/watch?v=lu06XPjaML4", "thumbnail": "https://img.youtube.com/vi/lu06XPjaML4/mqdefault.jpg", "channel": "triple j"}, {"timestamp": "00:06:01", "timestamp_seconds": 361.1, "artist": "OT The Real", "title": "Villain (Full Album)", "url": "https://www.youtube.com/watch?v=8xMaAhLCLQ4", "thumbnail": "https://img.youtube.com/vi/8xMaAhLCLQ4/mqdefault.jpg", "channel": "Paka The Plug"}, {"timestamp": "00:07:07", "timestamp_seconds": 427.1, "artist": "Wuki & Allegra Miles", "title": "Daydream", "url": "https://www.youtube.com/watch?v=dVKj82tVpMI", "thumbnail": "https://img.youtube.com/vi/dVKj82tVpMI/mqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:08:13", "timestamp_seconds": 493.1, "artist": "DJ Life", "title": "Skytree", "url": "https://www.youtube.com/watch?v=nK4Rrtv-ddM", "thumbnail": "https://img.youtube.com/vi/nK4Rrtv-ddM/mqdefault.jpg", "channel": "Houseum"}, {"timestamp": "00:09:19", "timestamp_seconds": 559.1, "artist": "KEXP", "title": "Spiritual Cramp performs \"Dog In A Cage\" & more Live on KEXP", "url": "https://www.youtube.com/watch?v=BR1Ip06XoUA", "thumbnail": "https://img.youtube.com/vi/BR1Ip06XoUA/mqdefault.jpg", "channel": "KEXP"}, {"timestamp": "00:10:12", "timestamp_seconds": 612.2, "artist": "Spiritual Cramp", "title": "Jerk It Out (Live on KEXP)", "url": "https://www.youtube.com/watch?v=nVN_1dqCLAY", "thumbnail": "https://img.youtube.com/vi/nVN_1dqCLAY/mqdefault.jpg", "channel": "KEXP"}];
-const INTRO_END   = 30.8;
-const OUTRO_START = 678.2;
-const LOGO        = "Radio_SARFERPROD.jpeg";
-const SC_URL      = "https://soundcloud.com/user-403414255/radio-coocool-01";
-
-const audio    = document.getElementById('audio');
-const btnPlay  = document.getElementById('btn-play');
-const ico      = document.getElementById('ico');
-const progFill = document.getElementById('prog-fill');
-const progThumb= document.getElementById('prog-thumb');
-const timeDisp = document.getElementById('time-disp');
-const volBar   = document.getElementById('vol');
-const npImg    = document.getElementById('np-img');
-const npTitle  = document.getElementById('np-title');
-const npArtist = document.getElementById('np-artist');
-const tlBody   = document.getElementById('tl-body');
-const mkl      = document.getElementById('mkl');
-const scCur    = document.getElementById('sc-cur');
-
-const PLAY_P  = 'M8 5v14l11-7z';
-const PAUSE_P = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
-
-btnPlay.onclick = () => audio.paused ? audio.play() : audio.pause();
-audio.addEventListener('play',  () => ico.innerHTML = '<path d="'+PAUSE_P+'"/>');
-audio.addEventListener('pause', () => ico.innerHTML = '<path d="'+PLAY_P+'"/>');
-volBar.oninput  = () => audio.volume = parseFloat(volBar.value);
-
-function fmt(s){
-  s = Math.floor(s||0);
-  return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
-}
-
-audio.addEventListener('timeupdate', () => {
-  const pct = audio.duration ? audio.currentTime/audio.duration : 0;
-  const p   = (pct*100).toFixed(2)+'%';
-  progFill.style.width  = p;
-  progThumb.style.left  = p;
-  scCur.style.left      = p;
-  timeDisp.textContent  = fmt(audio.currentTime)+' / '+fmt(audio.duration);
-  updateNP();
-  updateTL();
+const TRACKS=[{"timestamp": "00:00:30", "timestamp_seconds": 30.8, "artist": "Andromedik, Arcando & Raphaella", "title": "Hold Me In Heaven", "url": "https://www.youtube.com/watch?v=-wF6L44iicg", "thumbnail": "https://i.ytimg.com/vi/-wF6L44iicg/hqdefault.jpg", "channel": "MrSuicideSheep"}, {"timestamp": "00:01:30", "timestamp_seconds": 90.8, "artist": "RØUKH", "title": "Fever", "url": "https://www.youtube.com/watch?v=earYaDWjmbw", "thumbnail": "https://i.ytimg.com/vi/earYaDWjmbw/hqdefault.jpg", "channel": "CloudKid"}, {"timestamp": "00:02:30", "timestamp_seconds": 150.8, "artist": "April Girl", "title": "Upside Down", "url": "https://www.youtube.com/watch?v=nXcqti7eneI", "thumbnail": "https://i.ytimg.com/vi/nXcqti7eneI/hqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:03:30", "timestamp_seconds": 210.8, "artist": "Drove", "title": "The Last Time", "url": "https://www.youtube.com/watch?v=dOlEnYJvD7k", "thumbnail": "https://i.ytimg.com/vi/dOlEnYJvD7k/hqdefault.jpg", "channel": "MrRevillz"}, {"timestamp": "00:04:30", "timestamp_seconds": 270.8, "artist": "No Signal", "title": "need (u) [Trap | Monstercat]", "url": "https://www.youtube.com/watch?v=swOFo2vTpVA", "thumbnail": "https://i.ytimg.com/vi/swOFo2vTpVA/hqdefault.jpg", "channel": "Monstercat Uncaged"}];
+const INTRO_END=30.77;
+const OUTRO_START=330.77;
+const LOGO="{LOGO_FILENAME}";
+const SC_URL="{SOUNDCLOUD_URL}";
+const audio=document.getElementById('audio');
+const btnPlay=document.getElementById('btn-play');
+const ico=document.getElementById('ico');
+const progFill=document.getElementById('prog-fill');
+const progThumb=document.getElementById('prog-thumb');
+const timeDisp=document.getElementById('time-disp');
+const volBar=document.getElementById('vol');
+const npImg=document.getElementById('np-img');
+const npTitle=document.getElementById('np-title');
+const npArtist=document.getElementById('np-artist');
+const tlBody=document.getElementById('tl-body');
+const mkl=document.getElementById('mkl');
+const scCur=document.getElementById('sc-cur');
+const progWrap=document.getElementById('prog-wrap');
+const PLAY_P='M8 5v14l11-7z';
+const PAUSE_P='M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+btnPlay.onclick=()=>audio.paused?audio.play():audio.pause();
+audio.addEventListener('play',()=>ico.innerHTML='<path d="'+PAUSE_P+'"/>');
+audio.addEventListener('pause',()=>ico.innerHTML='<path d="'+PLAY_P+'"/>');
+volBar.oninput=()=>audio.volume=parseFloat(volBar.value);
+function fmt(s){s=Math.floor(s||0);return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');}
+audio.addEventListener('timeupdate',()=>{
+  const pct=audio.duration?audio.currentTime/audio.duration:0;
+  const p=(pct*100).toFixed(2)+'%';
+  progFill.style.width=p;progThumb.style.left=p;scCur.style.left=p;
+  timeDisp.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);
+  updateNP();updateTL();
 });
-
-// Clic sur la barre de progression
-document.querySelector('.prog-wrap').addEventListener('click', function(e){
-  const rect = this.getBoundingClientRect();
-  const pct  = Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-  if(audio.duration) audio.currentTime = pct*audio.duration;
+progWrap.addEventListener('click',function(e){
+  if(e.target.closest('.mk'))return;
+  const rect=this.getBoundingClientRect();
+  const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  if(audio.duration)audio.currentTime=pct*audio.duration;
 });
-
-// Repères sur la barre
-audio.addEventListener('loadedmetadata', () => {
-  mkl.innerHTML = '';
-  TRACKS.forEach((t,i) => {
-    const pct = audio.duration ? (t.timestamp_seconds/audio.duration)*100 : 0;
-    const mk  = document.createElement('div');
-    mk.className = 'mk';
-    mk.style.left = pct.toFixed(2)+'%';
-    const s  = Math.floor(t.timestamp_seconds);
-    const ts = Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
-    const thu = t.thumbnail||LOGO;
-    const tit = (t.title||'').substring(0,26);
-    mk.innerHTML = `<div class="mk-tip">
-      <img src="${thu}" onerror="this.src='${LOGO}'">
-      <div class="mk-tip-title">${tit}</div>
-      <div class="mk-tip-ts">${ts}</div>
-    </div>`;
-    mk.addEventListener('click', e => {
-      e.stopPropagation();
-      audio.currentTime = t.timestamp_seconds;
-      audio.play();
+audio.addEventListener('loadedmetadata',()=>{
+  mkl.innerHTML='';
+  TRACKS.forEach((t,i)=>{
+    const pct=audio.duration?(t.timestamp_seconds/audio.duration)*100:0;
+    const mk=document.createElement('div');mk.className='mk';mk.style.left=pct.toFixed(2)+'%';
+    const s=Math.floor(t.timestamp_seconds);
+    const ts=Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
+    const thu=t.thumbnail||LOGO;const tit=(t.title||'').substring(0,26);
+    mk.innerHTML=`<div class="mk-tip"><img src="${thu}" onerror="this.src='${LOGO}'"><div class="mk-tip-title">${tit}</div><div class="mk-tip-ts">${ts}</div></div>`;
+    mk.addEventListener('click',e=>{
+      e.stopPropagation();audio.currentTime=t.timestamp_seconds;audio.play();
       mk.classList.add('clicked');
-      if(t.url) setTimeout(()=>window.open(t.url,'_blank'),350);
+      if(t.url)setTimeout(()=>window.open(t.url,'_blank'),350);
       setTimeout(()=>mk.classList.remove('clicked'),400);
     });
     mkl.appendChild(mk);
   });
 });
-
-// Tracklist
-TRACKS.forEach((t,i) => {
-  const row = document.createElement('div');
-  row.className = 'tl-row';
-  row.id = 'tr'+i;
-  const s   = Math.floor(t.timestamp_seconds);
-  const ts  = Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
-  const dur = t.duration_s ? fmt(t.duration_s) : '';
-  const thu = t.thumbnail||LOGO;
-  const url = t.url||'#';
-  row.innerHTML = `
-    <span class="tl-ts">${ts}</span>
+TRACKS.forEach((t,i)=>{
+  const row=document.createElement('div');row.className='tl-row';row.id='tr'+i;
+  const s=Math.floor(t.timestamp_seconds);
+  const ts=Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');
+  const thu=t.thumbnail||LOGO;const url=t.url||'#';
+  row.innerHTML=`<span class="tl-ts">${ts}</span>
     <img class="tl-thumb" src="${thu}" onerror="this.src='${LOGO}'">
-    <div class="tl-info">
-      <div class="tl-title">${t.title||''}</div>
-      <div class="tl-artist">${t.artist||t.channel||''}</div>
-    </div>
-    ${dur?'<span class="tl-dur">'+dur+'</span>':''}
+    <div class="tl-info"><div class="tl-title">${t.title||''}</div><div class="tl-artist">${t.artist||t.channel||''}</div></div>
     <a class="tl-yt" href="${url}" target="_blank" onclick="event.stopPropagation()">↗ YouTube</a>`;
-  row.onclick = () => { audio.currentTime = t.timestamp_seconds; audio.play(); };
+  row.onclick=()=>{audio.currentTime=t.timestamp_seconds;audio.play();};
   tlBody.appendChild(row);
 });
-
-// Now Playing
-let lastNPIdx = -99;
+let lastNP=-99;
 function updateNP(){
-  const ct = audio.currentTime;
-  if(ct < INTRO_END){
-    if(lastNPIdx===-1) return; lastNPIdx=-1;
-    npImg.src=LOGO; npImg.onclick=()=>window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
-    npTitle.textContent='— Intro —'; npArtist.textContent='Sarferprod'; return;
-  }
-  if(OUTRO_START>0 && ct>=OUTRO_START){
-    if(lastNPIdx===-2) return; lastNPIdx=-2;
-    npImg.src=LOGO; npImg.onclick=()=>window.open(SC_URL,'_blank'); npImg.style.cursor='pointer';
-    npTitle.textContent='— Outro —'; npArtist.textContent='Sarferprod'; return;
-  }
+  const ct=audio.currentTime;
+  if(ct<INTRO_END){if(lastNP===-1)return;lastNP=-1;npImg.src=LOGO;npImg.onclick=()=>window.open(SC_URL,'_blank');npImg.style.cursor='pointer';npTitle.textContent='— Intro —';npArtist.textContent='Sarferprod';return;}
+  if(OUTRO_START>0&&ct>=OUTRO_START){if(lastNP===-2)return;lastNP=-2;npImg.src=LOGO;npImg.onclick=()=>window.open(SC_URL,'_blank');npImg.style.cursor='pointer';npTitle.textContent='— Outro —';npArtist.textContent='Sarferprod';return;}
   let cur=null,idx=-1;
-  for(let i=0;i<TRACKS.length;i++){
-    if(ct>=TRACKS[i].timestamp_seconds){cur=TRACKS[i];idx=i;} else break;
-  }
-  if(idx===lastNPIdx) return; lastNPIdx=idx;
-  if(cur){
-    npImg.src=cur.thumbnail||LOGO;
-    npImg.onclick=cur.url?()=>window.open(cur.url,'_blank'):null;
-    npImg.style.cursor=cur.url?'pointer':'default';
-    npTitle.textContent=cur.title||'';
-    npArtist.textContent=cur.artist||cur.channel||'';
-  }
+  for(let i=0;i<TRACKS.length;i++){if(ct>=TRACKS[i].timestamp_seconds){cur=TRACKS[i];idx=i;}else break;}
+  if(idx===lastNP)return;lastNP=idx;
+  if(cur){npImg.src=cur.thumbnail||LOGO;npImg.onclick=cur.url?()=>window.open(cur.url,'_blank'):null;npImg.style.cursor=cur.url?'pointer':'default';npTitle.textContent=cur.title||'';npArtist.textContent=cur.artist||cur.channel||'';}
 }
-
-// Tracklist scroll + highlight
-let lastTLIdx=-99;
+let lastTL=-99;
 function updateTL(){
-  const ct=audio.currentTime; let idx=-1;
-  for(let i=0;i<TRACKS.length;i++){if(ct>=TRACKS[i].timestamp_seconds) idx=i; else break;}
-  if(idx===lastTLIdx) return; lastTLIdx=idx;
+  const ct=audio.currentTime;let idx=-1;
+  for(let i=0;i<TRACKS.length;i++){if(ct>=TRACKS[i].timestamp_seconds)idx=i;else break;}
+  if(idx===lastTL)return;lastTL=idx;
   document.querySelectorAll('.tl-row').forEach((r,i)=>r.classList.toggle('active',i===idx));
-  if(idx>=0){const el=document.getElementById('tr'+idx);if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(idx>=0){const el=document.getElementById('tr'+idx);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});}
 }
-
-// Spectrogramme
-const cv  = document.getElementById('cv');
-const ctx = cv.getContext('2d');
+const cv=document.getElementById('cv');const ctx=cv.getContext('2d');
 let raf,analyser,dataArr,audioCtx,fakeT=0;
 function resize(){cv.width=(cv.offsetWidth||680)*devicePixelRatio;cv.height=(cv.offsetHeight||72)*devicePixelRatio;}
-window.addEventListener('resize',resize); resize();
-
+window.addEventListener('resize',resize);resize();
 function drawReal(){
-  if(audio.paused) return;
+  if(audio.paused)return;
   analyser.getByteFrequencyData(dataArr);
   const W=cv.width,H=cv.height,bW=W/dataArr.length;
   const prog=audio.duration?audio.currentTime/audio.duration:0;
@@ -349,8 +269,8 @@ function startSpectro(){
   drawReal();
 }
 fakeDraw();
-audio.addEventListener('play',  ()=>startSpectro());
-audio.addEventListener('pause', ()=>{cancelAnimationFrame(raf);fakeDraw();});
+audio.addEventListener('play',()=>startSpectro());
+audio.addEventListener('pause',()=>{cancelAnimationFrame(raf);fakeDraw();});
 </script>
 </body>
 </html>
