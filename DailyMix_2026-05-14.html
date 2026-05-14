@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SARFERPROD Daily Mix</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    background:url('001.png') center center/cover fixed;
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:24px 16px 48px;
+}
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.32);
+    backdrop-filter:blur(2px);
+    pointer-events:none;
+    z-index:0;
+}
+.container{
+    max-width:900px;
+    width:100%;
+    position:relative;
+    z-index:1;
+}
+.header{
+    background:rgba(10,8,5,.42);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:24px;
+    padding:22px 28px 18px;
+    margin-bottom:20px;
+    text-align:center;
+    box-shadow:0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.header-crown{font-size:1.4em;margin-bottom:6px;}
+.header h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.5em,4vw,2.4em);
+    font-weight:300;
+    letter-spacing:.22em;
+    color:rgba(255,245,220,.88);
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+.header-date{
+    font-family:'Inter',sans-serif;
+    font-size:.72em;
+    font-weight:300;
+    letter-spacing:.2em;
+    color:rgba(255,200,120,.55);
+    text-transform:uppercase;
+}
+.glass{
+    background:rgba(12,8,4,.35);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:28px;
+    padding:28px 24px;
+    margin-bottom:20px;
+    box-shadow:0 16px 40px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.portrait-wrap{display:flex;justify-content:center;margin-bottom:20px;}
+.portrait-outer{
+    position:relative;
+    width:110px;
+    height:110px;
+    cursor:pointer;
+}
+.portrait-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.18);
+    box-shadow:0 0 20px rgba(255,255,255,.08),0 0 40px rgba(255,255,255,.04);
+    animation:ringPulse 3s ease-in-out infinite;
+}
+@keyframes ringPulse{
+    0%,100%{box-shadow:0 0 20px rgba(255,255,255,.08),0 0 40px rgba(255,255,255,.04);}
+    50%{box-shadow:0 0 30px rgba(255,255,255,.18),0 0 60px rgba(255,255,255,.08);}
+}
+.portrait-img{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    filter:url(#fisheye);
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.portrait-outer:hover .portrait-img{animation:eyeBlink .5s ease forwards;}
+@keyframes eyeBlink{
+    0%{transform:scaleY(1);}
+    40%{transform:scaleY(.05);}
+    60%{transform:scaleY(.05);}
+    100%{transform:scaleY(1);}
+}
+.track-marquee-wrap{
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:50px;
+    padding:10px 20px;
+    background:rgba(0,0,0,.2);
+    overflow:hidden;
+    margin-bottom:22px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.track-marquee{white-space:nowrap;overflow:hidden;}
+.track-marquee span{
+    display:inline-block;
+    padding-left:100%;
+    animation:marquee 16s linear infinite;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1em;
+    font-weight:300;
+    color:rgba(255,235,180,.75);
+    letter-spacing:.06em;
+}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
+.controls-row{display:flex;justify-content:center;align-items:center;gap:36px;margin-bottom:20px;}
+.soap-btn{
+    position:relative;
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55) 0%,rgba(255,255,255,.12) 40%,rgba(200,160,80,.08) 100%);
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 0 1.5px rgba(255,255,255,.25),0 4px 24px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.4);
+    transition:all .3s;
+}
+.soap-btn::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:radial-gradient(circle at 65% 65%,rgba(255,200,100,.15) 0%,transparent 60%);
+    pointer-events:none;
+}
+.soap-btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 0 2px rgba(255,255,255,.4),0 8px 32px rgba(255,255,255,.15),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.soap-btn svg{
+    width:24px;
+    height:24px;
+    fill:rgba(255,235,180,.85);
+    filter:drop-shadow(0 0 4px rgba(255,200,100,.4));
+    position:relative;
+    z-index:1;
+}
+.vol-wrap{display:flex;align-items:center;gap:8px;}
+.vol-wrap svg{width:14px;height:14px;fill:rgba(255,235,180,.45);}
+.vol-wrap input{width:70px;height:3px;accent-color:rgba(255,200,100,.6);cursor:pointer;opacity:.7;}
+.spectro-wrap{
+    position:relative;
+    border-radius:50px;
+    overflow:hidden;
+    background:rgba(0,0,0,.28);
+    box-shadow:0 0 24px rgba(255,160,40,.12),inset 0 0 0 1px rgba(255,255,255,.06);
+    margin-bottom:14px;
+}
+#specCanvas{width:100%;height:80px;display:block;}
+.progress-bar-wrap{
+    width:100%;
+    height:3px;
+    background:rgba(255,255,255,.1);
+    border-radius:3px;
+    margin:10px 0 6px;
+    cursor:pointer;
+    position:relative;
+}
+#progressFill{
+    height:100%;
+    width:0%;
+    border-radius:3px;
+    background:linear-gradient(90deg,rgba(255,140,0,.7),rgba(255,200,80,.85));
+    box-shadow:0 0 8px rgba(255,160,40,.4);
+}
+.time-row{display:flex;justify-content:space-between;font-size:.68em;color:rgba(255,235,180,.35);font-family:monospace;letter-spacing:.04em;}
+.markers-strip{position:relative;height:36px;margin:8px 0;}
+.mkr{
+    position:absolute;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.3);
+    cursor:pointer;
+    transition:all .25s;
+    z-index:2;
+}
+.mkr:hover{
+    width:16px;
+    height:16px;
+    background:rgba(255,200,100,.3);
+    border-color:rgba(255,200,100,.6);
+    box-shadow:0 0 12px rgba(255,200,100,.3);
+    z-index:10;
+}
+.mkr-tip{
+    display:none;
+    position:absolute;
+    bottom:22px;
+    left:50%;
+    transform:translateX(-50%);
+    width:120px;
+    background:rgba(8,5,2,.85);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:8px;
+    z-index:20;
+    pointer-events:none;
+}
+.mkr:hover .mkr-tip{display:block;}
+.mkr-tip img{
+    width:100%;
+    height:55px;
+    object-fit:cover;
+    border-radius:6px;
+    margin-bottom:4px;
+}
+.mkr-tip-txt{
+    font-size:.62em;
+    color:rgba(255,235,180,.8);
+    text-align:center;
+    line-height:1.3;
+}
+.mkr.vib{animation:vibrate .3s ease;}
+@keyframes vibrate{
+    0%,100%{transform:translate(-50%,-50%);}
+    25%{transform:translate(calc(-50% - 3px),-50%);}
+    75%{transform:translate(calc(-50% + 3px),-50%);}
+}
+.tl-title-wrap{text-align:center;margin-bottom:16px;}
+.tl-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1em;
+    font-weight:300;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:rgba(255,235,180,.55);
+    padding:0 20px 6px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    display:inline-block;
+}
+.tl-list{
+    max-height:290px;
+    overflow-y:auto;
+    padding-right:4px;
+}
+.tl-list::-webkit-scrollbar{width:2px;}
+.tl-list::-webkit-scrollbar-thumb{background:rgba(255,200,100,.25);border-radius:2px;}
+.tl-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:11px 14px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:all .2s;
+    border-bottom:1px solid rgba(255,255,255,.04);
+}
+.tl-row:hover{
+    background:rgba(255,255,255,.05);
+    transform:translateX(4px);
+}
+.tl-row.active{
+    background:rgba(255,160,40,.08);
+    border-left:2px solid rgba(255,160,40,.4);
+}
+.tl-time{
+    font-family:monospace;
+    font-size:.68em;
+    color:rgba(255,200,100,.5);
+    min-width:60px;
+    flex-shrink:0;
+}
+.tl-thumb{
+    width:44px;
+    height:33px;
+    border-radius:6px;
+    object-fit:cover;
+    flex-shrink:0;
+    border:1px solid rgba(255,255,255,.08);
+    transition:transform .2s;
+}
+.tl-row:hover .tl-thumb{transform:scale(1.06);}
+.tl-info{flex:1;overflow:hidden;}
+.tl-artist{
+    font-family:'Cormorant Garamond',serif;
+    font-size:.95em;
+    font-weight:400;
+    color:rgba(255,245,220,.7);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    transition:color .2s;
+}
+.tl-row:hover .tl-artist{color:rgba(255,235,180,.9);}
+.tl-track{
+    font-family:'Inter',sans-serif;
+    font-size:.75em;
+    font-weight:300;
+    color:rgba(255,245,220,.38);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-top:1px;
+}
+.tl-yt{
+    font-family:monospace;
+    font-size:.62em;
+    color:rgba(255,200,100,.45);
+    text-decoration:none;
+    padding:3px 8px;
+    border-radius:6px;
+    border:1px solid rgba(255,200,100,.15);
+    white-space:nowrap;
+    flex-shrink:0;
+    transition:all .2s;
+}
+.tl-yt:hover{
+    color:rgba(255,235,180,.9);
+    background:rgba(255,160,40,.12);
+    border-color:rgba(255,200,100,.3);
+}
+.share-row{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding-top:6px;
+}
+.share-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:50px;
+    font-family:'Inter',sans-serif;
+    font-size:.78em;
+    font-weight:400;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(12px);
+    color:rgba(255,245,220,.7);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+    transition:all .25s;
+}
+.share-btn:hover{
+    background:rgba(255,255,255,.14);
+    border-color:rgba(255,255,255,.22);
+    color:rgba(255,245,220,.95);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.share-btn.wa{background:rgba(37,211,102,.15);border-color:rgba(37,211,102,.3);}
+.share-btn.wa:hover{background:rgba(37,211,102,.28);}
+.share-btn.sc{background:rgba(255,85,0,.12);border-color:rgba(255,85,0,.25);}
+.share-btn.sc:hover{background:rgba(255,85,0,.22);}
+</style>
+<svg style="display:none"><defs><filter id="fisheye"><feDisplacementMap in="SourceGraphic" scale="22" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-crown">&#x1F451;</div>
+  <h1>Sarferprod Daily Mix</h1>
+  <div class="header-date">THU 14 &nbsp;&middot;&nbsp; MAY &nbsp;&middot;&nbsp; 15:37</div>
+</div>
+
+<div class="glass">
+  <div class="portrait-wrap">
+    <div class="portrait-outer" id="portraitOuter">
+      <div class="portrait-ring"></div>
+      <img class="portrait-img" id="portraitImg" src="Radio_SARFERPROD.jpeg" alt="Sarferprod"
+           onerror="this.src=''" onclick="window.open('https://soundcloud.com/user-403414255/radio-coocool-01','_blank')">
+    </div>
+  </div>
+  <div class="track-marquee-wrap">
+    <div class="track-marquee"><span id="marqueeText">Sarferprod Daily Mix</span></div>
+  </div>
+  <div class="controls-row">
+    <button class="soap-btn" id="playBtn" title="Play">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="soap-btn" id="pauseBtn" title="Pause" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <div class="vol-wrap">
+      <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+      <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.8">
+    </div>
+  </div>
+  <div class="spectro-wrap">
+    <canvas id="specCanvas"></canvas>
+  </div>
+  <div class="progress-bar-wrap" id="progressWrap">
+    <div id="progressFill"></div>
+  </div>
+  <div class="time-row">
+    <span id="timeCur">00:00:00</span>
+    <span id="timeDur">00:00:00</span>
+  </div>
+  <div class="markers-strip" id="markersStrip"></div>
+</div>
+
+<div class="glass">
+  <div class="tl-title-wrap"><div class="tl-title">Tracklist</div></div>
+  <div class="tl-list" id="tlList"></div>
+</div>
+
+<div class="share-row">
+  <a href="https://wa.me/?text=Ecoute%20mon%20Daily%20Mix%20!" class="share-btn wa" target="_blank">&#x1F4F1; WhatsApp</a>
+  <a href="mailto:?subject=Daily Mix&body=Ecoute !" class="share-btn">&#x2709;&#xFE0F; Email</a>
+  <a href="https://soundcloud.com/user-403414255/radio-coocool-01" class="share-btn sc" target="_blank">&#x1F3B5; SoundCloud</a>
+</div>
+
+</div>
+<audio id="audio" preload="auto"><source src="DailyMix_2026-05-14.mp3" type="audio/mpeg"></audio>
+<script>
+const TRACKS=[];
+const audio=document.getElementById('audio');
+const playBtn=document.getElementById('playBtn');
+const pauseBtn=document.getElementById('pauseBtn');
+const volSlider=document.getElementById('volSlider');
+const specCanvas=document.getElementById('specCanvas');
+const progressWrap=document.getElementById('progressWrap');
+const progressFill=document.getElementById('progressFill');
+const timeCur=document.getElementById('timeCur');
+const timeDur=document.getElementById('timeDur');
+const markersStrip=document.getElementById('markersStrip');
+const tlList=document.getElementById('tlList');
+const marqueeText=document.getElementById('marqueeText');
+const ring=document.querySelector('.portrait-ring');
+let audioCtx,analyser,dataArr;
+const ctxS=specCanvas.getContext('2d');
+
+function resizeSpec(){specCanvas.width=(specCanvas.offsetWidth||800)*devicePixelRatio;specCanvas.height=80*devicePixelRatio;}
+window.addEventListener('resize',resizeSpec);resizeSpec();
+
+function fmt(s){s=Math.floor(s||0);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return[h,m,sec].map(v=>String(v).padStart(2,'0')).join(':');}
+
+function startAudio(){
+  if(!audioCtx){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=audioCtx.createMediaElementSource(audio);
+    analyser=audioCtx.createAnalyser();analyser.fftSize=256;
+    dataArr=new Uint8Array(analyser.frequencyBinCount);
+    src.connect(analyser);analyser.connect(audioCtx.destination);
+  }
+  audio.play();playBtn.style.display='none';pauseBtn.style.display='';
+}
+playBtn.onclick=startAudio;
+pauseBtn.onclick=()=>{audio.pause();pauseBtn.style.display='none';playBtn.style.display='';}
+volSlider.oninput=()=>audio.volume=parseFloat(volSlider.value);
+
+audio.addEventListener('timeupdate',()=>{
+  const pct=audio.duration?audio.currentTime/audio.duration:0;
+  progressFill.style.width=(pct*100).toFixed(2)+'%';
+  timeCur.textContent=fmt(audio.currentTime);
+  timeDur.textContent=fmt(audio.duration);
+  updateActiveTL();updateMarquee();
+  if(analyser&&dataArr){
+    analyser.getByteFrequencyData(dataArr);
+    let avg=0;for(let i=0;i<dataArr.length;i++)avg+=dataArr[i];
+    avg/=dataArr.length;
+    const g=Math.round(avg*.8);
+    ring.style.boxShadow=`0 0 ${10+g}px rgba(255,255,255,${.06+avg/255*.18}),0 0 ${20+g*2}px rgba(255,255,255,${.03+avg/255*.1})`;
+    ring.style.borderColor=`rgba(255,255,255,${.12+avg/255*.3})`;
+  }
+});
+
+progressWrap.addEventListener('click',e=>{
+  const pct=(e.clientX-progressWrap.getBoundingClientRect().left)/progressWrap.offsetWidth;
+  if(audio.duration)audio.currentTime=pct*audio.duration;
+});
+
+function drawSpec(){
+  requestAnimationFrame(drawSpec);
+  const W=specCanvas.width,H=specCanvas.height;
+  ctxS.clearRect(0,0,W,H);
+  const pct=audio.duration?audio.currentTime/audio.duration:0;
+  const playedW=W*pct;
+  if(analyser&&dataArr){
+    analyser.getByteFrequencyData(dataArr);
+    const bW=W/dataArr.length;
+    for(let i=0;i<dataArr.length;i++){
+      const v=dataArr[i]/255,bH=Math.max(2,v*H),x=i*bW;
+      ctxS.fillStyle=(x<playedW)
+        ?`rgba(255,${Math.round(140+v*80)},${Math.round(v*40)},${.75+v*.2})`
+        :`rgba(255,255,255,${.07+v*.11})`;
+      ctxS.fillRect(x,H-bH,Math.max(1,bW-.8),bH);
+    }
+  } else {
+    for(let i=0;i<120;i++){
+      const x=(i/120)*W,v=.35+Math.sin(i*.18+Date.now()*.0012)*.15;
+      const bH=Math.max(2,v*H*.5);
+      ctxS.fillStyle=`rgba(255,255,255,${.04+v*.06})`;
+      ctxS.fillRect(x,H-bH,W/120-.5,bH);
+    }
+  }
+}
+drawSpec();
+
+audio.addEventListener('loadedmetadata',()=>{
+  markersStrip.innerHTML='';
+  TRACKS.forEach((t,i)=>{
+    const pct=audio.duration?(t.seconds/audio.duration)*100:0;
+    const m=document.createElement('div');m.className='mkr';m.style.left=pct.toFixed(1)+'%';
+    m.innerHTML='<div class="mkr-tip"><img src="'+t.thumbnail+'" onerror="this.style.display='none'"><div class="mkr-tip-txt"><b>'+t.artist+'</b><br>'+fmt(t.seconds)+'</div></div>';
+    m.addEventListener('click',e=>{
+      e.stopPropagation();audio.currentTime=t.seconds;if(audioCtx)audio.play();
+      m.classList.add('vib');setTimeout(()=>m.classList.remove('vib'),350);
+      window.open(t.url,'_blank');
+    });
+    markersStrip.appendChild(m);
+  });
+  buildTL();
+});
+
+function buildTL(){
+  tlList.innerHTML='';
+  TRACKS.forEach((t,i)=>{
+    const row=document.createElement('div');row.className='tl-row';row.id='tl'+i;
+    row.innerHTML='<span class="tl-time">'+t.timestamp+'</span>'
+      +'<img class="tl-thumb" src="'+t.thumbnail+'" onerror="this.src=''"> '
+      +'<div class="tl-info"><div class="tl-artist">'+t.artist+'</div><div class="tl-track">'+t.title+'</div></div>'
+      +'<a class="tl-yt" href="'+t.url+'" target="_blank" onclick="event.stopPropagation()">&#x2197; YT</a>';
+    row.addEventListener('click',e=>{if(!e.target.closest('a')){audio.currentTime=t.seconds;if(audioCtx)audio.play();}});
+    tlList.appendChild(row);
+  });
+}
+
+function updateActiveTL(){
+  TRACKS.forEach((t,i)=>{
+    const next=i+1<TRACKS.length?TRACKS[i+1].seconds:Infinity;
+    const el=document.getElementById('tl'+i);if(!el)return;
+    if(audio.currentTime>=t.seconds&&audio.currentTime<next){el.classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    else el.classList.remove('active');
+  });
+}
+
+function updateMarquee(){
+  const ct=audio.currentTime;let cur=null;
+  for(let i=0;i<TRACKS.length;i++){if(ct>=TRACKS[i].seconds)cur=TRACKS[i];else break;}
+  if(cur)marqueeText.textContent=cur.artist+' — '+cur.title;
+}
+</script>
+</body>
+</html>
