@@ -31,69 +31,45 @@
             pointer-events: none;
             z-index: 0;
         }
-        .container {
-            max-width: 950px;
-            width: 100%;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
+        .container { max-width: 950px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
         .victorian-header {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1.5px solid rgba(255, 140, 0, 0.5);
-            border-radius: 20px;
-            padding: 20px 30px;
-            margin-bottom: 25px;
-            text-align: center;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 140, 0, 0.5); border-radius: 20px;
+            padding: 20px 30px; margin-bottom: 25px; text-align: center;
         }
         .header-logos { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
         .header-logos img { height: 45px; width: auto; }
         .free-badge {
-            display: inline-block;
-            background: rgba(255, 140, 0, 0.3);
-            border: 1px solid rgba(255, 140, 0, 0.6);
-            border-radius: 40px;
-            padding: 4px 20px;
-            font-family: monospace;
-            font-size: 0.7rem;
-            color: #ffaa55;
-            margin-bottom: 12px;
+            display: inline-block; background: rgba(255, 140, 0, 0.3);
+            border: 1px solid rgba(255, 140, 0, 0.6); border-radius: 40px;
+            padding: 4px 20px; font-family: monospace; font-size: 0.7rem;
+            color: #ffaa55; margin-bottom: 12px;
         }
         .event-date { display: flex; justify-content: center; gap: 20px; font-family: 'Georgia', serif; font-size: 0.8rem; color: rgba(255, 245, 220, 0.7); letter-spacing: 1px; flex-wrap: wrap; }
         .glass-card {
-            background: rgba(20, 20, 35, 0.45);
-            backdrop-filter: blur(18px);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            padding: 32px 28px;
+            background: rgba(20, 20, 35, 0.45); backdrop-filter: blur(18px);
+            border-radius: 32px; border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); padding: 32px 28px;
             margin-bottom: 24px;
         }
         .portrait-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
         .lens-portrait {
             width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
-            border: 3px solid rgba(255, 140, 0, 0.5);
-            box-shadow: 0 0 25px rgba(255, 140, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            animation: subtleWiggle 3s ease-in-out infinite;
-            cursor: pointer;
+            border: 3px solid rgba(255, 140, 0, 0.5); cursor: pointer;
+            transition: transform 0.2s; animation: subtleWiggle 3s infinite;
         }
-        .lens-portrait:hover { transform: scale(1.08); box-shadow: 0 0 35px rgba(255, 140, 0, 0.5); }
-        @keyframes subtleWiggle { 0%, 100% { transform: translateX(0px); } 50% { transform: translateX(2px); } }
+        .lens-portrait:hover { transform: scale(1.08); }
+        @keyframes subtleWiggle { 0%,100% { transform: translateX(0); } 50% { transform: translateX(2px); } }
         .lens-portrait img { width: 100%; height: 100%; object-fit: cover; }
         .track-title-frame {
-            border: 1.5px solid rgba(255, 140, 0, 0.5);
-            border-radius: 60px;
-            padding: 14px 24px;
-            background: rgba(0, 0, 0, 0.25);
-            margin-bottom: 30px;
+            border: 1.5px solid rgba(255, 140, 0, 0.5); border-radius: 60px;
+            padding: 14px 24px; background: rgba(0, 0, 0, 0.25); margin-bottom: 30px;
         }
         .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; }
         .marquee-track span { display: inline-block; padding-left: 100%; animation: scrollTrack 14s linear infinite; font-family: 'Georgia', serif; font-size: 1rem; font-style: italic; color: rgba(255, 220, 150, 0.9); }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         .controls-center { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
-        .btn-img { background: none; border: none; cursor: pointer; transition: transform 0.2s ease; width: 65px; height: 65px; }
+        .btn-img { background: none; border: none; cursor: pointer; transition: transform 0.2s; width: 65px; height: 65px; }
         .btn-img img { width: 100%; height: 100%; object-fit: contain; }
         .btn-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px #ff8c00); }
         .volume-control { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; }
@@ -103,11 +79,11 @@
         .progress-section { margin: 10px 0 20px; position: relative; }
         canvas { width: 100%; height: 85px; border-radius: 45px; display: block; background: rgba(0, 0, 0, 0.4); }
         .progress-wrapper { width: 100%; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 16px 0 8px; cursor: pointer; position: relative; }
-        .progress-fill-led { width: 0%; height: 100%; background: linear-gradient(90deg, #ff8c00, #ffcc00, #ff8c00); border-radius: 4px; position: relative; }
+        .progress-fill-led { width: 0%; height: 100%; background: linear-gradient(90deg, #ff8c00, #ffcc00, #ff8c00); border-radius: 4px; }
         .markers-layer { position: relative; width: 100%; height: 20px; margin-top: 8px; margin-bottom: 5px; }
         .timeline-marker {
             position: absolute; width: 4px; height: 16px; background: #ff8c00; border-radius: 2px;
-            cursor: pointer; transition: all 0.2s ease; z-index: 10; transform: translateX(-50%);
+            cursor: pointer; transition: all 0.2s; z-index: 10; transform: translateX(-50%);
         }
         .timeline-marker:hover { width: 8px; height: 24px; background: #ffaa33; margin-top: -4px; }
         .marker-tooltip {
@@ -122,7 +98,7 @@
         .marker-tooltip .tooltip-artist { font-size: 0.6rem; color: rgba(255, 245, 220, 0.7); }
         .time-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: rgba(255, 245, 220, 0.5); font-family: monospace; }
         .tracklist-header { text-align: center; margin-bottom: 20px; }
-        .tracklist-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: 1.4rem; font-weight: 400; color: #ffcc88; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(255, 140, 0, 0.4); display: inline-block; padding: 0 20px 8px; }
+        .tracklist-title { font-family: 'Georgia', serif; font-size: 1.4rem; font-weight: 400; color: #ffcc88; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(255, 140, 0, 0.4); display: inline-block; padding: 0 20px 8px; }
         .tracklist-grid { display: grid; gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 6px; }
         .tracklist-grid::-webkit-scrollbar { width: 3px; }
         .tracklist-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
@@ -130,30 +106,30 @@
         .track-row {
             display: flex; align-items: center; gap: 14px; padding: 10px 14px;
             background: rgba(0, 0, 0, 0.3); border-radius: 16px; cursor: pointer;
-            transition: all 0.2s ease; border-left: 3px solid transparent;
+            transition: all 0.2s; border-left: 3px solid transparent;
         }
         .track-row:hover { background: rgba(0, 0, 0, 0.6); transform: translateX(6px); }
-        .track-row.active { background: rgba(255, 140, 0, 0.25); border-left: 3px solid #ff8c00; box-shadow: 0 0 10px rgba(255, 140, 0, 0.3); }
-        .track-row.active .track-artist-name { color: #ffcc88; text-shadow: 0 0 5px rgba(255, 140, 0, 0.5); }
+        .track-row.active { background: rgba(255, 140, 0, 0.25); border-left: 3px solid #ff8c00; }
+        .track-row.active .track-artist-name { color: #ffcc88; }
         .track-row.active .track-song-title { color: #ffaa55; }
         .track-vignette { width: 50px; height: 50px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; border: 1px solid rgba(255, 140, 0, 0.4); }
         .track-details { flex: 1; }
-        .track-artist-name { font-weight: 600; color: #ffcc88; font-size: 0.85rem; transition: color 0.2s; }
-        .track-song-title { font-style: italic; color: rgba(255, 245, 220, 0.7); font-size: 0.8rem; transition: color 0.2s; }
+        .track-artist-name { font-weight: 600; color: #ffcc88; font-size: 0.85rem; }
+        .track-song-title { font-style: italic; color: rgba(255, 245, 220, 0.7); font-size: 0.8rem; }
         .track-duration { font-family: monospace; font-size: 0.7rem; color: #ffaa55; margin-right: 12px; }
-        .track-link { font-size: 0.7rem; color: #ff8c00; text-decoration: none; opacity: 0.8; transition: opacity 0.2s; padding: 4px 8px; border-radius: 20px; background: rgba(255, 140, 0, 0.2); }
-        .track-link:hover { opacity: 1; color: white; background: #ff8c00; }
+        .track-link { font-size: 0.7rem; color: #ff8c00; text-decoration: none; padding: 4px 8px; border-radius: 20px; background: rgba(255, 140, 0, 0.2); }
+        .track-link:hover { color: white; background: #ff8c00; }
         .social-row { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .social-icon { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 40px; padding: 8px 20px; font-size: 0.8rem; text-decoration: none; transition: all 0.2s ease; font-weight: 500; }
+        .social-icon { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 40px; padding: 8px 20px; font-size: 0.8rem; text-decoration: none; transition: all 0.2s; font-weight: 500; cursor: pointer; }
         .whatsapp-btn { background: rgba(37, 211, 102, 0.5); color: white; }
         .whatsapp-btn:hover { background: rgba(37, 211, 102, 0.8); transform: translateY(-2px); }
         .email-btn { background: rgba(244, 180, 0, 0.5); color: white; }
         .email-btn:hover { background: rgba(244, 180, 0, 0.8); transform: translateY(-2px); }
-        .copy-btn { background: rgba(100, 100, 100, 0.5); color: white; cursor: pointer; }
+        .copy-btn { background: rgba(100, 100, 100, 0.5); color: white; }
         .copy-btn:hover { background: rgba(100, 100, 100, 0.8); transform: translateY(-2px); }
         .soundcloud-btn { background: rgba(255, 85, 0, 0.5); color: white; }
         .soundcloud-btn:hover { background: rgba(255, 85, 0, 0.8); transform: translateY(-2px); }
-        .vibrate { animation: vibrateShort 0.12s ease-in-out; }
+        .vibrate { animation: vibrateShort 0.12s; }
         @keyframes vibrateShort { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
     </style>
 </head>
@@ -161,23 +137,23 @@
 <div class="container">
     <div class="victorian-header">
         <div class="header-logos">
-            <img src="title_sarferprod.png" alt="SARFERPROD" onerror="this.style.display='none'">
-            <img src="title_daily.png" alt="DAILY" onerror="this.style.display='none'">
-            <img src="title_sampler.png" alt="SAMPLE" onerror="this.style.display='none'">
-            <img src="title_mix.png" alt="MIX" onerror="this.style.display='none'">
+            <img src="title_sarferprod.png" alt="SARFERPROD">
+            <img src="title_daily.png" alt="DAILY">
+            <img src="title_sampler.png" alt="SAMPLE">
+            <img src="title_mix.png" alt="MIX">
         </div>
         <div class="free-badge">FREE ENTRY</div>
         <div class="event-date">
             <span>TUE 19TH</span>
             <span>MAY</span>
-            <span>08:26</span>
+            <span>09:31</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
     <div class="glass-card">
         <div class="portrait-wrapper">
             <div class="lens-portrait" onclick="window.open('https://soundcloud.com/sarferprod', '_blank')">
-                <img src="Radio_SARFERPROD.jpeg" alt="SARFERPROD" onerror="this.src='001.png'">
+                <img src="Radio_SARFERPROD.jpeg" alt="SARFERPROD">
             </div>
         </div>
         <div class="track-title-frame">
@@ -186,8 +162,8 @@
             </div>
         </div>
         <div class="controls-center">
-            <button class="btn-img" id="playBtn"><img src="btn_play.png" alt="Play" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23ff8c00%22%3E%3Cpath d=%22M8 5v14l11-7z%22/%3E%3C/svg%3E'"></button>
-            <button class="btn-img" id="pauseBtn"><img src="btn_pause.png" alt="Pause" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23ff8c00%22%3E%3Cpath d=%22M6 19h4V5H6v14zm8-14v14h4V5h-4z%22/%3E%3C/svg%3E'"></button>
+            <button class="btn-img" id="playBtn"><img src="btn_play.png" alt="Play"></button>
+            <button class="btn-img" id="pauseBtn"><img src="btn_pause.png" alt="Pause"></button>
         </div>
         <div class="volume-control">
             <span class="volume-icon">🔊</span>
@@ -202,7 +178,7 @@
             <div class="markers-layer" id="markersLayer"></div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">0:58</span>
+                <span id="duration">11:10</span>
             </div>
         </div>
     </div>
@@ -218,10 +194,11 @@
         <button class="social-icon copy-btn" id="copyBtn">Copier le lien</button>
         <a href="https://soundcloud.com/sarferprod" target="_blank" class="social-icon soundcloud-btn">SoundCloud</a>
     </div>
-    <audio id="audio" src="./latest.mp3" preload="auto" crossorigin="anonymous"></audio>
+    <audio id="audio" src="./latest.mp3" preload="auto"></audio>
 </div>
 <script>
-    const tracks = [];
+    const GITHUB_URL = "https://sarfer02.github.io/sarferprod-dailymix";
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Flowidus", "title": "Midnight Sound (feat. HARLEE) [Drum & Bass | Monst", "url": "https://www.youtube.com/watch?v=N4mzOUMNsuI", "thumbnail": "https://i.ytimg.com/vi/N4mzOUMNsuI/hqdefault.jpg"}, {"timestamp": "01:04", "seconds": 64.8, "artist": "COSMIC", "title": "duel", "url": "https://www.youtube.com/watch?v=yzmDWFltdEQ", "thumbnail": "https://i.ytimg.com/vi/yzmDWFltdEQ/hqdefault.jpg"}, {"timestamp": "01:38", "seconds": 98.8, "artist": "In Waves", "title": "Wipe Your Tears", "url": "https://www.youtube.com/watch?v=GKZxOXCnppY", "thumbnail": "https://i.ytimg.com/vi/GKZxOXCnppY/hqdefault.jpg"}, {"timestamp": "02:12", "seconds": 132.8, "artist": "Just\u0117, Jaxstyle, Jon", "title": "Turn The Lights Off (Paul Elstak Remix) [Official ", "url": "https://www.youtube.com/watch?v=ccy5gfY7jv0", "thumbnail": "https://i.ytimg.com/vi/ccy5gfY7jv0/hqdefault.jpg"}, {"timestamp": "02:46", "seconds": 166.8, "artist": "3WaySlim x Monday Night x BhramaBull", "title": "3rd Street Promenade", "url": "https://www.youtube.com/watch?v=HjsdCdoOhZQ", "thumbnail": "https://i.ytimg.com/vi/HjsdCdoOhZQ/hqdefault.jpg"}, {"timestamp": "03:20", "seconds": 200.8, "artist": "triple j", "title": "What\u2019s It Like To Date In The Country? | The Hook ", "url": "https://www.youtube.com/watch?v=wf_hoNyfSc8", "thumbnail": "https://i.ytimg.com/vi/wf_hoNyfSc8/hqdefault.jpg"}, {"timestamp": "03:54", "seconds": 234.8, "artist": "Lola Blue", "title": "Seventeen", "url": "https://www.youtube.com/watch?v=pr8Y2Baeovo", "thumbnail": "https://i.ytimg.com/vi/pr8Y2Baeovo/hqdefault.jpg"}, {"timestamp": "04:28", "seconds": 268.8, "artist": "DENNIS EDWARDS & SIEDAH GARRETT", "title": "Don't Look Any Further (Remix) (G Master) (1984)", "url": "https://www.youtube.com/watch?v=CmlCLjI-JTI", "thumbnail": "https://i.ytimg.com/vi/CmlCLjI-JTI/hqdefault.jpg"}, {"timestamp": "05:02", "seconds": 302.8, "artist": "Valgur", "title": "Full Performance (Live on KEXP)", "url": "https://www.youtube.com/watch?v=u2pyLsoU1fE", "thumbnail": "https://i.ytimg.com/vi/u2pyLsoU1fE/hqdefault.jpg"}, {"timestamp": "05:36", "seconds": 336.8, "artist": "Conrad the Clown", "title": "Carousel (feat. Confetti)", "url": "https://www.youtube.com/watch?v=g23mE-UtGso", "thumbnail": "https://i.ytimg.com/vi/g23mE-UtGso/hqdefault.jpg"}, {"timestamp": "06:10", "seconds": 370.8, "artist": "Ankhlejohn & V Don", "title": "Everything Beautiful Died Early", "url": "https://www.youtube.com/watch?v=TzrUtIcYj7E", "thumbnail": "https://i.ytimg.com/vi/TzrUtIcYj7E/hqdefault.jpg"}, {"timestamp": "06:44", "seconds": 404.8, "artist": "Te Quiero Euridice", "title": "vita calma/vera | Sofar Milan", "url": "https://www.youtube.com/watch?v=57Vculj2PnY", "thumbnail": "https://i.ytimg.com/vi/57Vculj2PnY/hqdefault.jpg"}, {"timestamp": "07:18", "seconds": 438.8, "artist": "R3FRAKT", "title": "Lush Life", "url": "https://www.youtube.com/watch?v=r-1y-9TCtTU", "thumbnail": "https://i.ytimg.com/vi/r-1y-9TCtTU/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.8, "artist": "Harry Ixer & Meezy", "title": "Lore & Order (Official Video)", "url": "https://www.youtube.com/watch?v=097SEiSTKWQ", "thumbnail": "https://i.ytimg.com/vi/097SEiSTKWQ/hqdefault.jpg"}, {"timestamp": "08:26", "seconds": 506.8, "artist": "Gyoza", "title": "Early Bird (Full Album)", "url": "https://www.youtube.com/watch?v=gsiXp_gMhUs", "thumbnail": "https://i.ytimg.com/vi/gsiXp_gMhUs/hqdefault.jpg"}, {"timestamp": "09:00", "seconds": 540.8, "artist": "Swapmeet", "title": "2 C U", "url": "https://www.youtube.com/watch?v=lQwAoN-Exm8", "thumbnail": "https://i.ytimg.com/vi/lQwAoN-Exm8/hqdefault.jpg"}, {"timestamp": "09:34", "seconds": 574.8, "artist": "Lennie Rayen", "title": "What Now", "url": "https://www.youtube.com/watch?v=FvONRNFWEJM", "thumbnail": "https://i.ytimg.com/vi/FvONRNFWEJM/hqdefault.jpg"}, {"timestamp": "10:08", "seconds": 608.8, "artist": "Said The Sky & Knox", "title": "Dance In The Rain (Lyrics) PTRK Remix", "url": "https://www.youtube.com/watch?v=qrza0DNWB7Q", "thumbnail": "https://i.ytimg.com/vi/qrza0DNWB7Q/hqdefault.jpg"}];
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
@@ -237,99 +214,23 @@
     const markersLayer = document.getElementById('markersLayer');
     const tracklistGrid = document.getElementById('tracklistGrid');
     
-    const GITHUB_PAGES_URL = "https://sarfer02.github.io/sarferprod-dailymix";
-    
-    let audioContext = null, analyser = null, source = null, animId = null;
+    let audioContext = null, analyser = null, animId = null;
     let currentTrackIndex = -1;
     
-    function resizeCanvas() {
-        canvas.width = canvas.parentElement.clientWidth - 30;
-        canvas.height = 85;
-        drawEmptyWaveform();
-        setTimeout(updateMarkers, 100);
-    }
-    
-    window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 100);
-    
     function formatTime(sec) {
-        if (isNaN(sec) || !isFinite(sec)) return '00:00';
+        if (isNaN(sec)) return '00:00';
         const m = Math.floor(sec / 60);
         const s = Math.floor(sec % 60);
         return m + ':' + s.toString().padStart(2,'0');
     }
     
-    function initAudioContext() {
-        if (audioContext) return;
-        try {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            analyser.fftSize = 256;
-            source = audioContext.createMediaElementSource(audio);
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            visualize();
-        } catch(e) {
-            console.log('Web Audio API non supportee');
-        }
-    }
-    
-    function visualize() {
-        if (!analyser) return;
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        function update() {
-            if (!audio.paused && !audio.ended) {
-                analyser.getByteFrequencyData(dataArray);
-                drawSpectrogram(dataArray);
-            }
-            animId = requestAnimationFrame(update);
-        }
-        update();
-    }
-    
-    function drawSpectrogram(dataArray) {
-        const width = canvas.width, height = canvas.height;
-        const bufferLength = dataArray.length;
-        const barWidth = width / bufferLength;
-        ctx.clearRect(0, 0, width, height);
-        const progress = audio.currentTime / (audio.duration || 1);
-        for (let i = 0; i < bufferLength; i++) {
-            const value = dataArray[i];
-            const barHeight = (value / 255) * height;
-            const x = i * barWidth;
-            const y = height - barHeight;
-            const isPlayed = (i / bufferLength) < progress;
-            if (isPlayed) {
-                const t = i / bufferLength;
-                if (t < 0.5) {
-                    const ratio = t / 0.5;
-                    ctx.fillStyle = `rgb(255, ${180 + Math.floor(ratio * 75)}, ${Math.floor(ratio * 150)})`;
-                } else {
-                    const ratio = (t - 0.5) / 0.5;
-                    ctx.fillStyle = `rgb(255, ${255 - Math.floor(ratio * 55)}, ${150 + Math.floor(ratio * 105)})`;
-                }
-                ctx.shadowBlur = 4;
-                ctx.shadowColor = '#ff8c00';
-            } else {
-                ctx.fillStyle = 'rgba(80, 60, 40, 0.4)';
-                ctx.shadowBlur = 0;
-            }
-            ctx.fillRect(x, y, Math.max(1, barWidth - 1), barHeight);
-        }
-        ctx.shadowBlur = 0;
-    }
-    
-    function drawEmptyWaveform() {
-        const width = canvas.width, height = canvas.height;
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = 'rgba(80, 60, 40, 0.2)';
-        for (let i = 0; i < 100; i++) {
-            ctx.fillRect(i * (width/100), height - 12, Math.max(1, width/100 - 1), 12);
-        }
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
     }
     
     function updateMarkers() {
-        if (!audio.duration || isNaN(audio.duration) || audio.duration === 0) return;
+        if (!audio.duration) return;
         markersLayer.innerHTML = '';
         tracks.forEach(track => {
             const pct = (track.seconds / audio.duration) * 100;
@@ -339,44 +240,27 @@
             marker.style.left = pct + '%';
             const tooltip = document.createElement('div');
             tooltip.className = 'marker-tooltip';
-            tooltip.innerHTML = `<img src="${track.thumbnail}" onerror="this.src='001.png'"><div class="tooltip-title">${escapeHtml(track.title.substring(0, 30))}</div><div class="tooltip-artist">${escapeHtml(track.artist.substring(0, 25))}</div><div style="font-size:0.55rem;color:#ff8c00;"> ${track.timestamp}</div>`;
+            tooltip.innerHTML = `<img src="${track.thumbnail}"><div class="tooltip-title">${escapeHtml(track.title)}</div><div class="tooltip-artist">${escapeHtml(track.artist)}</div>`;
             marker.appendChild(tooltip);
-            marker.onclick = (e) => { 
-                e.stopPropagation(); 
-                if (track.url) window.open(track.url, '_blank');
-            };
+            marker.onclick = (e) => { e.stopPropagation(); window.open(track.url, '_blank'); };
             markersLayer.appendChild(marker);
         });
     }
     
-    function updateProgress() {
-        if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
-            progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-            updateActiveTrack();
-        }
-        currentTimeSpan.textContent = formatTime(audio.currentTime);
-        if (audio.duration) durationSpan.textContent = formatTime(audio.duration);
-    }
-    
     function updateActiveTrack() {
-        const currentTime = audio.currentTime;
         let activeIndex = -1;
         for (let i = 0; i < tracks.length; i++) {
-            if (currentTime >= tracks[i].seconds - 0.5) activeIndex = i;
+            if (audio.currentTime >= tracks[i].seconds) activeIndex = i;
             else break;
         }
         if (activeIndex !== currentTrackIndex) {
             currentTrackIndex = activeIndex;
             document.querySelectorAll('.track-row').forEach((row, idx) => {
-                if (idx === activeIndex) {
-                    row.classList.add('active');
-                    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    row.classList.remove('active');
-                }
+                row.classList.toggle('active', idx === activeIndex);
             });
-            if (activeIndex >= 0 && tracks[activeIndex]) {
+            if (activeIndex >= 0) {
                 marqueeSpan.textContent = tracks[activeIndex].artist + ' — ' + tracks[activeIndex].title;
+                document.querySelectorAll('.track-row')[activeIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
     }
@@ -386,54 +270,97 @@
         tracks.forEach((track, idx) => {
             const row = document.createElement('div');
             row.className = 'track-row';
-            row.onclick = () => { 
-                if (track.url) window.open(track.url, '_blank');
-            };
-            row.innerHTML = `<div class="track-vignette" style="background-image: url(${track.thumbnail});"></div><div class="track-details"><div class="track-artist-name">${escapeHtml(track.artist)}</div><div class="track-song-title">${escapeHtml(track.title)}</div></div><div class="track-duration">${track.timestamp}</div><a href="${track.url}" target="_blank" class="track-link" onclick="event.stopPropagation()">YouTube</a>`;
+            row.onclick = () => window.open(track.url, '_blank');
+            row.innerHTML = `
+                <div class="track-vignette" style="background-image: url(${track.thumbnail});"></div>
+                <div class="track-details">
+                    <div class="track-artist-name">${escapeHtml(track.artist)}</div>
+                    <div class="track-song-title">${escapeHtml(track.title)}</div>
+                </div>
+                <div class="track-duration">${track.timestamp}</div>
+                <a href="${track.url}" target="_blank" class="track-link" onclick="event.stopPropagation()">YouTube</a>
+            `;
             tracklistGrid.appendChild(row);
         });
     }
     
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;')); }
+    function initAudioContext() {
+        if (audioContext) return;
+        try {
+            audioContext = new AudioContext();
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 256;
+            const source = audioContext.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            function draw() {
+                if (!audio.paused) {
+                    const data = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(data);
+                    const width = canvas.width, height = canvas.height;
+                    canvas.width = canvas.parentElement.clientWidth - 30;
+                    canvas.height = 85;
+                    ctx.clearRect(0, 0, width, height);
+                    for (let i = 0; i < data.length; i++) {
+                        const h = (data[i] / 255) * height;
+                        ctx.fillStyle = '#ff8c00';
+                        ctx.fillRect(i * (width/data.length), height - h, 2, h);
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        } catch(e) {}
+    }
     
-    function playAudio() { if (audioContext && audioContext.state === 'suspended') audioContext.resume(); initAudioContext(); audio.play().catch(e => console.log('Lecture auto bloquee', e)); }
-    function pauseAudio() { audio.pause(); }
-    function updateVolume() { audio.volume = volumeSlider.value / 100; volumePercent.textContent = Math.round(volumeSlider.value) + '%'; }
-    function addVibration() { document.body.classList.add('vibrate'); setTimeout(() => document.body.classList.remove('vibrate'), 150); }
-    function setProgress(e) { const rect = progressBar.getBoundingClientRect(); const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); if (audio.duration) audio.currentTime = percent * audio.duration; }
+    function updateProgress() {
+        if (audio.duration) {
+            progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            updateActiveTrack();
+        }
+        currentTimeSpan.textContent = formatTime(audio.currentTime);
+        if (audio.duration) durationSpan.textContent = formatTime(audio.duration);
+    }
     
-    playBtn.addEventListener('click', playAudio);
-    pauseBtn.addEventListener('click', pauseAudio);
-    progressBar.addEventListener('click', setProgress);
-    volumeSlider.addEventListener('input', updateVolume);
+    function setProgress(e) {
+        const rect = progressBar.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+    }
+    
+    playBtn.onclick = () => { initAudioContext(); audio.play(); };
+    pauseBtn.onclick = () => audio.pause();
+    progressBar.onclick = setProgress;
+    volumeSlider.oninput = () => {
+        audio.volume = volumeSlider.value / 100;
+        volumePercent.textContent = volumeSlider.value + '%';
+    };
+    audio.volume = 0.7;
     audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadedmetadata', () => { durationSpan.textContent = formatTime(audio.duration); drawEmptyWaveform(); setTimeout(updateMarkers, 100); updateVolume(); });
-    audio.addEventListener('canplay', () => { setTimeout(updateMarkers, 100); });
-    
-    document.getElementById('whatsappBtn').addEventListener('click', e => {
-        e.preventDefault();
-        window.open('https://wa.me/?text=' + encodeURIComponent('Sarferprod Daily Mix - ' + window.location.href), '_blank');
+    audio.addEventListener('loadedmetadata', () => {
+        durationSpan.textContent = formatTime(audio.duration);
+        updateMarkers();
     });
     
-    document.getElementById('emailBtn').addEventListener('click', e => {
+    document.getElementById('whatsappBtn').onclick = (e) => {
         e.preventDefault();
-        window.location.href = 'mailto:?subject=' + encodeURIComponent('Sarferprod Daily Mix') + '&body=' + encodeURIComponent('Ecoute mon mix : ' + window.location.href);
-    });
-    
-    document.getElementById('copyBtn').addEventListener('click', e => {
+        window.open('https://wa.me/?text=' + encodeURIComponent('Sarferprod Daily Mix - ' + GITHUB_URL), '_blank');
+    };
+    document.getElementById('emailBtn').onclick = (e) => {
         e.preventDefault();
-        navigator.clipboard.writeText(GITHUB_PAGES_URL);
+        window.location.href = 'mailto:?subject=' + encodeURIComponent('Sarferprod Daily Mix') + '&body=' + encodeURIComponent('Ecoute mon mix : ' + GITHUB_URL);
+    };
+    document.getElementById('copyBtn').onclick = (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(GITHUB_URL);
         const btn = document.getElementById('copyBtn');
-        const originalText = btn.textContent;
-        btn.textContent = 'Lien copie !';
-        setTimeout(() => btn.textContent = originalText, 2000);
-    });
+        btn.textContent = 'Copie !';
+        setTimeout(() => btn.textContent = 'Copier le lien', 2000);
+    };
     
     buildUI();
-    drawEmptyWaveform();
-    updateVolume();
-    document.body.addEventListener('click', () => { if (audioContext && audioContext.state === 'suspended') audioContext.resume(); }, { once: true });
-    audio.addEventListener('durationchange', () => { setTimeout(updateMarkers, 100); });
+    canvas.width = canvas.parentElement.clientWidth - 30;
+    canvas.height = 85;
 </script>
 </body>
 </html>
