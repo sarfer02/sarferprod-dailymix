@@ -3,218 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SARFERPROD • Daily Mix</title>
+    <title>SARFERPROD • Daily Mix 20 MAY</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-image: url('001.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: #0a0a0a;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px 20px;
+            padding: 20px;
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            pointer-events: none;
-            z-index: 0;
+        .container { max-width: 900px; width: 100%; margin: 0 auto; }
+        .card {
+            background: rgba(20, 20, 30, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            padding: 24px;
+            margin-bottom: 20px;
         }
-        .container { max-width: 950px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
-        .victorian-header {
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
-            border: 1.5px solid rgba(255, 140, 0, 0.5); border-radius: 20px;
-            padding: 20px 30px; margin-bottom: 25px; text-align: center;
-        }
-        .header-logos { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-        .header-logos img { height: 45px; width: auto; }
-        .free-badge {
-            display: inline-block; background: rgba(255, 140, 0, 0.3);
-            border: 1px solid rgba(255, 140, 0, 0.6); border-radius: 40px;
-            padding: 4px 20px; font-family: monospace; font-size: 0.7rem;
-            color: #ffaa55; margin-bottom: 12px;
-        }
-        .event-date { display: flex; justify-content: center; gap: 20px; font-family: 'Georgia', serif; font-size: 0.8rem; color: rgba(255, 245, 220, 0.7); letter-spacing: 1px; flex-wrap: wrap; }
-        .glass-card {
-            background: rgba(20, 20, 35, 0.45); backdrop-filter: blur(18px);
-            border-radius: 32px; border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); padding: 32px 28px;
-            margin-bottom: 24px;
-        }
-        .portrait-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
-        .lens-portrait {
-            width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
-            border: 3px solid rgba(255, 140, 0, 0.5); cursor: pointer;
-            transition: transform 0.2s; animation: subtleWiggle 3s infinite;
-        }
-        .lens-portrait:hover { transform: scale(1.08); }
-        @keyframes subtleWiggle { 0%,100% { transform: translateX(0); } 50% { transform: translateX(2px); } }
-        .lens-portrait img { width: 100%; height: 100%; object-fit: cover; }
-        .track-title-frame {
-            border: 1.5px solid rgba(255, 140, 0, 0.5); border-radius: 60px;
-            padding: 14px 24px; background: rgba(0, 0, 0, 0.25); margin-bottom: 30px;
-        }
-        .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; }
-        .marquee-track span { display: inline-block; padding-left: 100%; animation: scrollTrack 14s linear infinite; font-family: 'Georgia', serif; font-size: 1rem; font-style: italic; color: rgba(255, 220, 150, 0.9); }
-        @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        .controls-center { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
-        .btn-img { background: none; border: none; cursor: pointer; transition: transform 0.2s; width: 65px; height: 65px; }
-        .btn-img img { width: 100%; height: 100%; object-fit: contain; }
-        .btn-img:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px #ff8c00); }
-        .volume-control { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .volume-icon { color: #ffcc88; font-size: 1rem; }
-        .volume-slider { width: 120px; height: 4px; -webkit-appearance: none; background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff8c00; cursor: pointer; }
-        .progress-section { margin: 10px 0 20px; position: relative; }
-        canvas { width: 100%; height: 85px; border-radius: 45px; display: block; background: rgba(0, 0, 0, 0.4); }
-        .progress-wrapper { width: 100%; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 16px 0 8px; cursor: pointer; position: relative; }
-        .progress-fill-led { width: 0%; height: 100%; background: linear-gradient(90deg, #ff8c00, #ffcc00, #ff8c00); border-radius: 4px; }
-        .markers-layer { position: relative; width: 100%; height: 20px; margin-top: 8px; margin-bottom: 5px; }
-        .timeline-marker {
-            position: absolute; width: 4px; height: 16px; background: #ff8c00; border-radius: 2px;
-            cursor: pointer; transition: all 0.2s; z-index: 10; transform: translateX(-50%);
-        }
-        .timeline-marker:hover { width: 8px; height: 24px; background: #ffaa33; margin-top: -4px; }
-        .marker-tooltip {
-            position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); border-radius: 12px;
-            padding: 8px 12px; display: none; white-space: nowrap; z-index: 100;
-            pointer-events: none; border: 1px solid #ff8c00;
-        }
-        .timeline-marker:hover .marker-tooltip { display: block; }
-        .marker-tooltip img { width: 80px; height: 45px; border-radius: 6px; object-fit: cover; margin-bottom: 5px; }
-        .marker-tooltip .tooltip-title { font-size: 0.7rem; color: #ffcc88; font-weight: 600; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
-        .marker-tooltip .tooltip-artist { font-size: 0.6rem; color: rgba(255, 245, 220, 0.7); }
-        .time-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: rgba(255, 245, 220, 0.5); font-family: monospace; }
-        .tracklist-header { text-align: center; margin-bottom: 20px; }
-        .tracklist-title { font-family: 'Georgia', serif; font-size: 1.4rem; font-weight: 400; color: #ffcc88; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(255, 140, 0, 0.4); display: inline-block; padding: 0 20px 8px; }
-        .tracklist-grid { display: grid; gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 6px; }
-        .tracklist-grid::-webkit-scrollbar { width: 3px; }
-        .tracklist-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
-        .tracklist-grid::-webkit-scrollbar-thumb { background: #ff8c00; border-radius: 3px; }
-        .track-row {
-            display: flex; align-items: center; gap: 14px; padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.3); border-radius: 16px; cursor: pointer;
-            transition: all 0.2s; border-left: 3px solid transparent;
-        }
-        .track-row:hover { background: rgba(0, 0, 0, 0.6); transform: translateX(6px); }
-        .track-row.active { background: rgba(255, 140, 0, 0.25); border-left: 3px solid #ff8c00; }
-        .track-row.active .track-artist-name { color: #ffcc88; }
-        .track-row.active .track-song-title { color: #ffaa55; }
-        .track-vignette { width: 50px; height: 50px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; border: 1px solid rgba(255, 140, 0, 0.4); }
-        .track-details { flex: 1; }
-        .track-artist-name { font-weight: 600; color: #ffcc88; font-size: 0.85rem; }
-        .track-song-title { font-style: italic; color: rgba(255, 245, 220, 0.7); font-size: 0.8rem; }
-        .track-duration { font-family: monospace; font-size: 0.7rem; color: #ffaa55; margin-right: 12px; }
-        .track-link { font-size: 0.7rem; color: #ff8c00; text-decoration: none; padding: 4px 8px; border-radius: 20px; background: rgba(255, 140, 0, 0.2); }
-        .track-link:hover { color: white; background: #ff8c00; }
+        .header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 140, 0, 0.3); }
+        .header h1 { font-size: 1.8rem; color: #ff8c00; letter-spacing: 2px; }
+        .header .date { color: #888; font-size: 0.8rem; margin-top: 8px; }
+        .now-playing { background: rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .now-title { font-size: 1.1rem; font-weight: 600; color: #ffcc88; }
+        .now-artist { font-size: 0.9rem; color: #ff8c00; margin-top: 5px; }
+        .controls { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+        .btn { background: #ff8c00; border: none; padding: 12px 24px; border-radius: 40px; color: white; font-size: 1rem; cursor: pointer; transition: transform 0.2s; }
+        .btn:hover { transform: scale(1.05); background: #ffaa33; }
+        .progress-container { background: rgba(255, 255, 255, 0.2); height: 6px; border-radius: 3px; cursor: pointer; margin: 15px 0; }
+        .progress-fill { background: #ff8c00; height: 100%; width: 0%; border-radius: 3px; }
+        .markers-layer { position: relative; height: 20px; margin: 5px 0; }
+        .marker { position: absolute; width: 3px; height: 15px; background: #ff8c00; cursor: pointer; transform: translateX(-50%); }
+        .marker:hover { width: 6px; height: 22px; background: #ffaa33; margin-top: -3px; }
+        .time-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-family: monospace; }
+        .volume-row { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 15px 0; }
+        .volume-slider { width: 100px; }
+        .tracklist { max-height: 350px; overflow-y: auto; }
+        .tracklist-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: background 0.2s; }
+        .tracklist-item:hover { background: rgba(255, 140, 0, 0.2); }
+        .tracklist-item.active { background: rgba(255, 140, 0, 0.4); border-left: 3px solid #ff8c00; }
+        .track-thumb { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
+        .track-info { flex: 1; }
+        .track-artist { font-weight: 600; color: #ffcc88; font-size: 0.85rem; }
+        .track-title { font-size: 0.75rem; color: #aaa; }
+        .track-time { font-family: monospace; font-size: 0.7rem; color: #ff8c00; margin-right: 10px; }
+        .track-link { color: #ff8c00; text-decoration: none; font-size: 0.7rem; padding: 4px 8px; border-radius: 15px; background: rgba(255, 140, 0, 0.2); }
+        .track-link:hover { background: #ff8c00; color: white; }
         .social-row { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .social-icon { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 40px; padding: 8px 20px; font-size: 0.8rem; text-decoration: none; transition: all 0.2s; font-weight: 500; cursor: pointer; }
-        .whatsapp-btn { background: rgba(37, 211, 102, 0.5); color: white; }
-        .whatsapp-btn:hover { background: rgba(37, 211, 102, 0.8); transform: translateY(-2px); }
-        .email-btn { background: rgba(244, 180, 0, 0.5); color: white; }
-        .email-btn:hover { background: rgba(244, 180, 0, 0.8); transform: translateY(-2px); }
-        .copy-btn { background: rgba(100, 100, 100, 0.5); color: white; }
-        .copy-btn:hover { background: rgba(100, 100, 100, 0.8); transform: translateY(-2px); }
-        .soundcloud-btn { background: rgba(255, 85, 0, 0.5); color: white; }
-        .soundcloud-btn:hover { background: rgba(255, 85, 0, 0.8); transform: translateY(-2px); }
-        .vibrate { animation: vibrateShort 0.12s; }
-        @keyframes vibrateShort { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+        .social-btn { padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.8rem; transition: all 0.2s; }
+        .wa { background: #25D366; color: white; }
+        .email { background: #F4B400; color: white; }
+        .copy { background: #555; color: white; cursor: pointer; }
+        .sc { background: #ff5500; color: white; }
+        .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="victorian-header">
-        <div class="header-logos">
-            <img src="title_sarferprod.png" alt="SARFERPROD">
-            <img src="title_daily.png" alt="DAILY">
-            <img src="title_sampler.png" alt="SAMPLE">
-            <img src="title_mix.png" alt="MIX">
+    <div class="card">
+        <div class="header">
+            <h1>SARFERPROD DAILY MIX</h1>
+            <div class="date">WED 20 MAY • 10:38</div>
         </div>
-        <div class="free-badge">FREE ENTRY</div>
-        <div class="event-date">
-            <span>WED 20TH</span>
-            <span>MAY</span>
-            <span>08:55</span>
-            <span>NEW YORK CITY</span>
+        <div class="now-playing">
+            <div id="nowTitle" class="now-title">--</div>
+            <div id="nowArtist" class="now-artist">--</div>
         </div>
-    </div>
-    <div class="glass-card">
-        <div class="portrait-wrapper">
-            <div class="lens-portrait" onclick="window.open('https://soundcloud.com/sarferprod', '_blank')">
-                <img src="Radio_SARFERPROD.jpeg" alt="SARFERPROD">
-            </div>
+        <div class="controls">
+            <button class="btn" id="playBtn">▶ PLAY</button>
+            <button class="btn" id="pauseBtn">⏸ PAUSE</button>
         </div>
-        <div class="track-title-frame">
-            <div class="marquee-track">
-                <span id="marqueeText">Chargement...</span>
-            </div>
+        <div class="progress-container" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div class="controls-center">
-            <button class="btn-img" id="playBtn"><img src="btn_play.png" alt="Play"></button>
-            <button class="btn-img" id="pauseBtn"><img src="btn_pause.png" alt="Pause"></button>
+        <div class="markers-layer" id="markersLayer"></div>
+        <div class="time-row">
+            <span id="currentTime">00:00</span>
+            <span id="duration">10:19</span>
         </div>
-        <div class="volume-control">
-            <span class="volume-icon">🔊</span>
+        <div class="volume-row">
+            <span>🔊</span>
             <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70">
-            <span class="volume-icon" id="volumePercent">70%</span>
-        </div>
-        <div class="progress-section">
-            <canvas id="waveformCanvas" width="800" height="85"></canvas>
-            <div class="progress-wrapper" id="progressBar">
-                <div class="progress-fill-led" id="progressFill"></div>
-            </div>
-            <div class="markers-layer" id="markersLayer"></div>
-            <div class="time-row">
-                <span id="currentTime">00:00</span>
-                <span id="duration">0:58</span>
-            </div>
+            <span id="volumePercent">70%</span>
         </div>
     </div>
-    <div class="glass-card">
-        <div class="tracklist-header">
-            <div class="tracklist-title">TRACKLIST</div>
-        </div>
-        <div class="tracklist-grid" id="tracklistGrid"></div>
+    <div class="card">
+        <div style="font-size:1.2rem; margin-bottom:15px; color:#ff8c00;">📋 TRACKLIST</div>
+        <div class="tracklist" id="tracklist"></div>
     </div>
     <div class="social-row">
-        <a href="#" class="social-icon whatsapp-btn" id="whatsappBtn">WhatsApp</a>
-        <a href="#" class="social-icon email-btn" id="emailBtn">Email</a>
-        <button class="social-icon copy-btn" id="copyBtn">Copier le lien</button>
-        <a href="https://soundcloud.com/sarferprod" target="_blank" class="social-icon soundcloud-btn">SoundCloud</a>
+        <a href="#" class="social-btn wa" id="whatsappBtn">WhatsApp</a>
+        <a href="#" class="social-btn email" id="emailBtn">Email</a>
+        <button class="social-btn copy" id="copyBtn">Copier le lien</button>
+        <a href="https://soundcloud.com/sarferprod" target="_blank" class="social-btn sc">SoundCloud</a>
     </div>
     <audio id="audio" src="./latest.mp3" preload="auto"></audio>
 </div>
 <script>
     const GITHUB_URL = "https://sarfer02.github.io/sarferprod-dailymix";
-    const tracks = [];
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Gwenifer Raymond", "title": "Champion Ivy (Live on KEXP)", "url": "https://www.youtube.com/watch?v=-uROrvsrnm0", "thumbnail": "https://i.ytimg.com/vi/-uROrvsrnm0/hqdefault.jpg"}, {"timestamp": "01:04", "seconds": 64.8, "artist": "NCT, Genetics, Kazhi", "title": "More Than Enough", "url": "https://www.youtube.com/watch?v=zeSyg7c0_NU", "thumbnail": "https://i.ytimg.com/vi/zeSyg7c0_NU/hqdefault.jpg"}, {"timestamp": "01:38", "seconds": 98.8, "artist": "Arya", "title": "SPEAK", "url": "https://www.youtube.com/watch?v=pEbcFUdlsJQ", "thumbnail": "https://i.ytimg.com/vi/pEbcFUdlsJQ/hqdefault.jpg"}, {"timestamp": "02:12", "seconds": 132.8, "artist": "Gwenifer Raymond", "title": "Jack Parsons Blues (Live on KEXP)", "url": "https://www.youtube.com/watch?v=Ve3IyvXEi5w", "thumbnail": "https://i.ytimg.com/vi/Ve3IyvXEi5w/hqdefault.jpg"}, {"timestamp": "02:46", "seconds": 166.8, "artist": "Gio Mee", "title": "Feels So Good", "url": "https://www.youtube.com/watch?v=a9M3ohN9suE", "thumbnail": "https://i.ytimg.com/vi/a9M3ohN9suE/hqdefault.jpg"}, {"timestamp": "03:20", "seconds": 200.8, "artist": "kalm", "title": "eyes open", "url": "https://www.youtube.com/watch?v=lVkayX-8Gks", "thumbnail": "https://i.ytimg.com/vi/lVkayX-8Gks/hqdefault.jpg"}, {"timestamp": "03:54", "seconds": 234.8, "artist": "Josh Teed, Great Dane", "title": "Kardona (Jack Flora Remix)", "url": "https://www.youtube.com/watch?v=3LQS0iCP6vI", "thumbnail": "https://i.ytimg.com/vi/3LQS0iCP6vI/hqdefault.jpg"}, {"timestamp": "04:28", "seconds": 268.8, "artist": "MitiS", "title": "Wilderness (FLOTE Remix) [Lyrics] feat. KC", "url": "https://www.youtube.com/watch?v=3MAG27vHg3M", "thumbnail": "https://i.ytimg.com/vi/3MAG27vHg3M/hqdefault.jpg"}, {"timestamp": "05:02", "seconds": 302.8, "artist": "triple j", "title": "Curry Barker on Obsession, viral horror & why come", "url": "https://www.youtube.com/watch?v=uE4GobCWY1k", "thumbnail": "https://i.ytimg.com/vi/uE4GobCWY1k/hqdefault.jpg"}, {"timestamp": "05:36", "seconds": 336.8, "artist": "Avicii", "title": "Levels (Lyrics)", "url": "https://www.youtube.com/watch?v=lzijRNO2VP0", "thumbnail": "https://i.ytimg.com/vi/lzijRNO2VP0/hqdefault.jpg"}, {"timestamp": "06:10", "seconds": 370.8, "artist": "D.V. Alias Khryst", "title": "Rumble feat. V", "url": "https://www.youtube.com/watch?v=4KcgXbKgG7g", "thumbnail": "https://i.ytimg.com/vi/4KcgXbKgG7g/hqdefault.jpg"}, {"timestamp": "06:44", "seconds": 404.8, "artist": "Gwenifer Raymond", "title": "Bliws Afon Ta\u0302f (Live on KEXP)", "url": "https://www.youtube.com/watch?v=kw2JPnC21BU", "thumbnail": "https://i.ytimg.com/vi/kw2JPnC21BU/hqdefault.jpg"}, {"timestamp": "07:18", "seconds": 438.8, "artist": "triple j", "title": "ancient roman pick up culture goes crazy", "url": "https://www.youtube.com/watch?v=fxQvc4mPsdI", "thumbnail": "https://i.ytimg.com/vi/fxQvc4mPsdI/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.8, "artist": "Spinnin' Records", "title": "\u2060@GiuseppeRoccasalvo gives Patty Pravo\u2019s 1978 clas", "url": "https://www.youtube.com/watch?v=gbQqexE1XJI", "thumbnail": "https://i.ytimg.com/vi/gbQqexE1XJI/hqdefault.jpg"}, {"timestamp": "08:09", "seconds": 489.8, "artist": "Autobus", "title": "Mokasin | Sofar Lima", "url": "https://www.youtube.com/watch?v=Kf4ZdIyCaug", "thumbnail": "https://i.ytimg.com/vi/Kf4ZdIyCaug/hqdefault.jpg"}, {"timestamp": "08:43", "seconds": 523.8, "artist": "KEXP", "title": "Gwenifer Raymond performs \"Jack Parsons Blues\" & m", "url": "https://www.youtube.com/watch?v=UzH7LDcANFE", "thumbnail": "https://i.ytimg.com/vi/UzH7LDcANFE/hqdefault.jpg"}, {"timestamp": "09:00", "seconds": 540.8, "artist": "triple j", "title": "two years on and a noah kahan/phoebe bridgers coll", "url": "https://www.youtube.com/watch?v=bYzosoNXTc4", "thumbnail": "https://i.ytimg.com/vi/bYzosoNXTc4/hqdefault.jpg"}, {"timestamp": "09:17", "seconds": 557.8, "artist": "yehno", "title": "Distant", "url": "https://www.youtube.com/watch?v=7Ti2jalMAYM", "thumbnail": "https://i.ytimg.com/vi/7Ti2jalMAYM/hqdefault.jpg"}];
+    
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumePercent = document.getElementById('volumePercent');
-    const marqueeSpan = document.getElementById('marqueeText');
+    const progressFill = document.getElementById('progressFill');
+    const progressBar = document.getElementById('progressBar');
     const currentTimeSpan = document.getElementById('currentTime');
     const durationSpan = document.getElementById('duration');
-    const progressBar = document.getElementById('progressBar');
-    const progressFill = document.getElementById('progressFill');
-    const canvas = document.getElementById('waveformCanvas');
-    const ctx = canvas.getContext('2d');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumePercent = document.getElementById('volumePercent');
+    const nowTitle = document.getElementById('nowTitle');
+    const nowArtist = document.getElementById('nowArtist');
     const markersLayer = document.getElementById('markersLayer');
-    const tracklistGrid = document.getElementById('tracklistGrid');
+    const tracklistDiv = document.getElementById('tracklist');
     
-    let audioContext = null, analyser = null, animId = null;
     let currentTrackIndex = -1;
     
     function formatTime(sec) {
@@ -236,18 +142,15 @@
             const pct = (track.seconds / audio.duration) * 100;
             if (pct > 100) return;
             const marker = document.createElement('div');
-            marker.className = 'timeline-marker';
+            marker.className = 'marker';
             marker.style.left = pct + '%';
-            const tooltip = document.createElement('div');
-            tooltip.className = 'marker-tooltip';
-            tooltip.innerHTML = `<img src="${track.thumbnail}"><div class="tooltip-title">${escapeHtml(track.title)}</div><div class="tooltip-artist">${escapeHtml(track.artist)}</div>`;
-            marker.appendChild(tooltip);
+            marker.title = track.artist + ' - ' + track.title;
             marker.onclick = (e) => { e.stopPropagation(); window.open(track.url, '_blank'); };
             markersLayer.appendChild(marker);
         });
     }
     
-    function updateActiveTrack() {
+    function updateNowPlaying() {
         let activeIndex = -1;
         for (let i = 0; i < tracks.length; i++) {
             if (audio.currentTime >= tracks[i].seconds) activeIndex = i;
@@ -255,68 +158,43 @@
         }
         if (activeIndex !== currentTrackIndex) {
             currentTrackIndex = activeIndex;
-            document.querySelectorAll('.track-row').forEach((row, idx) => {
-                row.classList.toggle('active', idx === activeIndex);
+            document.querySelectorAll('.tracklist-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx === activeIndex);
             });
             if (activeIndex >= 0) {
-                marqueeSpan.textContent = tracks[activeIndex].artist + ' — ' + tracks[activeIndex].title;
-                document.querySelectorAll('.track-row')[activeIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                nowTitle.textContent = tracks[activeIndex].title;
+                nowArtist.textContent = tracks[activeIndex].artist;
+                document.querySelectorAll('.tracklist-item')[activeIndex]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                nowTitle.textContent = '--';
+                nowArtist.textContent = '--';
             }
         }
     }
     
-    function buildUI() {
-        tracklistGrid.innerHTML = '';
+    function buildTracklist() {
+        tracklistDiv.innerHTML = '';
         tracks.forEach((track, idx) => {
-            const row = document.createElement('div');
-            row.className = 'track-row';
-            row.onclick = () => window.open(track.url, '_blank');
-            row.innerHTML = `
-                <div class="track-vignette" style="background-image: url(${track.thumbnail});"></div>
-                <div class="track-details">
-                    <div class="track-artist-name">${escapeHtml(track.artist)}</div>
-                    <div class="track-song-title">${escapeHtml(track.title)}</div>
+            const div = document.createElement('div');
+            div.className = 'tracklist-item';
+            div.onclick = () => window.open(track.url, '_blank');
+            div.innerHTML = `
+                <img class="track-thumb" src="${track.thumbnail}" onerror="this.style.display='none'">
+                <div class="track-info">
+                    <div class="track-artist">${escapeHtml(track.artist)}</div>
+                    <div class="track-title">${escapeHtml(track.title)}</div>
                 </div>
-                <div class="track-duration">${track.timestamp}</div>
-                <a href="${track.url}" target="_blank" class="track-link" onclick="event.stopPropagation()">YouTube</a>
+                <div class="track-time">${track.timestamp}</div>
+                <a href="${track.url}" target="_blank" class="track-link" onclick="event.stopPropagation()">🎬</a>
             `;
-            tracklistGrid.appendChild(row);
+            tracklistDiv.appendChild(div);
         });
-    }
-    
-    function initAudioContext() {
-        if (audioContext) return;
-        try {
-            audioContext = new AudioContext();
-            analyser = audioContext.createAnalyser();
-            analyser.fftSize = 256;
-            const source = audioContext.createMediaElementSource(audio);
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            function draw() {
-                if (!audio.paused) {
-                    const data = new Uint8Array(analyser.frequencyBinCount);
-                    analyser.getByteFrequencyData(data);
-                    const width = canvas.width, height = canvas.height;
-                    canvas.width = canvas.parentElement.clientWidth - 30;
-                    canvas.height = 85;
-                    ctx.clearRect(0, 0, width, height);
-                    for (let i = 0; i < data.length; i++) {
-                        const h = (data[i] / 255) * height;
-                        ctx.fillStyle = '#ff8c00';
-                        ctx.fillRect(i * (width/data.length), height - h, 2, h);
-                    }
-                }
-                requestAnimationFrame(draw);
-            }
-            draw();
-        } catch(e) {}
     }
     
     function updateProgress() {
         if (audio.duration) {
             progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-            updateActiveTrack();
+            updateNowPlaying();
         }
         currentTimeSpan.textContent = formatTime(audio.currentTime);
         if (audio.duration) durationSpan.textContent = formatTime(audio.duration);
@@ -328,13 +206,14 @@
         audio.currentTime = pct * audio.duration;
     }
     
-    playBtn.onclick = () => { initAudioContext(); audio.play(); };
+    playBtn.onclick = () => audio.play();
     pauseBtn.onclick = () => audio.pause();
     progressBar.onclick = setProgress;
     volumeSlider.oninput = () => {
         audio.volume = volumeSlider.value / 100;
         volumePercent.textContent = volumeSlider.value + '%';
     };
+    
     audio.volume = 0.7;
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('loadedmetadata', () => {
@@ -348,7 +227,7 @@
     };
     document.getElementById('emailBtn').onclick = (e) => {
         e.preventDefault();
-        window.location.href = 'mailto:?subject=' + encodeURIComponent('Sarferprod Daily Mix') + '&body=' + encodeURIComponent('Ecoute mon mix : ' + GITHUB_URL);
+        window.location.href = 'mailto:?subject=Sarferprod Daily Mix&body=' + encodeURIComponent('Ecoute mon mix : ' + GITHUB_URL);
     };
     document.getElementById('copyBtn').onclick = (e) => {
         e.preventDefault();
@@ -358,9 +237,7 @@
         setTimeout(() => btn.textContent = 'Copier le lien', 2000);
     };
     
-    buildUI();
-    canvas.width = canvas.parentElement.clientWidth - 30;
-    canvas.height = 85;
+    buildTracklist();
 </script>
 </body>
 </html>
