@@ -144,9 +144,9 @@
         </div>
         <div class="free-badge">FREE ENTRY</div>
         <div class="event-date">
-            <span>TUE 19TH</span>
+            <span>WED 20TH</span>
             <span>MAY</span>
-            <span>09:31</span>
+            <span>08:55</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
@@ -178,7 +178,7 @@
             <div class="markers-layer" id="markersLayer"></div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">11:10</span>
+                <span id="duration">0:58</span>
             </div>
         </div>
     </div>
@@ -198,7 +198,7 @@
 </div>
 <script>
     const GITHUB_URL = "https://sarfer02.github.io/sarferprod-dailymix";
-    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Flowidus", "title": "Midnight Sound (feat. HARLEE) [Drum & Bass | Monst", "url": "https://www.youtube.com/watch?v=N4mzOUMNsuI", "thumbnail": "https://i.ytimg.com/vi/N4mzOUMNsuI/hqdefault.jpg"}, {"timestamp": "01:04", "seconds": 64.8, "artist": "COSMIC", "title": "duel", "url": "https://www.youtube.com/watch?v=yzmDWFltdEQ", "thumbnail": "https://i.ytimg.com/vi/yzmDWFltdEQ/hqdefault.jpg"}, {"timestamp": "01:38", "seconds": 98.8, "artist": "In Waves", "title": "Wipe Your Tears", "url": "https://www.youtube.com/watch?v=GKZxOXCnppY", "thumbnail": "https://i.ytimg.com/vi/GKZxOXCnppY/hqdefault.jpg"}, {"timestamp": "02:12", "seconds": 132.8, "artist": "Just\u0117, Jaxstyle, Jon", "title": "Turn The Lights Off (Paul Elstak Remix) [Official ", "url": "https://www.youtube.com/watch?v=ccy5gfY7jv0", "thumbnail": "https://i.ytimg.com/vi/ccy5gfY7jv0/hqdefault.jpg"}, {"timestamp": "02:46", "seconds": 166.8, "artist": "3WaySlim x Monday Night x BhramaBull", "title": "3rd Street Promenade", "url": "https://www.youtube.com/watch?v=HjsdCdoOhZQ", "thumbnail": "https://i.ytimg.com/vi/HjsdCdoOhZQ/hqdefault.jpg"}, {"timestamp": "03:20", "seconds": 200.8, "artist": "triple j", "title": "What\u2019s It Like To Date In The Country? | The Hook ", "url": "https://www.youtube.com/watch?v=wf_hoNyfSc8", "thumbnail": "https://i.ytimg.com/vi/wf_hoNyfSc8/hqdefault.jpg"}, {"timestamp": "03:54", "seconds": 234.8, "artist": "Lola Blue", "title": "Seventeen", "url": "https://www.youtube.com/watch?v=pr8Y2Baeovo", "thumbnail": "https://i.ytimg.com/vi/pr8Y2Baeovo/hqdefault.jpg"}, {"timestamp": "04:28", "seconds": 268.8, "artist": "DENNIS EDWARDS & SIEDAH GARRETT", "title": "Don't Look Any Further (Remix) (G Master) (1984)", "url": "https://www.youtube.com/watch?v=CmlCLjI-JTI", "thumbnail": "https://i.ytimg.com/vi/CmlCLjI-JTI/hqdefault.jpg"}, {"timestamp": "05:02", "seconds": 302.8, "artist": "Valgur", "title": "Full Performance (Live on KEXP)", "url": "https://www.youtube.com/watch?v=u2pyLsoU1fE", "thumbnail": "https://i.ytimg.com/vi/u2pyLsoU1fE/hqdefault.jpg"}, {"timestamp": "05:36", "seconds": 336.8, "artist": "Conrad the Clown", "title": "Carousel (feat. Confetti)", "url": "https://www.youtube.com/watch?v=g23mE-UtGso", "thumbnail": "https://i.ytimg.com/vi/g23mE-UtGso/hqdefault.jpg"}, {"timestamp": "06:10", "seconds": 370.8, "artist": "Ankhlejohn & V Don", "title": "Everything Beautiful Died Early", "url": "https://www.youtube.com/watch?v=TzrUtIcYj7E", "thumbnail": "https://i.ytimg.com/vi/TzrUtIcYj7E/hqdefault.jpg"}, {"timestamp": "06:44", "seconds": 404.8, "artist": "Te Quiero Euridice", "title": "vita calma/vera | Sofar Milan", "url": "https://www.youtube.com/watch?v=57Vculj2PnY", "thumbnail": "https://i.ytimg.com/vi/57Vculj2PnY/hqdefault.jpg"}, {"timestamp": "07:18", "seconds": 438.8, "artist": "R3FRAKT", "title": "Lush Life", "url": "https://www.youtube.com/watch?v=r-1y-9TCtTU", "thumbnail": "https://i.ytimg.com/vi/r-1y-9TCtTU/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.8, "artist": "Harry Ixer & Meezy", "title": "Lore & Order (Official Video)", "url": "https://www.youtube.com/watch?v=097SEiSTKWQ", "thumbnail": "https://i.ytimg.com/vi/097SEiSTKWQ/hqdefault.jpg"}, {"timestamp": "08:26", "seconds": 506.8, "artist": "Gyoza", "title": "Early Bird (Full Album)", "url": "https://www.youtube.com/watch?v=gsiXp_gMhUs", "thumbnail": "https://i.ytimg.com/vi/gsiXp_gMhUs/hqdefault.jpg"}, {"timestamp": "09:00", "seconds": 540.8, "artist": "Swapmeet", "title": "2 C U", "url": "https://www.youtube.com/watch?v=lQwAoN-Exm8", "thumbnail": "https://i.ytimg.com/vi/lQwAoN-Exm8/hqdefault.jpg"}, {"timestamp": "09:34", "seconds": 574.8, "artist": "Lennie Rayen", "title": "What Now", "url": "https://www.youtube.com/watch?v=FvONRNFWEJM", "thumbnail": "https://i.ytimg.com/vi/FvONRNFWEJM/hqdefault.jpg"}, {"timestamp": "10:08", "seconds": 608.8, "artist": "Said The Sky & Knox", "title": "Dance In The Rain (Lyrics) PTRK Remix", "url": "https://www.youtube.com/watch?v=qrza0DNWB7Q", "thumbnail": "https://i.ytimg.com/vi/qrza0DNWB7Q/hqdefault.jpg"}];
+    const tracks = [];
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
