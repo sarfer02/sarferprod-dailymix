@@ -143,9 +143,9 @@
         </div>
         <div class="free-badge">FREE ENTRY</div>
         <div class="event-date">
-            <span>WED 10TH</span>
+            <span>THU 11TH</span>
             <span>JUN</span>
-            <span>07:50</span>
+            <span>07:46</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
@@ -177,7 +177,7 @@
             <div class="markers-layer" id="markersLayer"></div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">8:40</span>
+                <span id="duration">8:18</span>
             </div>
         </div>
     </div>
@@ -196,7 +196,7 @@
     <audio id="audio" src="./latest.mp3" preload="auto" crossorigin="anonymous"></audio>
 </div>
 <script>
-    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Sea Glass & Lesser Sparrow", "title": "Reasons We Hide", "url": "https://www.youtube.com/watch?v=8GLsn6Q2hgM", "thumbnail": "https://i.ytimg.com/vi/8GLsn6Q2hgM/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "P.A.V", "title": "Day Dream", "url": "https://www.youtube.com/watch?v=DC9TjFKodsU", "thumbnail": "https://i.ytimg.com/vi/DC9TjFKodsU/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "Space Laces", "title": "AIRTIGHT", "url": "https://www.youtube.com/watch?v=ycSOl9Rs_3M", "thumbnail": "https://i.ytimg.com/vi/ycSOl9Rs_3M/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "Sonatine", "title": "While We Were Dreaming", "url": "https://www.youtube.com/watch?v=TrUWR0WQxIQ", "thumbnail": "https://i.ytimg.com/vi/TrUWR0WQxIQ/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "Fatcat Records", "title": "WE WERE PROMISED JETPACKS \u2014 \"CONDUCTOR\"", "url": "https://www.youtube.com/watch?v=bNpLfG3C4pQ", "thumbnail": "https://i.ytimg.com/vi/bNpLfG3C4pQ/hqdefault.jpg"}, {"timestamp": "02:38", "seconds": 158.8, "artist": "Trans", "title": "X - Living On Video ('85 Mix)", "url": "https://www.youtube.com/watch?v=jjFLWxQHSlI", "thumbnail": "https://i.ytimg.com/vi/jjFLWxQHSlI/hqdefault.jpg"}, {"timestamp": "03:07", "seconds": 187.3, "artist": "KEXP", "title": "Caitlin & Brent perform \"Nightcall\" & more Live on", "url": "https://www.youtube.com/watch?v=srqQlRPyPUY", "thumbnail": "https://i.ytimg.com/vi/srqQlRPyPUY/hqdefault.jpg"}, {"timestamp": "03:35", "seconds": 215.8, "artist": "JON CASS & FADENT", "title": "FLUTTER [Dubstep | Monstercat]", "url": "https://www.youtube.com/watch?v=vp9FpvczCRQ", "thumbnail": "https://i.ytimg.com/vi/vp9FpvczCRQ/hqdefault.jpg"}, {"timestamp": "04:04", "seconds": 244.3, "artist": "HEDEGAARD, Black Motion", "title": "Homebound", "url": "https://www.youtube.com/watch?v=K8q3ZEno8EA", "thumbnail": "https://i.ytimg.com/vi/K8q3ZEno8EA/hqdefault.jpg"}, {"timestamp": "04:32", "seconds": 272.8, "artist": "Outstation", "title": "Entropy At The Edge Of Chaos (Full Album)", "url": "https://www.youtube.com/watch?v=WfQtIQ4_1kw", "thumbnail": "https://i.ytimg.com/vi/WfQtIQ4_1kw/hqdefault.jpg"}, {"timestamp": "05:01", "seconds": 301.3, "artist": "IVORY & Hammerhead", "title": "CLIQUE", "url": "https://www.youtube.com/watch?v=N2pBfK5peUo", "thumbnail": "https://i.ytimg.com/vi/N2pBfK5peUo/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.8, "artist": "SFRNG, SOVAGI, Aizu", "title": "IN MY HEAD | Deep House | NCS - Copyright Free Mus", "url": "https://www.youtube.com/watch?v=biEamvoSulo", "thumbnail": "https://i.ytimg.com/vi/biEamvoSulo/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "Occibel", "title": "Fly With The Angels", "url": "https://www.youtube.com/watch?v=9-yozP2_CEA", "thumbnail": "https://i.ytimg.com/vi/9-yozP2_CEA/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "SOLAH & Break", "title": "Forever", "url": "https://www.youtube.com/watch?v=ya67G6uk7Xg", "thumbnail": "https://i.ytimg.com/vi/ya67G6uk7Xg/hqdefault.jpg"}, {"timestamp": "06:55", "seconds": 415.3, "artist": "Bobby Cazanova", "title": "Realidad", "url": "https://www.youtube.com/watch?v=AFGHr5UTSEQ", "thumbnail": "https://i.ytimg.com/vi/AFGHr5UTSEQ/hqdefault.jpg"}, {"timestamp": "07:23", "seconds": 443.8, "artist": "Catherine Moan", "title": "Enemy", "url": "https://www.youtube.com/watch?v=nexrnPEfg4A", "thumbnail": "https://i.ytimg.com/vi/nexrnPEfg4A/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.3, "artist": "Vic Spencer", "title": "Inspire Your Idols (Full Album)", "url": "https://www.youtube.com/watch?v=Jaa4bvQyjPc", "thumbnail": "https://i.ytimg.com/vi/Jaa4bvQyjPc/hqdefault.jpg"}, {"timestamp": "08:20", "seconds": 500.8, "artist": "Kygo", "title": "Heaven On Your Mind (feat. Dan Tyminski)", "url": "https://www.youtube.com/watch?v=lZtEL1yvKoE", "thumbnail": "https://i.ytimg.com/vi/lZtEL1yvKoE/hqdefault.jpg"}];
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Justin Hawkes", "title": "Stomp", "url": "https://www.youtube.com/watch?v=jqKcXRdNxBA", "thumbnail": "https://i.ytimg.com/vi/jqKcXRdNxBA/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "Toolroom Records", "title": "5 uplifting House bangers you NEED! \u2764\ufe0f\ud83d\udd25", "url": "https://www.youtube.com/watch?v=1cDi74cMz6E", "thumbnail": "https://i.ytimg.com/vi/1cDi74cMz6E/hqdefault.jpg"}, {"timestamp": "01:13", "seconds": 73.3, "artist": "Berklee College of Music", "title": "Skye Harding \u2013 Better (Live at Berklee Career Jam ", "url": "https://www.youtube.com/watch?v=U3dFEefavcs", "thumbnail": "https://i.ytimg.com/vi/U3dFEefavcs/hqdefault.jpg"}, {"timestamp": "01:41", "seconds": 101.8, "artist": "Joji", "title": "Bluffin' (feat. The Kid LAROI)", "url": "https://www.youtube.com/watch?v=YiWvTzmZIcA", "thumbnail": "https://i.ytimg.com/vi/YiWvTzmZIcA/hqdefault.jpg"}, {"timestamp": "02:10", "seconds": 130.3, "artist": "The Street Dreamer", "title": "ILL State Of Mind feat. ILL Conscious", "url": "https://www.youtube.com/watch?v=krkhlciZjDI", "thumbnail": "https://i.ytimg.com/vi/krkhlciZjDI/hqdefault.jpg"}, {"timestamp": "02:38", "seconds": 158.8, "artist": "Sofar Sounds", "title": "BYK Ep. 3 IS LIVE", "url": "https://www.youtube.com/watch?v=OI4Eixduz54", "thumbnail": "https://i.ytimg.com/vi/OI4Eixduz54/hqdefault.jpg"}, {"timestamp": "02:52", "seconds": 172.8, "artist": "ini, Keeth & still switch", "title": "sonar", "url": "https://www.youtube.com/watch?v=32DFYDfc51s", "thumbnail": "https://i.ytimg.com/vi/32DFYDfc51s/hqdefault.jpg"}, {"timestamp": "03:21", "seconds": 201.3, "artist": "Grace Jones", "title": "Love On Top Of Love (Killer Kiss) (Garage House Mi", "url": "https://www.youtube.com/watch?v=aU-k4Egea2g", "thumbnail": "https://i.ytimg.com/vi/aU-k4Egea2g/hqdefault.jpg"}, {"timestamp": "03:49", "seconds": 229.8, "artist": "Daydream Affiliate", "title": "Steps", "url": "https://www.youtube.com/watch?v=8hmeY0kg9aE", "thumbnail": "https://i.ytimg.com/vi/8hmeY0kg9aE/hqdefault.jpg"}, {"timestamp": "04:18", "seconds": 258.3, "artist": "Deep Feeling Mix 2026", "title": "Best Of Vocal House | Emotional/Intimate Mood", "url": "https://www.youtube.com/watch?v=t0rsp92EE24", "thumbnail": "https://i.ytimg.com/vi/t0rsp92EE24/hqdefault.jpg"}, {"timestamp": "04:46", "seconds": 286.8, "artist": "Sofar Sounds", "title": "Subway Songs Ep. 11", "url": "https://www.youtube.com/watch?v=xN-TOsbLxwg", "thumbnail": "https://i.ytimg.com/vi/xN-TOsbLxwg/hqdefault.jpg"}, {"timestamp": "05:00", "seconds": 300.8, "artist": "Ofra Haza", "title": "Da'Ale Da'Ale (Razormaid Mix)", "url": "https://www.youtube.com/watch?v=l_p7M6oULkw", "thumbnail": "https://i.ytimg.com/vi/l_p7M6oULkw/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.3, "artist": "Sinitta", "title": "I Just Wanna Spend Some Time With You (Extended Ve", "url": "https://www.youtube.com/watch?v=DcVWpu053no", "thumbnail": "https://i.ytimg.com/vi/DcVWpu053no/hqdefault.jpg"}, {"timestamp": "05:57", "seconds": 357.8, "artist": "MIND", "title": "Out Of Reach", "url": "https://www.youtube.com/watch?v=xByYaPUFUyw", "thumbnail": "https://i.ytimg.com/vi/xByYaPUFUyw/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.3, "artist": "Widemouth", "title": "No Gasoline", "url": "https://www.youtube.com/watch?v=jgsGee2Jf6Y", "thumbnail": "https://i.ytimg.com/vi/jgsGee2Jf6Y/hqdefault.jpg"}, {"timestamp": "06:54", "seconds": 414.8, "artist": "\ud83c\udfb6 Boris Brejcha will bring a full", "title": "on techno takeover to Buenos Aires on Oct 17! Join", "url": "https://www.youtube.com/watch?v=hpB2h8_u-Ao", "thumbnail": "https://i.ytimg.com/vi/hpB2h8_u-Ao/hqdefault.jpg"}, {"timestamp": "07:08", "seconds": 428.7, "artist": "Armada Music TV", "title": "ASOT and trance don\u2019t get more emotional than this", "url": "https://www.youtube.com/watch?v=ngKm7avgz-o", "thumbnail": "https://i.ytimg.com/vi/ngKm7avgz-o/hqdefault.jpg"}, {"timestamp": "07:22", "seconds": 442.7, "artist": "triple j", "title": "freya skye looks to taylor swift #freyaskye #taylo", "url": "https://www.youtube.com/watch?v=zsJWLJVq_WI", "thumbnail": "https://i.ytimg.com/vi/zsJWLJVq_WI/hqdefault.jpg"}];
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
@@ -324,7 +324,8 @@
     
     function updateProgress() {
         if (audio.duration && !isNaN(audio.duration) && audio.duration > 0) {
-            progressFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = percent + '%';
             updateActiveTrack();
         }
         currentTimeSpan.textContent = formatTime(audio.currentTime);
@@ -334,11 +335,29 @@
     function updateActiveTrack() {
         const currentTime = audio.currentTime;
         let activeIndex = -1;
-        for (let i = 0; i < tracks.length; i++) {
-            if (currentTime >= tracks[i].seconds - 0.5) activeIndex = i;
-            else break;
+        
+        // Si on est à la fin du mix
+        if (currentTime >= audio.duration - 0.5) {
+            activeIndex = tracks.length - 1;
+            if (activeIndex !== currentTrackIndex && tracks[activeIndex]) {
+                currentTrackIndex = activeIndex;
+                marqueeSpan.textContent = tracks[activeIndex].artist + ' — ' + tracks[activeIndex].title;
+            }
+            return;
         }
-        if (activeIndex !== currentTrackIndex) {
+        
+        // Trouver la piste en cours
+        for (let i = 0; i < tracks.length; i++) {
+            const startTime = tracks[i].seconds;
+            const endTime = (i < tracks.length - 1) ? tracks[i + 1].seconds : audio.duration;
+            
+            if (currentTime >= startTime - 0.5 && currentTime < endTime) {
+                activeIndex = i;
+                break;
+            }
+        }
+        
+        if (activeIndex !== currentTrackIndex && activeIndex !== -1) {
             currentTrackIndex = activeIndex;
             document.querySelectorAll('.track-row').forEach((row, idx) => {
                 if (idx === activeIndex) {
@@ -348,7 +367,7 @@
                     row.classList.remove('active');
                 }
             });
-            if (activeIndex >= 0 && tracks[activeIndex]) {
+            if (tracks[activeIndex]) {
                 marqueeSpan.textContent = tracks[activeIndex].artist + ' — ' + tracks[activeIndex].title;
             }
         }
@@ -369,19 +388,37 @@
     
     function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;')); }
     
-    function playAudio() { if (audioContext && audioContext.state === 'suspended') audioContext.resume(); initAudioContext(); audio.play().catch(e => console.log('Lecture auto bloquee', e)); }
+    function playAudio() { 
+        if (audioContext && audioContext.state === 'suspended') audioContext.resume(); 
+        initAudioContext(); 
+        audio.play().catch(e => console.log('Lecture auto bloquee', e));
+    }
+    
     function pauseAudio() { audio.pause(); }
     function updateVolume() { audio.volume = volumeSlider.value / 100; volumePercent.textContent = Math.round(volumeSlider.value) + '%'; }
-    function addVibration() { document.body.classList.add('vibrate'); setTimeout(() => document.body.classList.remove('vibrate'), 150); }
-    function setProgress(e) { const rect = progressBar.getBoundingClientRect(); const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); if (audio.duration) audio.currentTime = percent * audio.duration; }
+    function setProgress(e) { 
+        const rect = progressBar.getBoundingClientRect(); 
+        const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); 
+        if (audio.duration) audio.currentTime = percent * audio.duration;
+    }
     
     playBtn.addEventListener('click', playAudio);
     pauseBtn.addEventListener('click', pauseAudio);
     progressBar.addEventListener('click', setProgress);
     volumeSlider.addEventListener('input', updateVolume);
     audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadedmetadata', () => { durationSpan.textContent = formatTime(audio.duration); drawEmptyWaveform(); setTimeout(updateMarkers, 100); updateVolume(); });
+    audio.addEventListener('loadedmetadata', () => { 
+        durationSpan.textContent = formatTime(audio.duration); 
+        drawEmptyWaveform(); 
+        setTimeout(updateMarkers, 100); 
+        updateVolume();
+        console.log('Audio chargé, durée:', audio.duration);
+    });
     audio.addEventListener('canplay', () => { setTimeout(updateMarkers, 100); });
+    audio.addEventListener('ended', () => {
+        console.log('Mix terminé');
+        marqueeSpan.textContent = 'Mix terminé — Merci !';
+    });
     
     document.getElementById('whatsappBtn').addEventListener('click', e => {
         e.preventDefault();
@@ -395,7 +432,7 @@
     
     document.getElementById('copyBtn').addEventListener('click', e => {
         e.preventDefault();
-        navigator.clipboard.writeText(GITHUB_PAGES_URL);
+        navigator.clipboard.writeText('https://sarfer02.github.io/sarferprod-dailymix');
         const btn = document.getElementById('copyBtn');
         const originalText = btn.textContent;
         btn.textContent = 'Lien copié !';
