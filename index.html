@@ -143,9 +143,9 @@
         </div>
         <div class="free-badge">FREE ENTRY</div>
         <div class="event-date">
-            <span>TUE 16TH</span>
+            <span>WED 17TH</span>
             <span>JUN</span>
-            <span>14:51</span>
+            <span>08:49</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
@@ -177,7 +177,7 @@
             <div class="markers-layer" id="markersLayer"></div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">8:33</span>
+                <span id="duration">7:57</span>
             </div>
         </div>
     </div>
@@ -336,7 +336,6 @@
         const currentTime = audio.currentTime;
         let activeIndex = -1;
         
-        // Si on est à la fin du mix
         if (currentTime >= audio.duration - 0.5) {
             activeIndex = tracks.length - 1;
             if (activeIndex !== currentTrackIndex && tracks[activeIndex]) {
@@ -346,7 +345,6 @@
             return;
         }
         
-        // Trouver la piste en cours
         for (let i = 0; i < tracks.length; i++) {
             const startTime = tracks[i].seconds;
             const endTime = (i < tracks.length - 1) ? tracks[i + 1].seconds : audio.duration;
