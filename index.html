@@ -73,7 +73,7 @@
             <img src="title_sarferprod.png" alt="SARFERPROD"><img src="title_daily.png" alt="DAILY"><img src="title_sampler.png" alt="SAMPLE">
         </div>
         <div class="free-badge">FREE ENTRY</div>
-        <div class="event-date"><span>SUN 05TH</span><span>JUL</span><span>09:15</span><span>SARFERPROD LABS</span></div>
+        <div class="event-date"><span>SUN 05TH</span><span>JUL</span><span>09:31</span><span>SARFERPROD LABS</span></div>
     </div>
     <div class="glass-card">
         <div class="portrait-wrapper"><div class="lens-portrait"><img src="Radio_SARFERPROD.jpeg"></div></div>
@@ -90,7 +90,7 @@
             <canvas id="waveformCanvas"></canvas>
             <div class="progress-wrapper" id="progressBar"><div class="progress-fill-led" id="progressFill"></div></div>
             <div class="markers-layer" id="markersLayer"></div>
-            <div class="time-row"><span id="currentTime">00:00</span><span id="duration">9:31</span></div>
+            <div class="time-row"><span id="currentTime">00:00</span><span id="duration">66:00</span></div>
         </div>
     </div>
     <div class="glass-card">
@@ -134,7 +134,7 @@
                 document.querySelectorAll('.track-row').forEach((r, idx) => {
                     if(idx === activeIndex) r.classList.add('active'); else r.classList.remove('active');
                 });
-                marqueeSpan.textContent = tracks[activeIndex].artist + ' — ' + tracks[activeIndex].title;
+                marqueeSpan.textContent = (tracks[activeIndex].artist || 'Artiste') + ' — ' + (tracks[activeIndex].title || 'Mix');
             }
         }
         currentTimeSpan.textContent = formatTime(audio.currentTime);
@@ -145,11 +145,23 @@
     volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value/100; volumePercent.textContent = volumeSlider.value+'%'; });
     audio.addEventListener('timeupdate', updateProgress);
     
-    tracks.forEach((track) => {
-        const row = document.createElement('div'); row.className = 'track-row';
-        row.innerHTML = `<div class="track-vignette" style="background-image:url(${track.thumbnail})"></div><div class="track-details"><div class="track-artist-name">${track.artist}</div><div class="track-song-title">${track.title}</div></div><div class="track-duration">${track.timestamp}</div>`;
-        tracklistGrid.appendChild(row);
-    });
+    // 🛡️ SÉCURITÉ DE RENDU : Évite la page bloquée si le cache est vide
+    if (tracks && tracks.length > 0) {
+        tracks.forEach((track) => {
+            const row = document.createElement('div'); row.className = 'track-row';
+            const thumb = track.thumbnail || 'Radio_SARFERPROD.jpeg';
+            const artist = track.artist || 'Artiste';
+            const title = track.title || 'Morceau';
+            const durationStr = track.timestamp || '00:00';
+            row.innerHTML = `<div class="track-vignette" style="background-image:url(${thumb})"></div><div class="track-details"><div class="track-artist-name">${artist}</div><div class="track-song-title">${title}</div></div><div class="track-duration">${durationStr}</div>`;
+            tracklistGrid.appendChild(row);
+        });
+        marqueeSpan.textContent = (tracks[0].artist || 'Artiste') + ' — ' + (tracks[0].title || 'Mix');
+    } else {
+        tracklistGrid.innerHTML = '<div style="color:rgba(255,255,255,0.5);text-align:center;padding:20px;font-style:italic;">Aucun morceau en cache</div>';
+        marqueeSpan.textContent = "SARFERPROD — Daily Mix";
+    }
+
     document.getElementById('copyBtn').addEventListener('click', () => { navigator.clipboard.writeText('https://sarferprod.github.io/sarferprod-dailymix/'); });
 </script>
 </body>
