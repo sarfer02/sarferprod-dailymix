@@ -38,7 +38,7 @@
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px);
             border: 1.5px solid rgba(255, 140, 0, 0.6); border-radius: 20px;
             padding: 25px 30px; margin-bottom: 25px; text-align: center;
-            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.2);
         }
         .header-logos { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
         .header-logos img { height: 50px; width: auto; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
@@ -97,32 +97,51 @@
         .progress-wrapper { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.15); border-radius: 4px; cursor: pointer; position: relative; z-index: 5; }
         .progress-fill-led { width: 0%; height: 100%; background: linear-gradient(90deg, #ff5500, #ff8c00, #ffcc00); border-radius: 4px; box-shadow: 0 0 8px #ff8c00; position: relative; }
         
-        .markers-layer { position: absolute; width: 100%; height: 14px; top: -4px; left: 0; pointer-events: none; z-index: 10; }
+        /* COUCHE CONTENANT LES CURSEURS DE TRANSITION */
+        .markers-layer { position: absolute; width: 100%; height: 20px; top: -7px; left: 0; pointer-events: none; z-index: 20; }
         .timeline-marker {
-            position: absolute; width: 4px; height: 14px; background: #ff8c00; border-radius: 2px;
+            position: absolute; width: 6px; height: 20px; background: #ff8c00; border-radius: 3px;
             cursor: pointer; transform: translateX(-50%); pointer-events: auto;
-            box-shadow: 0 0 4px rgba(0,0,0,0.6); transition: background 0.2s, height 0.2s;
+            box-shadow: 0 0 6px rgba(0,0,0,0.8); transition: all 0.2s ease;
         }
-        .timeline-marker:hover { height: 18px; background: #ffcc00; box-shadow: 0 0 8px #ffcc00; z-index: 100; }
+        .timeline-marker:hover { height: 26px; width: 8px; background: #ffcc00; box-shadow: 0 0 12px #ffcc00; z-index: 100; }
         
+        /* BULLE INFORMATIVE INTERACTIVE (TOOLTIP) AVEC MINIATURE YOUTUBE CLIQUABLE */
         .marker-tooltip {
-            position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-            background: rgba(10, 10, 20, 0.95); backdrop-filter: blur(10px); border-radius: 12px;
-            padding: 10px; display: none; pointer-events: none; border: 1px solid #ff8c00;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6); width: 160px; text-align: center;
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(12, 12, 25, 0.98); backdrop-filter: blur(15px); border-radius: 14px;
+            padding: 10px; display: none; pointer-events: auto; border: 1.5px solid #ff8c00;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.8); width: 180px; text-align: center;
+            z-index: 200;
         }
         .timeline-marker:hover .marker-tooltip { display: block; }
-        .marker-tooltip img { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.1); }
-        .marker-tooltip .tooltip-title { font-size: 0.75rem; color: #ffcc88; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .marker-tooltip .tooltip-artist { font-size: 0.65rem; color: rgba(255, 245, 220, 0.7); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .marker-tooltip .tooltip-time { font-size: 0.7rem; color: #ff8c00; font-family: monospace; font-weight: bold; }
+        
+        .tooltip-thumb-wrapper {
+            width: 100%; height: 95px; border-radius: 8px; overflow: hidden;
+            margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.15);
+            position: relative; cursor: pointer;
+        }
+        .tooltip-thumb-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .tooltip-thumb-wrapper:hover img { transform: scale(1.08); }
+        
+        /* Icône de lecture / lien au survol de la vignette */
+        .tooltip-thumb-wrapper::after {
+            content: '▶'; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.2rem; opacity: 0; transition: opacity 0.2s;
+        }
+        .tooltip-thumb-wrapper:hover::after { opacity: 1; }
+
+        .marker-tooltip .tooltip-title { font-size: 0.78rem; color: #ffcc88; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .marker-tooltip .tooltip-artist { font-size: 0.68rem; color: rgba(255, 245, 220, 0.7); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .marker-tooltip .tooltip-time { font-size: 0.72rem; color: #ff8c00; font-family: monospace; font-weight: bold; }
         
         .time-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: rgba(255, 245, 220, 0.6); font-family: monospace; font-weight: 500; margin-top: 5px; }
         
         .tracklist-header { text-align: center; margin-bottom: 25px; }
         .tracklist-title { font-family: 'Georgia', serif; font-size: 1.5rem; font-weight: 400; color: #ffcc88; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1.5px solid rgba(255, 140, 0, 0.4); display: inline-block; padding: 0 25px 10px; }
         
-        .tracklist-grid { display: grid; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 8px; }
+        .tracklist-grid { display: grid; gap: 10px; max-height: 450px; overflow-y: auto; padding-right: 8px; }
         .tracklist-grid::-webkit-scrollbar { width: 4px; }
         .tracklist-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
         .tracklist-grid::-webkit-scrollbar-thumb { background: rgba(255, 140, 0, 0.6); border-radius: 4px; }
@@ -152,18 +171,14 @@
             border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.25s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .track-row:hover .track-vignette { 
-            transform: scale(1.05); 
-            border-color: #ff8c00; 
-            box-shadow: 0 0 12px rgba(255, 140, 0, 0.6); 
-        }
+        .track-row:hover .track-vignette { transform: scale(1.05); border-color: #ff8c00; box-shadow: 0 0 12px rgba(255, 140, 0, 0.6); }
         
         .track-details { flex: 1; min-width: 0; }
-        .track-artist-name { font-weight: 600; color: #ffcc88; font-size: 0.9rem; transition: color 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .track-song-title { font-style: italic; color: rgba(255, 245, 220, 0.75); font-size: 0.82rem; transition: color 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+        .track-artist-name { font-weight: 600; color: #ffcc88; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .track-song-title { font-style: italic; color: rgba(255, 245, 220, 0.75); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
         
         .track-right-zone { display: flex; align-items: center; gap: 15px; }
-        .track-duration { font-family: monospace; font-size: 0.8rem; color: #ffaa55; min-width: 45px; text-align: right; transition: color 0.2s; }
+        .track-duration { font-family: monospace; font-size: 0.8rem; color: #ffaa55; min-width: 45px; text-align: right; }
         
         .track-link { 
             font-size: 0.75rem; color: #ff8c00; text-decoration: none; 
@@ -197,7 +212,7 @@
         <div class="event-date">
             <span>SUN 05TH</span>
             <span>JUL</span>
-            <span>09:51</span>
+            <span>10:14</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
@@ -236,14 +251,14 @@
             </div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">9:31</span>
+                <span id="duration">1:36</span>
             </div>
         </div>
     </div>
     
     <div class="glass-card">
         <div class="tracklist-header">
-            <div class="tracklist-title">TRACKLIST INTERACTIVE</div>
+            <div class="tracklist-title">TRACKLIST INTERACTIVE (1 PISTES)</div>
         </div>
         <div class="tracklist-grid" id="tracklistGrid"></div>
     </div>
@@ -259,7 +274,7 @@
 </div>
 
 <script>
-    const tracks = [{"artist": "2 Meter Sessions - Videos", "title": "Tracy Bonham \u2013 2 Meter Session (1996) | Mother Mot", "timestamp": "00:00", "seconds": 0, "thumbnail": "https://img.youtube.com/vi/QxbmhKEOyZ4/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=QxbmhKEOyZ4"}, {"artist": "4AD - Videos", "title": "Lush - Sunbathing (2025 Remaster) [Official Visual", "timestamp": "03:00", "seconds": 180, "thumbnail": "https://img.youtube.com/vi/wRRjmxxTZFs/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=wRRjmxxTZFs"}, {"artist": "80s Music & Italo Disco - Videos", "title": "Ad Visser & Daniel Sahuleka - Giddyap A Gogo", "timestamp": "06:00", "seconds": 360, "thumbnail": "https://img.youtube.com/vi/j-j0SbVXdtw/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=j-j0SbVXdtw"}, {"artist": "180 Fact - Videos", "title": "Interview: Gabriel Moses \u2013 Selah open at 180 Studi", "timestamp": "09:00", "seconds": 540, "thumbnail": "https://img.youtube.com/vi/MLZHKIwnVN8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=MLZHKIwnVN8"}, {"artist": "AirwaveMusicTV - Videos", "title": "Beyond The Clouds - Anymore (Lyrics)", "timestamp": "12:00", "seconds": 720, "thumbnail": "https://img.youtube.com/vi/NA1B9KTegdQ/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=NA1B9KTegdQ"}, {"artist": "Anjunadeep - Videos", "title": "kiskadee, Jody Wisternoff & James Grant feat. Ren ", "timestamp": "15:00", "seconds": 900, "thumbnail": "https://img.youtube.com/vi/tY-6WLHJdG8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=tY-6WLHJdG8"}, {"artist": "Berklee College of Music - Videos", "title": "How to Audition and Interview", "timestamp": "18:00", "seconds": 1080, "thumbnail": "https://img.youtube.com/vi/oH74m5TSeto/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=oH74m5TSeto"}, {"artist": "Big Dada - Videos", "title": "Farai - 'National Gangsters (LYZZA Remix)'", "timestamp": "21:00", "seconds": 1260, "thumbnail": "https://img.youtube.com/vi/y3lga43YVvk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=y3lga43YVvk"}, {"artist": "Bill McClintock - Videos", "title": "Huey Lewis and the Trammps - \"The Power of Disco\"", "timestamp": "24:00", "seconds": 1440, "thumbnail": "https://img.youtube.com/vi/6gJjLYttxB8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=6gJjLYttxB8"}, {"artist": "Cafe De Anatolia - Videos", "title": "Cafe De Anatolia \u2013 BOHO EXPERIENCE | Best Desert M", "timestamp": "27:00", "seconds": 1620, "thumbnail": "https://img.youtube.com/vi/DipaActcu1w/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=DipaActcu1w"}, {"artist": "Casual Jam Records - Videos", "title": "Cape Cub - Swim (Rami Remix)", "timestamp": "30:00", "seconds": 1800, "thumbnail": "https://img.youtube.com/vi/bzW2_XRnlb0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=bzW2_XRnlb0"}, {"artist": "Cercle - Videos", "title": "Max Richter live at Cercle Odyssey, Paris, France", "timestamp": "33:00", "seconds": 1980, "thumbnail": "https://img.youtube.com/vi/7bTlKxH3CgI/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=7bTlKxH3CgI"}, {"artist": "Chill Nation - Videos", "title": "NOTD, Lucky Lou - NOKIA", "timestamp": "36:00", "seconds": 2160, "thumbnail": "https://img.youtube.com/vi/odtvDNgSO7Y/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=odtvDNgSO7Y"}, {"artist": "ChillYourMind - Videos", "title": "L\u00d8ST SIGNAL, Muffin, RIVIERA - Blue Eyes", "timestamp": "39:00", "seconds": 2340, "thumbnail": "https://img.youtube.com/vi/P02cTLW3aj8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=P02cTLW3aj8"}, {"artist": "CloudKid - Videos", "title": "Conrad the Clown & Confetti - Throw Ya Body", "timestamp": "42:00", "seconds": 2520, "thumbnail": "https://img.youtube.com/vi/NR-KefaNSB0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=NR-KefaNSB0"}, {"artist": "Cracki Records - Videos", "title": "Malandre w/ Couvre x Chefs | Cracki Station", "timestamp": "45:00", "seconds": 2700, "thumbnail": "https://img.youtube.com/vi/oDfX3LvM1TE/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=oDfX3LvM1TE"}, {"artist": "Dance Nation - Videos", "title": "Badshah", "timestamp": "48:00", "seconds": 2880, "thumbnail": "https://img.youtube.com/vi/O1JWSO3ie84/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=O1JWSO3ie84"}, {"artist": "David Dean Burkhart - Videos", "title": "Endearments - People", "timestamp": "51:00", "seconds": 3060, "thumbnail": "https://img.youtube.com/vi/eD3JSN064Ks/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=eD3JSN064Ks"}, {"artist": "Deep Disco - Videos", "title": "Eleftheria - In Between", "timestamp": "54:00", "seconds": 3240, "thumbnail": "https://img.youtube.com/vi/keGtsFyIXOs/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=keGtsFyIXOs"}, {"artist": "DefectedRecords - Videos", "title": "We've Moved YouTube Channels", "timestamp": "57:00", "seconds": 3420, "thumbnail": "https://img.youtube.com/vi/MmGCCV4SpC0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=MmGCCV4SpC0"}, {"artist": "Deluxe - Videos", "title": "Deluxe - Live \"L'Acoustik Qui Fait Plaisir\" au Sup", "timestamp": "60:00", "seconds": 3600, "thumbnail": "https://img.youtube.com/vi/9-T4tHAaTLQ/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=9-T4tHAaTLQ"}, {"artist": "DISCORDBEING - Videos", "title": "TNGHT- I'm In A Hole (VARI Remix)", "timestamp": "63:00", "seconds": 3780, "thumbnail": "https://img.youtube.com/vi/plMUNoE42cs/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=plMUNoE42cs"}, {"artist": "DJ' PYL - Funk Disco Soul Groove - Video", "title": "Happy Holidays ! \ud83c\udfd6\ufe0f See you on 5 Saturday Septembe", "timestamp": "66:00", "seconds": 3960, "thumbnail": "https://img.youtube.com/vi/u_3YgH0ENj8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=u_3YgH0ENj8"}, {"artist": "DJ FOXHOUND - Videos", "title": "Mos Def - Love (Instrumental) (prod. by 88 Keys)", "timestamp": "69:00", "seconds": 4140, "thumbnail": "https://img.youtube.com/vi/AjPEdFcyFy0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=AjPEdFcyFy0"}, {"artist": "EarthRitual - Videos", "title": "Wookiefoot - Don't Hold Your Breath (lyric video)", "timestamp": "72:00", "seconds": 4320, "thumbnail": "https://img.youtube.com/vi/TAIrY6WCLeM/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=TAIrY6WCLeM"}, {"artist": "EDM FAMILY - Videos", "title": "A$AP Ferg - Work (LUSSO Remix)", "timestamp": "75:00", "seconds": 4500, "thumbnail": "https://img.youtube.com/vi/xkf3O3wI7sM/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=xkf3O3wI7sM"}, {"artist": "Enhanced Music - Videos", "title": "S\u00d8NIN - Dreamin'", "timestamp": "78:00", "seconds": 4680, "thumbnail": "https://img.youtube.com/vi/u-gJkNMXYbQ/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=u-gJkNMXYbQ"}, {"artist": "Fatcat Records - Videos", "title": "Midnight Rodeo \u2013 CleanShirt", "timestamp": "81:00", "seconds": 4860, "thumbnail": "https://img.youtube.com/vi/yGQ8viFGnsk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=yGQ8viFGnsk"}, {"artist": "Fluidified - Videos", "title": "Music for when everything feels still", "timestamp": "84:00", "seconds": 5040, "thumbnail": "https://img.youtube.com/vi/baApwsg9PYA/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=baApwsg9PYA"}, {"artist": "Future Bass Records - Videos", "title": "Heatseeker...Oh Yeah...(clip)...Available on Futur", "timestamp": "87:00", "seconds": 5220, "thumbnail": "https://img.youtube.com/vi/4o4EkJxnzvU/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=4o4EkJxnzvU"}, {"artist": "Future House Music - Videos", "title": "Steve Aoki, Ely Oaks & Sacha - Gravity (Extended M", "timestamp": "90:00", "seconds": 5400, "thumbnail": "https://img.youtube.com/vi/PuRekZNdVGk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=PuRekZNdVGk"}, {"artist": "Gilles Peterson - Videos", "title": "Inner City Review // The George Semper Orchestra /", "timestamp": "93:00", "seconds": 5580, "thumbnail": "https://img.youtube.com/vi/8sMY2bOObV8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=8sMY2bOObV8"}, {"artist": "Houseum - Videos", "title": "Holo - Space Jam", "timestamp": "96:00", "seconds": 5760, "thumbnail": "https://img.youtube.com/vi/7N3R-L1BGjk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=7N3R-L1BGjk"}, {"artist": "hurfyd - Videos", "title": "Bobby Analog - Earth Arp", "timestamp": "99:00", "seconds": 5940, "thumbnail": "https://img.youtube.com/vi/jIvbIojaQbk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=jIvbIojaQbk"}, {"artist": "Hyperdub - Videos", "title": "Ikonika, Sense Seeker (feat. JLSXND7RS) Lyric Vide", "timestamp": "102:00", "seconds": 6120, "thumbnail": "https://img.youtube.com/vi/hR9xPxTgXGQ/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=hR9xPxTgXGQ"}, {"artist": "HYPERLOUPE - Videos", "title": "PERMANENT CLEAR LIGHT-Cosmic Comics(Full Album)", "timestamp": "105:00", "seconds": 6300, "thumbnail": "https://img.youtube.com/vi/jwZz-6SdQQ0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=jwZz-6SdQQ0"}, {"artist": "Chubble_18 - Videos", "title": "Jahlovah - Enjoy Life - Crates Riddim [Bussmove Pr", "timestamp": "108:00", "seconds": 6480, "thumbnail": "https://img.youtube.com/vi/ogUTxHyZ7pM/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ogUTxHyZ7pM"}, {"artist": "JazzVillageMusic - Videos", "title": "Lucky Peterson - Don't Want Nobody But You feat. T", "timestamp": "111:00", "seconds": 6660, "thumbnail": "https://img.youtube.com/vi/X6q0w3LA7C4/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=X6q0w3LA7C4"}, {"artist": "KEXP - Videos", "title": "The Wedding Present - Full Performance (Live on KE", "timestamp": "114:00", "seconds": 6840, "thumbnail": "https://img.youtube.com/vi/ktf5DLxJ9T8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ktf5DLxJ9T8"}, {"artist": "Koala Kontrol - Videos", "title": "Sabrina Sterling - Hold", "timestamp": "117:00", "seconds": 7020, "thumbnail": "https://img.youtube.com/vi/liG6yoZg1A8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=liG6yoZg1A8"}, {"artist": "La Belle Musique - Videos", "title": "The Illustrated Man & Sasha Carassi \u2014 Dance Of Sha", "timestamp": "120:00", "seconds": 7200, "thumbnail": "https://img.youtube.com/vi/7_DwadkRRik/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=7_DwadkRRik"}, {"artist": "Liquicity - Videos", "title": "pyxis & Redemptive - Arctic Void", "timestamp": "123:00", "seconds": 7380, "thumbnail": "https://img.youtube.com/vi/vpkbMRiuv9I/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=vpkbMRiuv9I"}, {"artist": "Lofi Girl - Videos", "title": "15 min power nap \u26a1 lofi sleep to recharge + alarm", "timestamp": "126:00", "seconds": 7560, "thumbnail": "https://img.youtube.com/vi/2oJqY4nhL-c/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=2oJqY4nhL-c"}, {"artist": "Lowly. - Videos", "title": "Emoter - Catharsis", "timestamp": "129:00", "seconds": 7740, "thumbnail": "https://img.youtube.com/vi/G5A9rATT9Es/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=G5A9rATT9Es"}, {"artist": "Majestic Casual - Videos", "title": "Kaytranada - Hold On (feat. Dawn Richard)", "timestamp": "132:00", "seconds": 7920, "thumbnail": "https://img.youtube.com/vi/40hh_fmF-rA/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=40hh_fmF-rA"}, {"artist": "melting bot - Videos", "title": "Bowler Room R4 PV at Sasazuka Bowl powered by Fore", "timestamp": "135:00", "seconds": 8100, "thumbnail": "https://img.youtube.com/vi/l6i8NhT7AXo/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=l6i8NhT7AXo"}, {"artist": "Merge Records on YouTube - Videos", "title": "Superchunk \"Stuck in a Dream\" (Official Video)", "timestamp": "138:00", "seconds": 8280, "thumbnail": "https://img.youtube.com/vi/SbfKf1ymcc8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=SbfKf1ymcc8"}, {"artist": "Monstercat Uncaged - Videos", "title": "QUIX - FEAR [Trap | Monstercat]", "timestamp": "141:00", "seconds": 8460, "thumbnail": "https://img.youtube.com/vi/fQrtoZIpd1E/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=fQrtoZIpd1E"}, {"artist": "MrDeepSense - Videos", "title": "John Summit - Fade Out (ft. MKLA)", "timestamp": "144:00", "seconds": 8640, "thumbnail": "https://img.youtube.com/vi/7X-leqyMuec/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=7X-leqyMuec"}, {"artist": "MrRevillz - Videos", "title": "Jex - Silver Lining", "timestamp": "147:00", "seconds": 8820, "thumbnail": "https://img.youtube.com/vi/_xPLJAudgzg/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=_xPLJAudgzg"}, {"artist": "MrSuicideSheep - Videos", "title": "Said The Sky & Jakob Ahlbom - The Swell (Vincent R", "timestamp": "150:00", "seconds": 9000, "thumbnail": "https://img.youtube.com/vi/skPZq_3dco4/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=skPZq_3dco4"}, {"artist": "Nightblue Music - Videos", "title": "10xx - I Know", "timestamp": "153:00", "seconds": 9180, "thumbnail": "https://img.youtube.com/vi/Q7BhgfDgSuA/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=Q7BhgfDgSuA"}, {"artist": "OldSchoolMovement - Videos", "title": "Trackman - Moments Of Modulation", "timestamp": "156:00", "seconds": 9360, "thumbnail": "https://img.youtube.com/vi/PyDkH3WOFko/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=PyDkH3WOFko"}, {"artist": "origamisound - Videos", "title": "FREE DESTINY 2 HACK 2025 NEW | DESTINY 2 AIMBOT & ", "timestamp": "159:00", "seconds": 9540, "thumbnail": "https://img.youtube.com/vi/RrCutjUXKI0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=RrCutjUXKI0"}, {"artist": "Paka The Plug - Videos", "title": "King Kaiju - Life & Times (Official Music Video)", "timestamp": "162:00", "seconds": 9720, "thumbnail": "https://img.youtube.com/vi/ujmQgPPpo-A/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ujmQgPPpo-A"}, {"artist": "Proximity - Videos", "title": "Matisse & Sadko - Endless Sunrise [Extended Mix]", "timestamp": "165:00", "seconds": 9900, "thumbnail": "https://img.youtube.com/vi/FVIChSY0UDs/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=FVIChSY0UDs"}, {"artist": "Rusty Knuckles - Videos", "title": "Billy Don Burns - Gram Parsons, Hank Williams & Me", "timestamp": "168:00", "seconds": 10080, "thumbnail": "https://img.youtube.com/vi/qRRwXv6UKmA/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=qRRwXv6UKmA"}, {"artist": "SamuraiMusicTV - Videos", "title": "Pianeti Sintetici - Living Plasma [SMDE57]", "timestamp": "171:00", "seconds": 10260, "thumbnail": "https://img.youtube.com/vi/wg6MHJq1Pp8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=wg6MHJq1Pp8"}, {"artist": "Selected. - Videos", "title": "Why U So - Heaven", "timestamp": "174:00", "seconds": 10440, "thumbnail": "https://img.youtube.com/vi/B67MUtU0coo/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=B67MUtU0coo"}, {"artist": "Sofar Sounds - Videos", "title": "Club Amor - Sottovoce | Sofar Brescia", "timestamp": "177:00", "seconds": 10620, "thumbnail": "https://img.youtube.com/vi/UlmesV_l7IY/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=UlmesV_l7IY"}, {"artist": "Spinnin' Records - Videos", "title": "TESS - Shooting Stars (Official Audio)", "timestamp": "180:00", "seconds": 10800, "thumbnail": "https://img.youtube.com/vi/W5brAorOEAg/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=W5brAorOEAg"}, {"artist": "STMPD RCRDS - Videos", "title": "Vluarr - Steppin'", "timestamp": "183:00", "seconds": 10980, "thumbnail": "https://img.youtube.com/vi/XcCzVCZpiwg/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=XcCzVCZpiwg"}, {"artist": "Stoned Meadow Of Doom - Videos", "title": "SILVERLORD - SILVERLORD (2026) (New Full Album", "timestamp": "186:00", "seconds": 11160, "thumbnail": "https://img.youtube.com/vi/TUJ0GyFyRB8/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=TUJ0GyFyRB8"}, {"artist": "SubSoul - Videos", "title": "Jamie Jones & Camden Cox - State of Mind", "timestamp": "189:00", "seconds": 11340, "thumbnail": "https://img.youtube.com/vi/LZJypeIETFM/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=LZJypeIETFM"}, {"artist": "The Retro 12 Inch - Videos", "title": "Camouflage - Love Is A Shield (Extended Version)", "timestamp": "192:00", "seconds": 11520, "thumbnail": "https://img.youtube.com/vi/ehVSZR8kR_o/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ehVSZR8kR_o"}, {"artist": "Toolroom Records - Videos", "title": "Mind Against @ HABITAT x Loveland | CASSIMM, Dark ", "timestamp": "195:00", "seconds": 11700, "thumbnail": "https://img.youtube.com/vi/6gd08Z_9xdI/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=6gd08Z_9xdI"}, {"artist": "Trap City - Videos", "title": "San Holo, Former Hero - BLINDING LIGHTS", "timestamp": "198:00", "seconds": 11880, "thumbnail": "https://img.youtube.com/vi/rMEp-mpiks4/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=rMEp-mpiks4"}, {"artist": "Trap Nation - Videos", "title": "BROKN - Feel It", "timestamp": "201:00", "seconds": 12060, "thumbnail": "https://img.youtube.com/vi/SsrTGRRVVJs/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=SsrTGRRVVJs"}, {"artist": "triple j - Videos", "title": "Behind Hooligan Hefs\u2019 cover of Linkin Park for Lik", "timestamp": "204:00", "seconds": 12240, "thumbnail": "https://img.youtube.com/vi/ixkX8XMPYhA/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ixkX8XMPYhA"}, {"artist": "Tropical House Records - Videos", "title": "Joshua Robbie & Dawty (feat. Preston Harris, Trxnz", "timestamp": "207:00", "seconds": 12420, "thumbnail": "https://img.youtube.com/vi/bp6d9I_A48o/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=bp6d9I_A48o"}, {"artist": "UKF Drum & Bass - Videos", "title": "Mitekiss - Forty Times", "timestamp": "210:00", "seconds": 12600, "thumbnail": "https://img.youtube.com/vi/26n5KPgUsnk/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=26n5KPgUsnk"}, {"artist": "UKF Dubstep - Videos", "title": "SKisM ft. Virus Syndicate - Like This (Skybreak Re", "timestamp": "213:00", "seconds": 12780, "thumbnail": "https://img.youtube.com/vi/DNwIgSHNCdw/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=DNwIgSHNCdw"}, {"artist": "WaveMusic - Videos", "title": "Alan Walker, Ava Max - FATE (Lyrics)", "timestamp": "216:00", "seconds": 12960, "thumbnail": "https://img.youtube.com/vi/QW99g1eOPSc/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=QW99g1eOPSc"}, {"artist": "Wreckroom - Videos", "title": "Luca", "timestamp": "219:00", "seconds": 13140, "thumbnail": "https://img.youtube.com/vi/ds6JCKSMHtU/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=ds6JCKSMHtU"}, {"artist": "xKito Music - Videos", "title": "10xx - I Know", "timestamp": "222:00", "seconds": 13320, "thumbnail": "https://img.youtube.com/vi/29PVHMM86EI/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=29PVHMM86EI"}, {"artist": "Rameses B - Videos", "title": "Rameses B - 8PM", "timestamp": "225:00", "seconds": 13500, "thumbnail": "https://img.youtube.com/vi/dEzbR3XLO20/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=dEzbR3XLO20"}, {"artist": "Boiler Room - Videos", "title": "Ayra Starr | Boiler Room London: Ayra Starr pres. ", "timestamp": "228:00", "seconds": 13680, "thumbnail": "https://img.youtube.com/vi/PUvYuGaTOt0/mqdefault.jpg", "url": "https://www.youtube.com/watch?v=PUvYuGaTOt0"}];
+    const tracks = [{"timestamp": "01:08", "seconds": 68.546, "artist": "2 Meter Sessions", "title": "Tracy Bonham \u2013 Mother Mother (Live, 1996)", "url": "https://www.youtube.com/watch?v=RQcT1XGGcqY", "thumbnail": "https://i.ytimg.com/vi/RQcT1XGGcqY/mqdefault.jpg"}];
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
@@ -288,7 +303,7 @@
     }
     
     window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 200);
+    setTimeout(resizeCanvas, 300);
     
     function formatTime(sec) {
         if (isNaN(sec) || !isFinite(sec)) return '00:00';
@@ -308,7 +323,7 @@
             analyser.connect(audioContext.destination);
             visualize();
         } catch(e) {
-            console.log('AudioContext bloqué ou non disponible.');
+            console.log('AudioContext bloqué.');
         }
     }
     
@@ -365,6 +380,7 @@
         }
     }
     
+    // CORRECTION HISTORIQUE : CALCUL EXACT DES CURSEURS AU CHARGEMENT REEL DES METADONNEES AUDIO
     function updateMarkers() {
         const dur = audio.duration;
         if (!dur || isNaN(dur)) return;
@@ -378,16 +394,27 @@
             marker.className = 'timeline-marker';
             marker.style.left = pct + '%';
             
+            // CONSTITUTION DE LA BULLE VISUELLE COMPLÈTE ET CLIQUABLE
             const tooltip = document.createElement('div');
             tooltip.className = 'marker-tooltip';
             tooltip.innerHTML = `
-                <img src="${track.thumbnail}" onerror="this.src='Radio_SARFERPROD.jpeg'">
+                <div class="tooltip-thumb-wrapper" title="Ouvrir la vidéo source originale">
+                    <img src="${track.thumbnail}" onerror="this.src='Radio_SARFERPROD.jpeg'">
+                </div>
                 <div class="tooltip-title">${escapeHtml(track.title)}</div>
                 <div class="tooltip-artist">${escapeHtml(track.artist)}</div>
-                <div class="tooltip-time">➔ ${track.timestamp}</div>
+                <div class="tooltip-time">Fin de transition ➔ ${track.timestamp}</div>
             `;
             
+            // Événement au clic sur la vignette (Redirige vers la vidéo YouTube)
+            tooltip.querySelector('.tooltip-thumb-wrapper').addEventListener('click', (e) => {
+                e.stopPropagation(); // Évite de déplacer le curseur audio
+                window.open(track.url, '_blank');
+            });
+            
             marker.appendChild(tooltip);
+            
+            // Le clic sur le curseur physique aligne le lecteur audio à cet endroit
             marker.addEventListener('click', (e) => {
                 e.stopPropagation();
                 initAudioContext();
@@ -450,6 +477,7 @@
                 playAudio();
             });
             
+            // CORRECTION DES BOUTONS DE SOURCE DU TABLEAU INTERACTIF
             row.innerHTML = `
                 <div class="track-vignette" style="background-image: url('${track.thumbnail}'), url('Radio_SARFERPROD.jpeg');"></div>
                 <div class="track-details">
@@ -481,7 +509,7 @@
     function playAudio() { 
         if (audioContext && audioContext.state === 'suspended') audioContext.resume(); 
         initAudioContext(); 
-        audio.play().catch(e => console.log('Lecture bloquée', e));
+        audio.play().catch(e => console.log('Lecture en attente...', e));
     }
     
     function pauseAudio() { audio.pause(); }
@@ -490,37 +518,28 @@
         const val = volumeSlider.value;
         audio.volume = val / 100; 
         volumePercent.textContent = val + '%'; 
-        if (val == 0) {
-            volumeIcon.textContent = '🔈';
-        } else if (val < 50) {
-            volumeIcon.textContent = '🔉';
-        } else {
-            volumeIcon.textContent = '🔊';
-        }
+        if (val == 0) { volumeIcon.textContent = '🔈'; } 
+        else if (val < 50) { volumeIcon.textContent = '🔉'; } 
+        else { volumeIcon.textContent = '🔊'; }
     }
     
     volumeIcon.addEventListener('click', () => {
-        if (audio.volume > 0) {
-            lastVolume = audio.volume;
-            volumeSlider.value = 0;
-        } else {
-            volumeSlider.value = lastVolume * 100;
-        }
+        if (audio.volume > 0) { lastVolume = audio.volume; volumeSlider.value = 0; } 
+        else { volumeSlider.value = lastVolume * 100; }
         updateVolume();
     });
     
-    function setProgress(e) { 
+    progressBar.addEventListener('click', (e) => {
         const rect = progressBar.getBoundingClientRect(); 
         const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); 
         if (audio.duration) {
             audio.currentTime = percent * audio.duration;
             updateProgress();
         }
-    }
+    });
     
     playBtn.addEventListener('click', playAudio);
     pauseBtn.addEventListener('click', pauseAudio);
-    progressBar.addEventListener('click', setProgress);
     volumeSlider.addEventListener('input', updateVolume);
     audio.addEventListener('timeupdate', updateProgress);
     
@@ -530,13 +549,13 @@
     });
     
     audio.addEventListener('ended', () => {
-        marqueeSpan.textContent = 'Mix terminé ! Merci de votre écoute — SARFERPROD';
+        marqueeSpan.textContent = 'Mix terminé ! À demain pour une nouvelle session — SARFERPROD';
         progressFill.style.width = '100%';
     });
     
     document.getElementById('whatsappBtn').addEventListener('click', e => {
         e.preventDefault();
-        window.open('https://wa.me/?text=' + encodeURIComponent('Écoute le Sarferprod Daily Mix du jour ➔ ' + 'https://sarferprod.github.io/sarferprod-dailymix/'), '_blank');
+        window.open('https://wa.me/?text=' + encodeURIComponent('Écoute le Sarferprod Daily Mix du jour ! ➔ ' + 'https://sarferprod.github.io/sarferprod-dailymix/'), '_blank');
     });
     
     document.getElementById('emailBtn').addEventListener('click', e => {
@@ -548,16 +567,12 @@
         e.preventDefault();
         navigator.clipboard.writeText('https://sarferprod.github.io/sarferprod-dailymix/');
         const btn = document.getElementById('copyBtn');
-        const originalText = btn.textContent;
         btn.textContent = 'Copié !';
-        setTimeout(() => btn.textContent = originalText, 2000);
+        setTimeout(() => btn.textContent = 'Copier le lien', 2000);
     });
     
     buildUI();
     updateVolume();
-    document.body.addEventListener('click', () => { 
-        if (audioContext && audioContext.state === 'suspended') audioContext.resume(); 
-    }, { once: true });
 </script>
 </body>
 </html>
