@@ -84,7 +84,7 @@
         .btn-img:hover { transform: scale(1.12); filter: drop-shadow(0 0 12px #ff8c00); }
         
         .volume-control { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 25px; background: rgba(0,0,0,0.2); padding: 8px 20px; border-radius: 30px; display: inline-flex; margin-left: 50%; transform: translateX(-50%); }
-        .volume-icon { color: #ffcc88; font-size: 1.1rem; cursor: pointer; }
+        .volume-icon { color: #ffcc88; font-size: 1.1rem; cursor: pointer; user-select: none; }
         .volume-slider { width: 130px; height: 5px; -webkit-appearance: none; background: rgba(255, 255, 255, 0.25); border-radius: 4px; outline: none; transition: background 0.2s; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #ff8c00; cursor: pointer; box-shadow: 0 0 6px rgba(0,0,0,0.5); transition: transform 0.1s; }
         .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.3); background: #ffaa33; }
@@ -93,23 +93,25 @@
         .progress-section { margin: 10px 0 10px; position: relative; }
         canvas { width: 100%; height: 90px; border-radius: 20px; display: block; background: rgba(0, 0, 0, 0.45); box-shadow: inset 0 4px 20px rgba(0,0,0,0.6); margin-bottom: 12px; }
         
-        .progress-wrapper { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.15); border-radius: 4px; cursor: pointer; position: relative; margin-bottom: 10px; }
+        .progress-container-box { position: relative; width: 100%; margin-bottom: 10px; }
+        .progress-wrapper { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.15); border-radius: 4px; cursor: pointer; position: relative; z-index: 5; }
         .progress-fill-led { width: 0%; height: 100%; background: linear-gradient(90deg, #ff5500, #ff8c00, #ffcc00); border-radius: 4px; box-shadow: 0 0 8px #ff8c00; position: relative; }
         
-        .markers-layer { position: absolute; width: 100%; height: 20px; top: 94px; left: 0; pointer-events: none; }
+        .markers-layer { position: absolute; width: 100%; height: 14px; top: -4px; left: 0; pointer-events: none; z-index: 10; }
         .timeline-marker {
-            position: absolute; width: 3px; height: 12px; background: rgba(255, 140, 0, 0.75); border-radius: 2px;
-            cursor: pointer; transition: all 0.2s ease; transform: translateX(-50%); pointer-events: auto; z-index: 10;
+            position: absolute; width: 4px; height: 14px; background: #ff8c00; border-radius: 2px;
+            cursor: pointer; transform: translateX(-50%); pointer-events: auto;
+            box-shadow: 0 0 4px rgba(0,0,0,0.6); transition: background 0.2s, height 0.2s;
         }
-        .timeline-marker:hover { width: 6px; height: 18px; background: #ffcc00; box-shadow: 0 0 10px #ffcc00; z-index: 20; }
+        .timeline-marker:hover { height: 18px; background: #ffcc00; box-shadow: 0 0 8px #ffcc00; z-index: 100; }
         
         .marker-tooltip {
-            position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(5px);
+            position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
             background: rgba(10, 10, 20, 0.95); backdrop-filter: blur(10px); border-radius: 12px;
-            padding: 10px; display: none; opacity: 0; pointer-events: none; border: 1px solid #ff8c00;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6); transition: all 0.2s ease; width: 160px; text-align: center;
+            padding: 10px; display: none; pointer-events: none; border: 1px solid #ff8c00;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6); width: 160px; text-align: center;
         }
-        .timeline-marker:hover .marker-tooltip { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .timeline-marker:hover .marker-tooltip { display: block; }
         .marker-tooltip img { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.1); }
         .marker-tooltip .tooltip-title { font-size: 0.75rem; color: #ffcc88; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .marker-tooltip .tooltip-artist { font-size: 0.65rem; color: rgba(255, 245, 220, 0.7); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -139,13 +141,11 @@
         .track-row:hover { background: rgba(0, 0, 0, 0.55); transform: translateX(6px); border-left-color: rgba(255, 140, 0, 0.5); }
         .track-row:hover::after { opacity: 1; }
         
-        /* État actif / survol de lecture */
         .track-row.active { background: rgba(255, 140, 0, 0.18); border-left-color: #ff8c00; box-shadow: inset 0 0 10px rgba(255,140,0,0.1); }
         .track-row.active .track-artist-name { color: #ffaa55; font-weight: 700; }
         .track-row.active .track-song-title { color: #fff; }
         .track-row.active .track-duration { color: #ffcc00; font-weight: bold; }
         
-        /* Effet LED Vignette au survol */
         .track-vignette { 
             width: 55px; height: 55px; border-radius: 10px; 
             background-size: cover; background-position: center; flex-shrink: 0; 
@@ -169,7 +169,7 @@
             font-size: 0.75rem; color: #ff8c00; text-decoration: none; 
             padding: 5px 12px; border-radius: 20px; background: rgba(255, 140, 0, 0.15); 
             border: 1px solid rgba(255, 140, 0, 0.3); transition: all 0.2s;
-            font-weight: 500;
+            font-weight: 500; position: relative; z-index: 10;
         }
         .track-link:hover { color: white; background: #ff8c00; border-color: #ffaa33; box-shadow: 0 0 8px rgba(255,140,0,0.4); }
         
@@ -197,7 +197,7 @@
         <div class="event-date">
             <span>SUN 05TH</span>
             <span>JUL</span>
-            <span>09:41</span>
+            <span>09:50</span>
             <span>NEW YORK CITY</span>
         </div>
     </div>
@@ -228,13 +228,15 @@
         
         <div class="progress-section">
             <canvas id="waveformCanvas" width="800" height="90"></canvas>
-            <div class="progress-wrapper" id="progressBar">
-                <div class="progress-fill-led" id="progressFill"></div>
+            <div class="progress-container-box">
+                <div class="progress-wrapper" id="progressBar">
+                    <div class="progress-fill-led" id="progressFill"></div>
+                </div>
+                <div class="markers-layer" id="markersLayer"></div>
             </div>
-            <div class="markers-layer" id="markersLayer"></div>
             <div class="time-row">
                 <span id="currentTime">00:00</span>
-                <span id="duration">231:00</span>
+                <span id="duration">9:31</span>
             </div>
         </div>
     </div>
@@ -282,7 +284,7 @@
         canvas.width = canvas.parentElement.clientWidth;
         canvas.height = 90;
         drawEmptyWaveform();
-        setTimeout(updateMarkers, 150);
+        updateMarkers();
     }
     
     window.addEventListener('resize', resizeCanvas);
@@ -306,7 +308,7 @@
             analyser.connect(audioContext.destination);
             visualize();
         } catch(e) {
-            console.log('AudioContext initialisé en fallback standard.');
+            console.log('AudioContext bloqué ou non disponible.');
         }
     }
     
@@ -364,11 +366,12 @@
     }
     
     function updateMarkers() {
-        if (!audio.duration || isNaN(audio.duration)) return;
+        const dur = audio.duration;
+        if (!dur || isNaN(dur)) return;
         markersLayer.innerHTML = '';
         
         tracks.forEach((track, index) => {
-            const pct = (track.seconds / audio.duration) * 100;
+            const pct = (track.seconds / dur) * 100;
             if (pct > 100) return;
             
             const marker = document.createElement('div');
@@ -385,8 +388,6 @@
             `;
             
             marker.appendChild(tooltip);
-            
-            // Clic sur le repère : saute au morceau directement dans le mix
             marker.addEventListener('click', (e) => {
                 e.stopPropagation();
                 initAudioContext();
@@ -443,7 +444,6 @@
             const row = document.createElement('div');
             row.className = 'track-row';
             
-            // Clic sur la ligne -> Lecture directe dans le mixeur au bon timestamp
             row.addEventListener('click', () => {
                 initAudioContext();
                 audio.currentTime = track.seconds;
@@ -451,7 +451,7 @@
             });
             
             row.innerHTML = `
-                <div class="track-vignette" style="background-image: url(${track.thumbnail}), url('Radio_SARFERPROD.jpeg');"></div>
+                <div class="track-vignette" style="background-image: url('${track.thumbnail}'), url('Radio_SARFERPROD.jpeg');"></div>
                 <div class="track-details">
                     <div class="track-artist-name">${escapeHtml(track.artist)}</div>
                     <div class="track-song-title">${escapeHtml(track.title)}</div>
@@ -481,7 +481,7 @@
     function playAudio() { 
         if (audioContext && audioContext.state === 'suspended') audioContext.resume(); 
         initAudioContext(); 
-        audio.play().catch(e => console.log('Lecture bloquée par le navigateur', e));
+        audio.play().catch(e => console.log('Lecture bloquée', e));
     }
     
     function pauseAudio() { audio.pause(); }
@@ -526,7 +526,7 @@
     
     audio.addEventListener('loadedmetadata', () => { 
         durationSpan.textContent = formatTime(audio.duration); 
-        setTimeout(updateMarkers, 200); 
+        updateMarkers(); 
     });
     
     audio.addEventListener('ended', () => {
@@ -534,7 +534,6 @@
         progressFill.style.width = '100%';
     });
     
-    // Partage & Liens
     document.getElementById('whatsappBtn').addEventListener('click', e => {
         e.preventDefault();
         window.open('https://wa.me/?text=' + encodeURIComponent('Écoute le Sarferprod Daily Mix du jour ➔ ' + 'https://sarferprod.github.io/sarferprod-dailymix/'), '_blank');
@@ -554,7 +553,6 @@
         setTimeout(() => btn.textContent = originalText, 2000);
     });
     
-    // Initialisation
     buildUI();
     updateVolume();
     document.body.addEventListener('click', () => { 
