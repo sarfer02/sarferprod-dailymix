@@ -9,329 +9,247 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #17100a;
-            background-image: url('assets_vintage/panel_full.png'), url('001.png');
-            background-size: cover, cover; background-position: center; background-attachment: fixed;
+            background: radial-gradient(ellipse at 50% 40%, #d9d0c3, #b8ad9c 70%, #8f8676);
             font-family: 'Inter', sans-serif; min-height: 100vh;
-            display: flex; justify-content: center; align-items: center; padding: 30px 20px;
+            display: flex; justify-content: center; align-items: center; padding: 24px 12px;
         }
-        body::before {
-            content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-            background: rgba(10, 6, 2, 0.45); backdrop-filter: blur(3px);
-        }
-        .container { max-width: 950px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
+        .stage { max-width: 1180px; width: 100%; }
 
-        @keyframes neonPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(53,224,255,.30), 0 0 26px rgba(255,166,43,.22); }
-            50%      { box-shadow: 0 0 20px rgba(53,224,255,.65), 0 0 46px rgba(255,166,43,.45); }
+        /* ── LA CONSOLE = L'IMAGE, et rien qu'elle ── */
+        .console {
+            position: relative; width: 100%; aspect-ratio: 1377 / 765;
+            background-image: url('assets_vintage/panel_full.png');
+            background-size: 100% 100%; border-radius: 14px;
+            box-shadow: 0 24px 60px rgba(40,25,5,.45), 0 4px 14px rgba(40,25,5,.35);
+            overflow: hidden;
+        }
+
+        /* ── LCD VIVANT : marquee dans l'écran de l'image ── */
+        .lcd-live {
+            position: absolute; left: 27.2%; top: 16.3%; width: 20%; height: 14.4%;
+            border-radius: 10px; overflow: hidden;
+            background-color: #030a0d;
+            display: flex; align-items: center;
+        }
+        .lcd-live::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px),
+                        linear-gradient(115deg, rgba(255,255,255,.14) 0%, transparent 30%, transparent 70%, rgba(255,255,255,.07) 100%);
+        }
+        .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
+        .marquee-track span {
+            display: inline-block; padding-left: 100%; animation: scrollTrack 13s linear infinite;
+            font-family: 'Courier New', monospace; font-size: .78rem; font-weight: bold; letter-spacing: 2px;
+            color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        @keyframes ledBlink { 0%,60% { opacity: 1; } 70%,100% { opacity: .2; } }
+
+        /* ── WAVEFORM VIVANT : canvas dans l'écran de l'image ── */
+        .wave-live {
+            position: absolute; left: 6.8%; top: 32.0%; width: 40.4%; height: 10.5%;
+            border-radius: 10px; overflow: hidden; cursor: pointer;
+        }
+        .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .wave-progress {
+            position: absolute; left: 4%; right: 4%; bottom: 12%; height: 3px; border-radius: 2px;
+            background: rgba(255,255,255,.10); cursor: pointer;
+        }
+        .wave-progress-fill {
+            width: 0%; height: 100%; border-radius: 2px; pointer-events: none;
+            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 8px rgba(53,224,255,.9);
+        }
+        .wave-times {
+            position: absolute; left: 4%; right: 4%; bottom: 2%;
+            display: flex; justify-content: space-between;
+            font-family: 'Courier New', monospace; font-size: .5rem; color: rgba(111,230,255,.75);
+        }
+        .markers-layer { position: absolute; inset: 0; pointer-events: none; }
+        .timeline-marker {
+            position: absolute; bottom: 12%; width: 2px; height: 22%; background: #7ce8ff;
+            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
+            box-shadow: 0 0 5px #35e0ff;
+        }
+        .marker-thumb {
+            position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) scale(.9);
+            width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
+            pointer-events: none; border: 2px solid #35e0ff; transition: opacity .2s;
+        }
+        .timeline-marker:hover .marker-thumb { opacity: 1; }
+
+        /* ── PLATINE VIVANTE : disque qui tourne sur le disque de l'image ── */
+        .disc-zone {
+            position: absolute; left: 16.3%; top: 51.0%; width: 21.2%; height: 38.2%;
+        }
+        .turntable-disc {
+            position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
+            animation: spin 3.6s linear infinite; animation-play-state: paused;
+            will-change: transform;
+        }
+        body.playing .turntable-disc { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
 
-        /* ── HEADER (texte laiton) ── */
-        .victorian-header {
-            background: rgba(22,13,6,.60); backdrop-filter: blur(10px);
-            border: 1.5px solid rgba(212,175,55,.75); border-radius: 20px;
-            padding: 20px 30px; margin-bottom: 25px; text-align: center;
-            animation: neonPulse 3.5s ease-in-out infinite;
-        }
-        .brand-line { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; align-items: baseline; }
-        .brand-main {
-            font-family: 'Georgia', serif; font-size: 2rem; font-weight: 700; letter-spacing: 5px;
-            color: #f0d48a; text-shadow: 0 0 10px rgba(212,175,55,.8), 0 0 26px rgba(255,166,43,.4);
-        }
-        .brand-sub {
-            font-family: 'Courier New', monospace; font-size: .95rem; letter-spacing: 6px;
-            color: #54e4ff; text-shadow: 0 0 8px rgba(53,224,255,.9);
-        }
-        .free-badge {
-            display: inline-block; background: rgba(53,224,255,.08); border: 1px solid #35e0ff;
-            border-radius: 40px; padding: 4px 20px; font-family: 'Courier New', monospace;
-            font-size: .7rem; color: #9feeff; margin-bottom: 12px;
-            text-shadow: 0 0 8px rgba(53,224,255,.9); box-shadow: 0 0 12px rgba(53,224,255,.35), inset 0 0 8px rgba(53,224,255,.15);
-        }
-        .free-badge::before { content: '●'; color: #35e0ff; margin-right: 8px; animation: ledBlink 1.6s infinite; text-shadow: 0 0 6px #35e0ff; }
-        .event-date { display: flex; justify-content: center; gap: 20px; font-family: 'Georgia', serif; font-size: .8rem; color: rgba(242,226,196,.75); text-shadow: 0 0 6px rgba(212,175,55,.4); }
-
-        /* ── CHÂSSIS ── */
-        .glass-card {
-            background: rgba(18,11,5,.58); backdrop-filter: blur(16px); border-radius: 26px;
-            border: 1px solid rgba(212,175,55,.55); padding: 30px 26px; margin-bottom: 24px;
-            box-shadow: inset 0 0 30px rgba(0,0,0,.6), 0 0 25px rgba(255,166,43,.12);
-        }
-
-        /* ── DECK : PLATINE à gauche / contrôles à droite ── */
-        .deck-grid { display: grid; grid-template-columns: 240px 1fr; gap: 26px; align-items: center; }
-        .deck-left { text-align: center; }
-        .deck-leds .led { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.12); margin: 0 4px; }
-        .deck-leds .led.on { background: #59ff9c; box-shadow: 0 0 8px #59ff9c; }
-
-        /* ── PLATINE TOURNE-DISQUES + ANNEAU DE LEDs ── */
-        .turntable-wrap {
-            position: relative; width: 216px; height: 216px; margin: 0 auto 14px;
-        }
-        .led-ring { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+        /* ── ANNEAU DE LEDs autour du disque de l'image ── */
+        .led-ring { position: absolute; inset: -5.5%; pointer-events: none; }
         .led-ring .ring-led {
             position: absolute; top: 50%; left: 50%;
-            width: 9px; height: 9px; border-radius: 50%;
-            background: rgba(255,255,255,.06);
-            box-shadow: inset 0 0 3px rgba(0,0,0,.6);
-            transform: translate(-50%,-50%) rotate(var(--a)) translateY(-103px);
+            width: clamp(4px, .55vw, 9px); height: clamp(4px, .55vw, 9px); border-radius: 50%;
+            background: rgba(255,255,255,.07);
+            transform: translate(-50%,-50%) rotate(var(--a)) translateY(-53%);
             transition: background .09s linear, box-shadow .09s linear;
         }
         .led-ring .ring-led.on {
             background: var(--c);
-            box-shadow: 0 0 8px var(--c), 0 0 18px var(--c), 0 0 30px var(--c);
-        }
-        .turntable-disc {
-            position: absolute; inset: 22px; border-radius: 50%; overflow: hidden;
-            border: 3px solid #c9a13b;
-            box-shadow: 0 0 22px rgba(255,166,43,.45), inset 0 0 28px rgba(0,0,0,.65);
-            animation: spin 3.6s linear infinite;
-            animation-play-state: paused;
-            z-index: 1;
-        }
-        body.playing .turntable-disc { animation-play-state: running; }
-        .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .turntable-spindle {
-            position: absolute; top: 50%; left: 50%; width: 14px; height: 14px; z-index: 2;
-            transform: translate(-50%,-50%); border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
-            box-shadow: 0 0 8px rgba(255,220,120,.8), 0 0 16px rgba(255,166,43,.5);
-            pointer-events: none;
-        }
-        .turntable-label {
-            font-family: 'Courier New', monospace; font-size: .65rem; letter-spacing: 3px;
-            color: #9feeff; text-shadow: 0 0 6px rgba(53,224,255,.7); margin-top: 4px;
+            box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c);
         }
 
-        /* ── ÉCRAN LCD + VITRE PLEXI ── */
-        .track-title-frame {
-            position: relative; border-radius: 16px; padding: 16px 26px; margin-bottom: 24px;
-            border: 3px solid rgba(110,85,40,.95); overflow: hidden;
-            background-color: #030a0d;
-            background-image: url('assets_vintage/lcd_screen.png'); background-size: cover; background-position: center;
-            box-shadow: inset 0 0 26px rgba(0,0,0,.85), 0 0 18px rgba(53,224,255,.20);
+        /* ── HOTSPOTS : les boutons DE L'IMAGE deviennent cliquables ── */
+        .hotspot {
+            position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h);
+            background: transparent; border: none; border-radius: 50%; cursor: pointer; padding: 0;
+            transition: box-shadow .2s;
         }
-        .track-title-frame::before {
-            content: ''; position: absolute; inset: 0; pointer-events: none;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
-        }
-        .track-title-frame::after {
-            content: ''; position: absolute; inset: 0; pointer-events: none;
-            background: linear-gradient(115deg, rgba(255,255,255,.17) 0%, rgba(255,255,255,.05) 26%, transparent 44%, transparent 72%, rgba(255,255,255,.08) 100%);
-        }
-        .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; }
-        .marquee-track span {
-            display: inline-block; padding-left: 100%; animation: scrollTrack 14s linear infinite;
-            font-family: 'Courier New', monospace; font-size: 1.15rem; font-weight: bold; letter-spacing: 3px;
-            color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 18px rgba(53,224,255,.55);
-        }
+        .hotspot:hover { box-shadow: 0 0 18px rgba(120,200,255,.85), 0 0 34px rgba(120,200,255,.45); }
+        .hotspot.lit { box-shadow: 0 0 14px rgba(120,200,255,.6), inset 0 0 10px rgba(120,200,255,.35); }
 
-        /* ── CONTRÔLES ── */
-        .controls-center { display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 18px; }
-        .btn-img { background: none; border: none; cursor: pointer; transition: transform .2s; width: 68px; height: 68px; }
-        .btn-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(53,224,255,.55)); }
-        .btn-img:hover { transform: scale(1.1); }
-        .btn-seek {
-            background: none; border: none; cursor: pointer; color: #54e4ff; font-size: 24px; font-weight: bold;
-            text-shadow: 0 0 8px rgba(53,224,255,.9); transition: transform .2s;
+        /* ── VOLUME : le fader vertical DE L'IMAGE ── */
+        .vol-zone {
+            position: absolute; left: 45.0%; top: 55.5%; width: 2.6%; height: 29%;
+            cursor: pointer; touch-action: none;
         }
-        .btn-seek:hover { transform: scale(1.2); color: #fff; }
-
-        /* ── FADER VOLUME ── */
-        .volume-control { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 18px; }
-        .fader-shell {
-            position: relative; width: 200px; height: 56px; border-radius: 12px;
-            background-image: url('assets_vintage/fader_volume.png'); background-size: 100% 100%;
-            box-shadow: 0 5px 12px rgba(0,0,0,.55);
+        .vol-fill {
+            position: absolute; left: 32%; bottom: 4%; width: 36%;
+            height: 70%; border-radius: 3px; pointer-events: none;
+            background: linear-gradient(180deg, #7ce8ff, #1f9dff); box-shadow: 0 0 8px rgba(53,224,255,.85);
         }
-        .fader-shell input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
-        .fader-glow {
-            position: absolute; left: 9%; right: 9%; top: 50%; height: 5px; transform: translateY(-50%);
-            border-radius: 3px; pointer-events: none;
-            background: linear-gradient(90deg, #54e4ff var(--vol,70%), rgba(15,35,45,.8) var(--vol,70%));
-            box-shadow: 0 0 8px rgba(53,224,255,.8);
-        }
-        .fader-knob {
-            position: absolute; top: 50%; left: 70%; width: 24px; height: 38px;
-            transform: translate(-50%,-50%); border-radius: 4px; pointer-events: none;
+        .vol-knob {
+            position: absolute; left: -60%; width: 220%; height: 7%;
+            top: 26%; border-radius: 3px; pointer-events: none;
             background: linear-gradient(180deg,#efe9dd,#7a6650 60%,#4a3b2c);
-            border: 1px solid rgba(0,0,0,.65);
-            box-shadow: 0 0 6px rgba(0,0,0,.8), inset 0 0 3px rgba(255,255,255,.45);
+            border: 1px solid rgba(0,0,0,.6); box-shadow: 0 0 6px rgba(0,0,0,.8);
         }
-        #volumePercent { font-family: 'Courier New', monospace; color: #6fe6ff; font-size: .8rem; }
+        .vol-pct {
+            position: absolute; left: 108%; top: 50%; transform: translateY(-50%);
+            font-family: 'Courier New', monospace; font-size: .55rem; color: #7ce8ff;
+            text-shadow: 0 0 5px rgba(53,224,255,.8);
+        }
 
-        /* ── ÉCRAN WAVEFORM ── */
-        .progress-section { margin: 10px 0 20px; position: relative; }
-        .wave-panel {
-            position: relative; border-radius: 14px; border: 2px solid rgba(110,85,40,.85);
-            overflow: hidden; cursor: pointer; box-shadow: inset 0 0 22px rgba(0,0,0,.75);
+        /* ── PLAYLIST VIVANTE : la tracklist dans la zone playlist de l'image ── */
+        .playlist-zone {
+            position: absolute; left: 52.2%; top: 11.5%; width: 43.4%; height: 79.5%;
+            display: flex; flex-direction: column;
+            background: rgba(28,18,8,.68); backdrop-filter: blur(5px);
+            border-radius: 16px; border: 1px solid rgba(212,175,55,.35);
+            box-shadow: inset 0 0 24px rgba(0,0,0,.55);
+            padding: 10px 12px 12px;
         }
-        .wave-panel::before {
-            content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .55;
-            background-image: url('assets_vintage/waveform_panel.png'); background-size: cover; background-position: center;
+        .playlist-head {
+            text-align: center; font-family: 'Georgia', serif; font-size: clamp(.8rem, 1.4vw, 1.15rem);
+            letter-spacing: 5px; color: #f0d48a; text-transform: uppercase;
+            border-bottom: 1px solid rgba(212,175,55,.6); padding-bottom: 7px; margin-bottom: 9px;
+            text-shadow: 0 0 12px rgba(212,175,55,.6);
         }
-        canvas { position: relative; width: 100%; height: 85px; display: block; background: transparent; }
-        .progress-wrapper { width: 100%; height: 4px; background: rgba(212,175,55,.2); border-radius: 4px; margin: 16px 0 8px; cursor: pointer; }
-        .progress-fill-led {
-            width: 0%; height: 100%; border-radius: 4px; pointer-events: none;
-            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 12px rgba(53,224,255,.85);
-        }
-        .markers-layer { position: relative; width: 100%; height: 20px; margin-top: 8px; pointer-events: none; }
-        .timeline-marker {
-            position: absolute; top: 0; width: 4px; height: 16px; background: #54e4ff; border-radius: 2px;
-            transform: translateX(-50%); cursor: pointer; pointer-events: auto; box-shadow: 0 0 8px #35e0ff;
-        }
-        .marker-thumb {
-            position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%) scale(.85);
-            width: 90px; height: 56px; border-radius: 8px; background-size: cover; opacity: 0; pointer-events: none;
-            border: 2px solid #35e0ff; transition: opacity .25s ease; box-shadow: 0 0 14px rgba(53,224,255,.5);
-        }
-        .timeline-marker:hover .marker-thumb { opacity: 1; transform: translateX(-50%) scale(1); }
-        .time-row { display: flex; justify-content: space-between; font-size: .7rem; color: rgba(111,230,255,.6); font-family: 'Courier New', monospace; }
-
-        /* ── TRACKLIST (N° + VIGNETTE à gauche / TITRES à droite) ── */
-        .tracklist-header { text-align: center; margin-bottom: 20px; }
-        .tracklist-title {
-            font-family: 'Georgia', serif; font-size: 1.4rem; color: #e8c877; letter-spacing: 6px;
-            text-transform: uppercase; border-bottom: 1px solid rgba(212,175,55,.7);
-            display: inline-block; padding-bottom: 8px; text-shadow: 0 0 14px rgba(212,175,55,.55);
-        }
-        .tracklist-grid { display: grid; gap: 10px; max-height: 340px; overflow-y: auto; padding-right: 6px; }
-        .tracklist-grid::-webkit-scrollbar { width: 8px; }
-        .tracklist-grid::-webkit-scrollbar-track { background: rgba(0,0,0,.4); border-radius: 4px; }
-        .tracklist-grid::-webkit-scrollbar-thumb { background: rgba(201,161,59,.55); border-radius: 4px; }
+        .tracklist-grid { flex: 1; overflow-y: auto; display: grid; gap: 7px; align-content: start; padding-right: 4px; }
+        .tracklist-grid::-webkit-scrollbar { width: 6px; }
+        .tracklist-grid::-webkit-scrollbar-track { background: rgba(0,0,0,.35); border-radius: 3px; }
+        .tracklist-grid::-webkit-scrollbar-thumb { background: rgba(201,161,59,.6); border-radius: 3px; }
         .track-row {
-            display: flex; align-items: center; gap: 16px; padding: 10px 16px 10px 10px;
-            background: rgba(8,5,2,.5); border: 1px solid rgba(212,175,55,.2); border-radius: 14px;
+            display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 6px;
+            background: rgba(10,6,2,.55); border: 1px solid rgba(212,175,55,.22); border-radius: 10px;
             transition: transform .2s ease, background .2s ease;
         }
-        .track-row:hover { transform: translateX(6px); background: rgba(53,224,255,.07); }
-        .track-row.active { background: rgba(53,224,255,.12); border-left: 3px solid #54e4ff; box-shadow: 0 0 14px rgba(53,224,255,.25); }
+        .track-row:hover { transform: translateX(4px); background: rgba(53,224,255,.08); }
+        .track-row.active { background: rgba(53,224,255,.14); border-left: 3px solid #54e4ff; box-shadow: 0 0 10px rgba(53,224,255,.25); }
         .track-index {
-            font-family: 'Courier New', monospace; font-size: .75rem; color: #6fe6ff;
-            width: 26px; text-align: center; flex-shrink: 0; text-shadow: 0 0 6px rgba(53,224,255,.7);
+            font-family: 'Courier New', monospace; font-size: .6rem; color: #6fe6ff;
+            width: 20px; text-align: center; flex-shrink: 0; text-shadow: 0 0 5px rgba(53,224,255,.7);
         }
         .track-vignette-link { text-decoration: none; flex-shrink: 0; }
         .track-vignette {
-            position: relative; width: 78px; height: 56px; border-radius: 6px; flex-shrink: 0;
+            position: relative; width: clamp(44px, 5.6vw, 64px); height: clamp(32px, 4vw, 46px); border-radius: 5px;
             background-size: cover; background-position: center; cursor: pointer; transition: all .2s;
-            border: 2px solid rgba(201,161,59,.9);
-            box-shadow: inset 0 0 12px rgba(0,0,0,.65), 0 3px 8px rgba(0,0,0,.55);
+            border: 2px solid rgba(201,161,59,.85); box-shadow: inset 0 0 8px rgba(0,0,0,.6);
         }
         .track-vignette::after {
-            content: ''; position: absolute; inset: 0; border-radius: 4px; pointer-events: none;
-            background: linear-gradient(115deg, rgba(255,255,255,.22) 0%, transparent 32%, transparent 68%, rgba(255,255,255,.07) 100%);
+            content: ''; position: absolute; inset: 0; border-radius: 3px; pointer-events: none;
+            background: linear-gradient(115deg, rgba(255,255,255,.22) 0%, transparent 35%, transparent 70%, rgba(255,255,255,.07) 100%);
         }
-        .track-vignette-link:hover .track-vignette { transform: scale(1.07); box-shadow: 0 0 16px rgba(53,224,255,.8); }
+        .track-vignette-link:hover .track-vignette { transform: scale(1.07); box-shadow: 0 0 12px rgba(53,224,255,.75); }
         .track-details { flex: 1; cursor: pointer; min-width: 0; }
-        .track-artist-name { font-weight: 600; color: #ffcf7d; font-size: .85rem; text-shadow: 0 0 6px rgba(255,166,43,.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-song-title { font-style: italic; color: rgba(242,226,196,.7); font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-duration { font-family: 'Courier New', monospace; font-size: .7rem; color: #6fe6ff; flex-shrink: 0; }
+        .track-artist-name { font-weight: 600; color: #ffcf7d; font-size: clamp(.55rem, .95vw, .8rem); text-shadow: 0 0 5px rgba(255,166,43,.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-song-title { font-style: italic; color: rgba(242,226,196,.7); font-size: clamp(.5rem, .85vw, .72rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-duration { font-family: 'Courier New', monospace; font-size: .6rem; color: #6fe6ff; flex-shrink: 0; }
 
-        /* ── RÉSEAUX ── */
-        .social-row { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
-        .social-btn { cursor: pointer; display: inline-block; }
-        .social-btn img {
-            width: 88px; height: auto; border-radius: 14px; display: block;
-            box-shadow: 0 6px 14px rgba(0,0,0,.55); transition: transform .25s, box-shadow .25s;
+        .under-console { text-align: center; margin-top: 14px; }
+        .copy-btn {
+            background: rgba(28,18,8,.75); border: 1px solid rgba(212,175,55,.6); border-radius: 30px;
+            color: #ffe9b0; font-family: 'Courier New', monospace; font-size: .72rem;
+            padding: 7px 22px; cursor: pointer; text-shadow: 0 0 6px rgba(255,233,176,.4); transition: all .25s;
         }
-        .social-btn:hover img { transform: translateY(-4px) scale(1.06); box-shadow: 0 0 20px rgba(53,224,255,.6); }
-        .social-icon {
-            border: 1px solid #d4af37; border-radius: 40px; padding: 8px 20px; font-size: .8rem;
-            text-decoration: none; color: #ffe9b0; cursor: pointer; background: rgba(212,175,55,.12);
-            text-shadow: 0 0 6px rgba(255,233,176,.4); transition: all .25s; font-family: 'Inter', sans-serif;
-        }
-        .social-icon:hover { color: #6fe6ff; border-color: #35e0ff; box-shadow: 0 0 16px rgba(53,224,255,.5); }
+        .copy-btn:hover { color: #7ce8ff; border-color: #35e0ff; box-shadow: 0 0 14px rgba(53,224,255,.45); }
 
         @media (max-width: 720px) {
-            .deck-grid { grid-template-columns: 1fr; }
-            .social-btn img { width: 64px; }
+            .console { aspect-ratio: auto; min-height: 640px; }
+            .lcd-live { left: 27%; top: 15%; width: 21%; height: 15%; }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="victorian-header">
-        <div class="brand-line">
-            <span class="brand-main">SARFERPROD</span>
-            <span class="brand-sub">DAILY • SAMPLER • MIX</span>
-        </div>
-        <div class="free-badge">FREE ENTRY</div>
-        <div class="event-date"><span>FRI 02TH</span><span>OCT</span><span>14:00</span><span>SARFERPROD LABS</span></div>
-    </div>
+<div class="stage">
+    <div class="console">
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- FRI 02 OCT 14:17 --- APPUYEZ SUR PLAY...</span></div></div>
 
-    <div class="glass-card">
-        <div class="deck-grid">
-            <div class="deck-left">
-                <div class="turntable-wrap">
-                    <div class="led-ring" id="ledRing"></div>
-                    <div class="turntable-disc"><img src="assets_vintage/turntable.png" alt="SARFERPROD"></div>
-                    <div class="turntable-spindle"></div>
-                </div>
-                <div class="turntable-label">NOW SPINNING</div>
-                <div class="deck-leds"><span class="led on"></span><span class="led"></span><span class="led"></span></div>
-            </div>
-            <div class="deck-right">
-                <div class="track-title-frame"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- APPUYEZ SUR PLAY...</span></div></div>
-                <div class="controls-center">
-                    <button class="btn-seek" id="rewindBtn">◄◄</button>
-                    <button class="btn-img" id="playBtn"><img src="assets_vintage/btn_play_knob.png" alt="Play"></button>
-                    <button class="btn-img" id="pauseBtn"><img src="assets_vintage/btn_pause_knob.png" alt="Pause"></button>
-                    <button class="btn-seek" id="forwardBtn">►►</button>
-                </div>
-                <div class="volume-control">
-                    <div class="fader-shell" id="faderShell">
-                        <div class="fader-glow"></div>
-                        <div class="fader-knob" id="faderKnob"></div>
-                        <input type="range" id="volumeSlider" min="0" max="100" value="70">
-                    </div>
-                    <span id="volumePercent">70%</span>
-                </div>
-            </div>
-        </div>
-        <div class="progress-section">
-            <div class="wave-panel"><canvas id="waveformCanvas"></canvas></div>
-            <div class="progress-wrapper" id="progressBar"><div class="progress-fill-led" id="progressFill"></div></div>
+        <div class="wave-live" id="waveZone">
+            <canvas id="waveformCanvas"></canvas>
             <div class="markers-layer" id="markersLayer"></div>
-            <div class="time-row"><span id="currentTime">00:00</span><span id="duration">9:59</span></div>
+            <div class="wave-progress" id="progressBar"><div class="wave-progress-fill" id="progressFill"></div></div>
+            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">9:59</span></div>
+        </div>
+
+        <div class="disc-zone">
+            <div class="led-ring" id="ledRing"></div>
+            <div class="turntable-disc"><img src="assets_vintage/turntable.png" alt=""></div>
+        </div>
+
+        <button class="hotspot" id="pauseBtn" style="--l:8.4%; --t:53.8%; --w:4.9%; --h:9.4%;" title="Pause"></button>
+        <button class="hotspot" id="playBtn"  style="--l:8.4%; --t:68.8%; --w:4.9%; --h:9.4%;" title="Play"></button>
+
+        <div class="vol-zone" id="volZone" title="Volume">
+            <div class="vol-fill" id="volFill"></div>
+            <div class="vol-knob" id="volKnob"></div>
+            <span class="vol-pct" id="volumePercent">70</span>
+        </div>
+
+        <a class="hotspot" id="waBtn" style="--l:22.0%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="WhatsApp"></a>
+        <a class="hotspot" id="scBtn" style="--l:24.9%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="SoundCloud"></a>
+        <a class="hotspot" id="mailBtn" style="--l:27.7%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="Email"></a>
+        <a class="hotspot" id="fbBtn" style="--l:30.5%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="Facebook"></a>
+
+        <div class="playlist-zone">
+            <div class="playlist-head">Tracklist</div>
+            <div class="tracklist-grid" id="tracklistGrid"></div>
         </div>
     </div>
-
-    <div class="glass-card">
-        <div class="tracklist-header"><div class="tracklist-title">TRACKLIST</div></div>
-        <div class="tracklist-grid" id="tracklistGrid"></div>
-    </div>
-
-    <div class="social-row">
-        <a class="social-btn" id="waBtn"><img src="assets_vintage/btn_whatsapp.png" alt="WhatsApp"></a>
-        <a class="social-btn" id="scBtn"><img src="assets_vintage/btn_soundcloud.png" alt="SoundCloud"></a>
-        <a class="social-btn" id="mailBtn"><img src="assets_vintage/btn_mail.png" alt="Mail"></a>
-        <a class="social-btn" id="fbBtn"><img src="assets_vintage/btn_facebook.png" alt="Facebook"></a>
-        <button class="social-icon" id="copyBtn">Copier le lien</button>
-    </div>
-    <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
+    <div class="under-console"><button class="copy-btn" id="copyBtn">Copier le lien du mix</button></div>
 </div>
+<audio id="audio" preload="auto" crossorigin="anonymous"></audio>
 <script>
     const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Wishy", "title": "Party World", "url": "https://www.youtube.com/watch?v=kiQxThqh1-s", "thumbnail": "https://i.ytimg.com/vi/kiQxThqh1-s/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "The Caracal Project & RE\u0301I LUNO", "title": "PEOPLE LIKE YOU", "url": "https://www.youtube.com/watch?v=zjMKrKBXCv4", "thumbnail": "https://i.ytimg.com/vi/zjMKrKBXCv4/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "Jan Blomqvist", "title": "Underwater (Live at Burning Man 2026)", "url": "https://www.youtube.com/watch?v=VXyulA81TZE", "thumbnail": "https://i.ytimg.com/vi/VXyulA81TZE/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "Stephen Steinbrink", "title": "I\u2019m a Worm", "url": "https://www.youtube.com/watch?v=SZh7l8IdYjg", "thumbnail": "https://i.ytimg.com/vi/SZh7l8IdYjg/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "Cigarettes After Sex", "title": "Sweet (lyrics)", "url": "https://www.youtube.com/watch?v=zwTiKsxVqXk", "thumbnail": "https://i.ytimg.com/vi/zwTiKsxVqXk/hqdefault.jpg"}, {"timestamp": "02:53", "seconds": 173.3, "artist": "triple j", "title": "the temper trap perform 'giving up air' live for l", "url": "https://www.youtube.com/watch?v=8zFWDVo1p3Q", "thumbnail": "https://i.ytimg.com/vi/8zFWDVo1p3Q/hqdefault.jpg"}, {"timestamp": "03:07", "seconds": 187.3, "artist": "Richard", "title": "Loving You To Death", "url": "https://www.youtube.com/watch?v=RW-jaQfb9R4", "thumbnail": "https://i.ytimg.com/vi/RW-jaQfb9R4/hqdefault.jpg"}, {"timestamp": "03:35", "seconds": 215.8, "artist": "Nu:Logic", "title": "Ukiyo (ft. Thavy Ear)", "url": "https://www.youtube.com/watch?v=rgD8VqSm6mc", "thumbnail": "https://i.ytimg.com/vi/rgD8VqSm6mc/hqdefault.jpg"}, {"timestamp": "04:04", "seconds": 244.3, "artist": "DPRTNDRP", "title": "Backfire", "url": "https://www.youtube.com/watch?v=_3tm9pLu1fc", "thumbnail": "https://i.ytimg.com/vi/_3tm9pLu1fc/hqdefault.jpg"}, {"timestamp": "04:32", "seconds": 272.8, "artist": "DRAMA & Sultan + Shepard", "title": "Emotions", "url": "https://www.youtube.com/watch?v=7yPt4jhP2bA", "thumbnail": "https://i.ytimg.com/vi/7yPt4jhP2bA/hqdefault.jpg"}, {"timestamp": "05:01", "seconds": 301.3, "artist": "P3PPER, Jibaan", "title": "Halcyon | Trance | NCS - Copyright Free Music", "url": "https://www.youtube.com/watch?v=ZAz2xoQMvW8", "thumbnail": "https://i.ytimg.com/vi/ZAz2xoQMvW8/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.8, "artist": "triple j", "title": "the temper trap cover harry styles for like a vers", "url": "https://www.youtube.com/watch?v=i4Y-rUXZJf8", "thumbnail": "https://i.ytimg.com/vi/i4Y-rUXZJf8/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "The Temper Trap", "title": "\u2018Giving Up Air\u2019 (live for Like A Version)", "url": "https://www.youtube.com/watch?v=BGH-qCOSTNU", "thumbnail": "https://i.ytimg.com/vi/BGH-qCOSTNU/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "triple j", "title": "the temper trap cover harry styles' 'sign of the t", "url": "https://www.youtube.com/watch?v=uIw81Hz0_Qo", "thumbnail": "https://i.ytimg.com/vi/uIw81Hz0_Qo/hqdefault.jpg"}, {"timestamp": "06:55", "seconds": 415.3, "artist": "Wh0", "title": "Burnin' Deep [House]", "url": "https://www.youtube.com/watch?v=oc9UVT90hds", "thumbnail": "https://i.ytimg.com/vi/oc9UVT90hds/hqdefault.jpg"}, {"timestamp": "07:23", "seconds": 443.8, "artist": "Snotty", "title": "Stark Pose (Prod. Goodphella)", "url": "https://www.youtube.com/watch?v=Kdm9vObj1Zo", "thumbnail": "https://i.ytimg.com/vi/Kdm9vObj1Zo/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.3, "artist": "Keb\u2019 Mo\u2019", "title": "Just Like You + The Action | 2 Meter Sessions, 199", "url": "https://www.youtube.com/watch?v=W8Q3HYv4kZc", "thumbnail": "https://i.ytimg.com/vi/W8Q3HYv4kZc/hqdefault.jpg"}, {"timestamp": "08:20", "seconds": 500.8, "artist": "Alex Preston, Danny Rhys", "title": "What's Up Man [Tech House]", "url": "https://www.youtube.com/watch?v=fIJPuLi6i4Q", "thumbnail": "https://i.ytimg.com/vi/fIJPuLi6i4Q/hqdefault.jpg"}, {"timestamp": "08:49", "seconds": 529.3, "artist": "JNATHYN", "title": "RICOCHET", "url": "https://www.youtube.com/watch?v=VoIa0vA8gTQ", "thumbnail": "https://i.ytimg.com/vi/VoIa0vA8gTQ/hqdefault.jpg"}, {"timestamp": "09:17", "seconds": 557.8, "artist": "Spinnin' Records", "title": "\u2018Work It\u2019 by @quintino was released 10 years ago i", "url": "https://www.youtube.com/watch?v=t1-oqgVNPBQ", "thumbnail": "https://i.ytimg.com/vi/t1-oqgVNPBQ/hqdefault.jpg"}];
     const PAGE_URL = 'https://sarfer02.github.io/sarferprod-dailymix';
     const audio = document.getElementById('audio');
     audio.src = './latest.mp3?v=' + Date.now();
+    audio.volume = 0.7;
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
-    const rewindBtn = document.getElementById('rewindBtn');
-    const forwardBtn = document.getElementById('forwardBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumePercent = document.getElementById('volumePercent');
     const marqueeSpan = document.getElementById('marqueeText');
     const currentTimeSpan = document.getElementById('currentTime');
     const progressFill = document.getElementById('progressFill');
     const tracklistGrid = document.getElementById('tracklistGrid');
     const markersLayer = document.getElementById('markersLayer');
-    const faderKnob = document.getElementById('faderKnob');
-    const faderShell = document.getElementById('faderShell');
+    const volZone = document.getElementById('volZone');
+    const volFill = document.getElementById('volFill');
+    const volKnob = document.getElementById('volKnob');
+    const volumePercent = document.getElementById('volumePercent');
     const totalDurationSec = 599.544;
     let currentTrackIndex = -1;
 
@@ -359,28 +277,50 @@
         currentTimeSpan.textContent = formatTime(audio.currentTime);
     }
 
-    playBtn.addEventListener('click', () => { initAudioContext(); audio.play(); document.body.classList.add('playing'); });
-    pauseBtn.addEventListener('click', () => { audio.pause(); document.body.classList.remove('playing'); });
-    rewindBtn.addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 5); });
-    forwardBtn.addEventListener('click', () => { audio.currentTime = Math.min(audio.duration || totalDurationSec, audio.currentTime + 5); });
+    function startPlaying() {
+        initAudioContext(); audio.play();
+        document.body.classList.add('playing');
+        playBtn.classList.add('lit');
+    }
+    function stopPlaying() {
+        audio.pause();
+        document.body.classList.remove('playing');
+        playBtn.classList.remove('lit');
+    }
 
-    volumeSlider.addEventListener('input', () => {
-        audio.volume = volumeSlider.value/100;
-        volumePercent.textContent = volumeSlider.value+'%';
-        faderKnob.style.left = volumeSlider.value + '%';
-        faderShell.style.setProperty('--vol', volumeSlider.value + '%');
-    });
+    playBtn.addEventListener('click', startPlaying);
+    pauseBtn.addEventListener('click', stopPlaying);
+    document.querySelectorAll('.track-details').forEach(d => d.addEventListener('click', (e) => {
+        audio.currentTime = parseFloat(e.currentTarget.dataset.seconds);
+        startPlaying();
+    }));
     audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', () => document.body.classList.remove('playing'));
+    audio.addEventListener('ended', stopPlaying);
 
-    const seek = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
+    /* Volume : glisser sur le fader vertical de l'image */
+    let volDragging = false;
+    function setVolume(e) {
+        const r = volZone.getBoundingClientRect();
+        let v = 1 - (e.clientY - r.top) / r.height;
+        v = Math.max(0, Math.min(1, v));
+        audio.volume = v;
+        volFill.style.height = (v * 92) + '%';
+        volKnob.style.top = ((1 - v) * 93) + '%';
+        volumePercent.textContent = Math.round(v * 100);
+    }
+    volZone.addEventListener('pointerdown', e => { volDragging = true; volZone.setPointerCapture(e.pointerId); setVolume(e); });
+    volZone.addEventListener('pointermove', e => { if (volDragging) setVolume(e); });
+    volZone.addEventListener('pointerup', () => volDragging = false);
+
+    /* Seek : clic dans l'écran waveform de l'image */
+    const waveZone = document.getElementById('waveZone');
+    waveZone.addEventListener('click', (e) => {
+        if (e.target.closest('.timeline-marker')) return;
+        const r = waveZone.getBoundingClientRect();
+        const percent = (e.clientX - r.left) / r.width;
         if (audio.duration) audio.currentTime = percent * audio.duration;
         else if (totalDurationSec) audio.currentTime = percent * totalDurationSec;
-    };
-    document.getElementById('progressBar').addEventListener('click', seek);
-    document.getElementById('waveformCanvas').addEventListener('click', seek);
+    });
 
     let audioCtx, analyser, dataArray, sourceNode;
     function initAudioContext() {
@@ -427,9 +367,12 @@
         const rect = waveCanvas.getBoundingClientRect();
         waveCanvas.width = rect.width; waveCanvas.height = rect.height;
     }
-    function spawnParticle(x, y, force) {
+    window.addEventListener('resize', resizeWaveCanvas);
+    setTimeout(resizeWaveCanvas, 60);
+
+    function spawnParticle(x, y) {
         particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * 2, vy: -Math.random() * 2 - 0.5,
-            life: 1.0, size: Math.random() * 2 + 1, color: Math.random() > 0.4 ? '#54e4ff' : '#ffb054', force: force });
+            life: 1.0, size: Math.random() * 2 + 1, color: Math.random() > 0.4 ? '#54e4ff' : '#ffb054' });
     }
 
     function animateWave() {
@@ -441,7 +384,9 @@
             let bassSum = 0; for(let i=0; i<5; i++) bassSum += dataArray[i]; bass = (bassSum/5)/255;
             let midSum = 0; for(let i=5; i<20; i++) midSum += dataArray[i]; midFreq = (midSum/15)/255;
             let trebSum = 0; for(let i=20; i<60; i++) trebSum += dataArray[i]; treble = (trebSum/40)/255;
-            if (bass > 0.5 && Math.random() > 0.5) { for(let i=0; i<2; i++) spawnParticle(Math.random() * w, mid + (Math.random() - 0.5) * 20, bass); }
+            if (bass > 0.5 && Math.random() > 0.5) {
+                for(let i=0; i<2; i++) spawnParticle(Math.random() * w, mid + (Math.random() - 0.5) * 12);
+            }
             targetLevel = Math.min(1, bass * 0.55 + midFreq * 0.3 + treble * 0.15 + 0.06);
         } else {
             targetLevel = 0;
@@ -450,37 +395,34 @@
 
         const t = Date.now() * 0.001;
         const lfo1 = Math.sin(t * 2.1) * 0.5 + 0.5; const lfo2 = Math.cos(t * 1.3) * 0.5 + 0.5;
-        const ampBass = (h * 0.05) + (bass * h * 0.4) * (1 + 0.3 * lfo1);
-        const ampMid = (h * 0.03) + (midFreq * h * 0.25) * (1 + 0.4 * lfo2);
-        const ampTreble = (h * 0.02) + (treble * h * 0.1) * (1 + 0.6 * lfo1);
+        const ampBass = (h * 0.08) + (bass * h * 0.42) * (1 + 0.3 * lfo1);
+        const ampMid = (h * 0.05) + (midFreq * h * 0.26) * (1 + 0.4 * lfo2);
+        const ampTreble = (h * 0.03) + (treble * h * 0.11) * (1 + 0.6 * lfo1);
 
         function drawWaveDynamic(freq, amp, phase, speed, color, glowAmount) {
-            waveCtx.beginPath(); waveCtx.lineWidth = 2; waveCtx.strokeStyle = color; waveCtx.shadowColor = color; waveCtx.shadowBlur = glowAmount;
+            waveCtx.beginPath(); waveCtx.lineWidth = 1.5; waveCtx.strokeStyle = color; waveCtx.shadowColor = color; waveCtx.shadowBlur = glowAmount;
             for (let x = 0; x <= w; x += 2) {
-                const dyn_phase = Math.sin(x * 0.01 + t * speed * 2) * 5;
+                const dyn_phase = Math.sin(x * 0.01 + t * speed * 2) * 4;
                 const y = mid + Math.sin((x * freq) + (wavePhase * speed) + phase + dyn_phase) * amp;
                 if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
             }
             waveCtx.stroke();
         }
 
-        drawWaveDynamic(0.015, ampBass, 0, 1, '#54e4ff', 15 + bass * 40);
-        drawWaveDynamic(0.035, ampMid, Math.PI / 3, -1.2, '#ffb054', 10 + midFreq * 30);
-        drawWaveDynamic(0.08, ampTreble, Math.PI / 1.5, 1.8, '#ffffff', 5 + treble * 20);
+        drawWaveDynamic(0.015, ampBass, 0, 1, '#54e4ff', 12 + bass * 35);
+        drawWaveDynamic(0.035, ampMid, Math.PI / 3, -1.2, '#ffb054', 8 + midFreq * 25);
+        drawWaveDynamic(0.08, ampTreble, Math.PI / 1.5, 1.8, '#ffffff', 4 + treble * 16);
 
         particles.forEach((p, i) => {
             p.x += p.vx; p.y += p.vy; p.life -= 0.02;
             if (p.life <= 0) { particles.splice(i, 1); return; }
-            waveCtx.globalAlpha = p.life; waveCtx.fillStyle = p.color; waveCtx.shadowColor = p.color; waveCtx.shadowBlur = 10;
+            waveCtx.globalAlpha = p.life; waveCtx.fillStyle = p.color; waveCtx.shadowColor = p.color; waveCtx.shadowBlur = 8;
             waveCtx.beginPath(); waveCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2); waveCtx.fill();
         });
         waveCtx.globalAlpha = 1.0; waveCtx.shadowBlur = 0;
         wavePhase += 0.05;
         requestAnimationFrame(animateWave);
     }
-
-    resizeWaveCanvas();
-    window.addEventListener('resize', resizeWaveCanvas);
     animateWave();
 
     tracks.forEach((track, i) => {
@@ -491,8 +433,8 @@
         vignetteLink.href = track.url; vignetteLink.target = '_blank'; vignetteLink.rel = 'noopener';
         vignetteLink.innerHTML = `<div class="track-vignette" style="background-image:url(${track.thumbnail})"></div>`;
         const detailsDiv = document.createElement('div'); detailsDiv.className = 'track-details';
+        detailsDiv.dataset.seconds = track.seconds;
         detailsDiv.innerHTML = `<div class="track-artist-name">${track.artist}</div><div class="track-song-title">${track.title}</div>`;
-        detailsDiv.addEventListener('click', () => { audio.currentTime = track.seconds; initAudioContext(); audio.play(); document.body.classList.add('playing'); });
         const durationDiv = document.createElement('div'); durationDiv.className = 'track-duration';
         durationDiv.textContent = `${track.timestamp}`;
         row.appendChild(indexDiv); row.appendChild(vignetteLink); row.appendChild(detailsDiv); row.appendChild(durationDiv);
