@@ -15,9 +15,9 @@
         }
         .stage { max-width: 1180px; width: 100%; }
 
-        /* ── LA CONSOLE = L'IMAGE, et rien qu'elle ── */
+        /* ── LA CONSOLE = L'IMAGE (ratio 4:3) ── */
         .console {
-            position: relative; width: 100%; aspect-ratio: 1377 / 765;
+            position: relative; width: 100%; aspect-ratio: 4 / 3;
             background-image: url('assets_vintage/panel_full.png');
             background-size: 100% 100%; border-radius: 14px;
             box-shadow: 0 24px 60px rgba(40,25,5,.45), 0 4px 14px rgba(40,25,5,.35);
@@ -26,7 +26,7 @@
 
         /* ── LCD VIVANT : marquee dans l'écran de l'image ── */
         .lcd-live {
-            position: absolute; left: 27.2%; top: 16.3%; width: 20%; height: 14.4%;
+            position: absolute; left: 33.0%; top: 7.0%; width: 21.0%; height: 14.5%;
             border-radius: 10px; overflow: hidden;
             background-color: #030a0d;
             display: flex; align-items: center;
@@ -39,19 +39,20 @@
         .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
         .marquee-track span {
             display: inline-block; padding-left: 100%; animation: scrollTrack 13s linear infinite;
-            font-family: 'Courier New', monospace; font-size: .78rem; font-weight: bold; letter-spacing: 2px;
+            font-family: 'Courier New', monospace; font-size: .75rem; font-weight: bold; letter-spacing: 2px;
             color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── WAVEFORM VIVANT : canvas dans l'écran de l'image ── */
+        /* ── WAVEFORM VIVANTE + REGLE GRADUEE (marqueurs posés dessus) ── */
         .wave-live {
-            position: absolute; left: 6.8%; top: 32.0%; width: 40.4%; height: 10.5%;
+            position: absolute; left: 7.0%; top: 23.0%; width: 47.0%; height: 13.0%;
             border-radius: 10px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+        /* Ligne de progression : posée SUR la règle graduée de l'image (bas de l'écran) */
         .wave-progress {
-            position: absolute; left: 4%; right: 4%; bottom: 12%; height: 3px; border-radius: 2px;
+            position: absolute; left: 3%; right: 3%; bottom: 16%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer;
         }
         .wave-progress-fill {
@@ -59,26 +60,29 @@
             background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 8px rgba(53,224,255,.9);
         }
         .wave-times {
-            position: absolute; left: 4%; right: 4%; bottom: 2%;
+            position: absolute; left: 3%; right: 3%; bottom: 1%;
             display: flex; justify-content: space-between;
             font-family: 'Courier New', monospace; font-size: .5rem; color: rgba(111,230,255,.75);
         }
         .markers-layer { position: absolute; inset: 0; pointer-events: none; }
+        /* Marqueurs de morceaux : s'élèvent depuis la règle graduée, cliquables */
         .timeline-marker {
-            position: absolute; bottom: 12%; width: 2px; height: 22%; background: #7ce8ff;
+            position: absolute; bottom: 15%; width: 2px; height: 24%; background: #7ce8ff;
             transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
-            box-shadow: 0 0 5px #35e0ff;
+            box-shadow: 0 0 5px #35e0ff; transition: opacity .2s, box-shadow .2s;
         }
+        .timeline-marker:hover { opacity: 1; box-shadow: 0 0 10px #54e4ff, 0 0 18px #54e4ff; }
         .marker-thumb {
             position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
             pointer-events: none; border: 2px solid #35e0ff; transition: opacity .2s;
+            box-shadow: 0 4px 14px rgba(0,0,0,.6);
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
 
-        /* ── PLATINE VIVANTE : disque qui tourne sur le disque de l'image ── */
+        /* ── PLATINE VIVANTE : disque qui tourne + ETIQUETTE YouTube au centre ── */
         .disc-zone {
-            position: absolute; left: 16.3%; top: 51.0%; width: 21.2%; height: 38.2%;
+            position: absolute; left: 24.0%; top: 48.0%; width: 24.0%; height: 47.0%;
         }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
@@ -88,8 +92,27 @@
         body.playing .turntable-disc { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
+        /* ÉTIQUETTE VINYLE : la miniature YouTube du morceau en cours tourne avec le disque */
+        .disc-label {
+            position: absolute; top: 50%; left: 50%; width: 36%; height: 36%;
+            transform: translate(-50%,-50%); border-radius: 50%;
+            background-size: cover; background-position: center; background-color: #140d06;
+            border: 3px solid rgba(212,175,55,.9);
+            box-shadow: 0 0 14px rgba(0,0,0,.75), inset 0 0 12px rgba(0,0,0,.45);
+        }
+        .disc-label::after {
+            content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+            background: linear-gradient(115deg, rgba(255,255,255,.25) 0%, transparent 40%, transparent 75%, rgba(255,255,255,.08) 100%);
+        }
+        /* Trou d'axe au centre de l'étiquette */
+        .disc-spindle {
+            position: absolute; top: 50%; left: 50%; width: 4.5%; height: 4.5%;
+            transform: translate(-50%,-50%); border-radius: 50%; z-index: 3; pointer-events: none;
+            background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
+            box-shadow: 0 0 6px rgba(255,220,120,.8);
+        }
 
-        /* ── ANNEAU DE LEDs autour du disque de l'image ── */
+        /* ── ANNEAU DE LEDs autour du disque ── */
         .led-ring { position: absolute; inset: -5.5%; pointer-events: none; }
         .led-ring .ring-led {
             position: absolute; top: 50%; left: 50%;
@@ -114,7 +137,7 @@
 
         /* ── VOLUME : le fader vertical DE L'IMAGE ── */
         .vol-zone {
-            position: absolute; left: 45.0%; top: 55.5%; width: 2.6%; height: 29%;
+            position: absolute; left: 47.5%; top: 52.0%; width: 2.8%; height: 34%;
             cursor: pointer; touch-action: none;
         }
         .vol-fill {
@@ -123,7 +146,7 @@
             background: linear-gradient(180deg, #7ce8ff, #1f9dff); box-shadow: 0 0 8px rgba(53,224,255,.85);
         }
         .vol-knob {
-            position: absolute; left: -60%; width: 220%; height: 7%;
+            position: absolute; left: -60%; width: 220%; height: 6%;
             top: 26%; border-radius: 3px; pointer-events: none;
             background: linear-gradient(180deg,#efe9dd,#7a6650 60%,#4a3b2c);
             border: 1px solid rgba(0,0,0,.6); box-shadow: 0 0 6px rgba(0,0,0,.8);
@@ -134,9 +157,9 @@
             text-shadow: 0 0 5px rgba(53,224,255,.8);
         }
 
-        /* ── PLAYLIST VIVANTE : la tracklist dans la zone playlist de l'image ── */
+        /* ── PLAYLIST VIVANTE : la tracklist dans le panneau de l'image ── */
         .playlist-zone {
-            position: absolute; left: 52.2%; top: 11.5%; width: 43.4%; height: 79.5%;
+            position: absolute; left: 56.5%; top: 7.5%; width: 40.5%; height: 85.0%;
             display: flex; flex-direction: column;
             background: rgba(28,18,8,.68); backdrop-filter: blur(5px);
             border-radius: 16px; border: 1px solid rgba(212,175,55,.35);
@@ -187,32 +210,31 @@
             padding: 7px 22px; cursor: pointer; text-shadow: 0 0 6px rgba(255,233,176,.4); transition: all .25s;
         }
         .copy-btn:hover { color: #7ce8ff; border-color: #35e0ff; box-shadow: 0 0 14px rgba(53,224,255,.45); }
-
-        @media (max-width: 720px) {
-            .console { aspect-ratio: auto; min-height: 640px; }
-            .lcd-live { left: 27%; top: 15%; width: 21%; height: 15%; }
-        }
     </style>
 </head>
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- FRI 02 OCT 14:17 --- APPUYEZ SUR PLAY...</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- SAT 03 OCT 10:50 --- APPUYEZ SUR PLAY...</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
             <div class="markers-layer" id="markersLayer"></div>
             <div class="wave-progress" id="progressBar"><div class="wave-progress-fill" id="progressFill"></div></div>
-            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">9:59</span></div>
+            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">13:04</span></div>
         </div>
 
         <div class="disc-zone">
             <div class="led-ring" id="ledRing"></div>
-            <div class="turntable-disc"><img src="assets_vintage/turntable.png" alt=""></div>
+            <div class="turntable-disc">
+                <img src="assets_vintage/turntable.png" alt="">
+                <div class="disc-label" id="discLabel" style="background-image:url('https://i.ytimg.com/vi/M9Yite_gBGM/hqdefault.jpg')"></div>
+            </div>
+            <div class="disc-spindle"></div>
         </div>
 
-        <button class="hotspot" id="pauseBtn" style="--l:8.4%; --t:53.8%; --w:4.9%; --h:9.4%;" title="Pause"></button>
-        <button class="hotspot" id="playBtn"  style="--l:8.4%; --t:68.8%; --w:4.9%; --h:9.4%;" title="Play"></button>
+        <button class="hotspot" id="pauseBtn" style="--l:6.2%; --t:52.0%; --w:6.8%; --h:12.0%;" title="Pause"></button>
+        <button class="hotspot" id="playBtn"  style="--l:6.2%; --t:66.0%; --w:6.8%; --h:12.0%;" title="Play"></button>
 
         <div class="vol-zone" id="volZone" title="Volume">
             <div class="vol-fill" id="volFill"></div>
@@ -220,10 +242,10 @@
             <span class="vol-pct" id="volumePercent">70</span>
         </div>
 
-        <a class="hotspot" id="waBtn" style="--l:22.0%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="WhatsApp"></a>
-        <a class="hotspot" id="scBtn" style="--l:24.9%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="SoundCloud"></a>
-        <a class="hotspot" id="mailBtn" style="--l:27.7%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="Email"></a>
-        <a class="hotspot" id="fbBtn" style="--l:30.5%; --t:43.9%; --w:3.0%; --h:5.8%; border-radius:6px;" title="Facebook"></a>
+        <a class="hotspot" id="waBtn" style="--l:26.0%; --t:37.0%; --w:4.0%; --h:7.0%; border-radius:6px;" title="WhatsApp"></a>
+        <a class="hotspot" id="scBtn" style="--l:31.0%; --t:37.0%; --w:4.0%; --h:7.0%; border-radius:6px;" title="SoundCloud"></a>
+        <a class="hotspot" id="mailBtn" style="--l:36.0%; --t:37.0%; --w:4.0%; --h:7.0%; border-radius:6px;" title="Email"></a>
+        <a class="hotspot" id="fbBtn" style="--l:41.0%; --t:37.0%; --w:4.0%; --h:7.0%; border-radius:6px;" title="Facebook"></a>
 
         <div class="playlist-zone">
             <div class="playlist-head">Tracklist</div>
@@ -234,7 +256,7 @@
 </div>
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
 <script>
-    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Wishy", "title": "Party World", "url": "https://www.youtube.com/watch?v=kiQxThqh1-s", "thumbnail": "https://i.ytimg.com/vi/kiQxThqh1-s/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "The Caracal Project & RE\u0301I LUNO", "title": "PEOPLE LIKE YOU", "url": "https://www.youtube.com/watch?v=zjMKrKBXCv4", "thumbnail": "https://i.ytimg.com/vi/zjMKrKBXCv4/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "Jan Blomqvist", "title": "Underwater (Live at Burning Man 2026)", "url": "https://www.youtube.com/watch?v=VXyulA81TZE", "thumbnail": "https://i.ytimg.com/vi/VXyulA81TZE/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "Stephen Steinbrink", "title": "I\u2019m a Worm", "url": "https://www.youtube.com/watch?v=SZh7l8IdYjg", "thumbnail": "https://i.ytimg.com/vi/SZh7l8IdYjg/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "Cigarettes After Sex", "title": "Sweet (lyrics)", "url": "https://www.youtube.com/watch?v=zwTiKsxVqXk", "thumbnail": "https://i.ytimg.com/vi/zwTiKsxVqXk/hqdefault.jpg"}, {"timestamp": "02:53", "seconds": 173.3, "artist": "triple j", "title": "the temper trap perform 'giving up air' live for l", "url": "https://www.youtube.com/watch?v=8zFWDVo1p3Q", "thumbnail": "https://i.ytimg.com/vi/8zFWDVo1p3Q/hqdefault.jpg"}, {"timestamp": "03:07", "seconds": 187.3, "artist": "Richard", "title": "Loving You To Death", "url": "https://www.youtube.com/watch?v=RW-jaQfb9R4", "thumbnail": "https://i.ytimg.com/vi/RW-jaQfb9R4/hqdefault.jpg"}, {"timestamp": "03:35", "seconds": 215.8, "artist": "Nu:Logic", "title": "Ukiyo (ft. Thavy Ear)", "url": "https://www.youtube.com/watch?v=rgD8VqSm6mc", "thumbnail": "https://i.ytimg.com/vi/rgD8VqSm6mc/hqdefault.jpg"}, {"timestamp": "04:04", "seconds": 244.3, "artist": "DPRTNDRP", "title": "Backfire", "url": "https://www.youtube.com/watch?v=_3tm9pLu1fc", "thumbnail": "https://i.ytimg.com/vi/_3tm9pLu1fc/hqdefault.jpg"}, {"timestamp": "04:32", "seconds": 272.8, "artist": "DRAMA & Sultan + Shepard", "title": "Emotions", "url": "https://www.youtube.com/watch?v=7yPt4jhP2bA", "thumbnail": "https://i.ytimg.com/vi/7yPt4jhP2bA/hqdefault.jpg"}, {"timestamp": "05:01", "seconds": 301.3, "artist": "P3PPER, Jibaan", "title": "Halcyon | Trance | NCS - Copyright Free Music", "url": "https://www.youtube.com/watch?v=ZAz2xoQMvW8", "thumbnail": "https://i.ytimg.com/vi/ZAz2xoQMvW8/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.8, "artist": "triple j", "title": "the temper trap cover harry styles for like a vers", "url": "https://www.youtube.com/watch?v=i4Y-rUXZJf8", "thumbnail": "https://i.ytimg.com/vi/i4Y-rUXZJf8/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "The Temper Trap", "title": "\u2018Giving Up Air\u2019 (live for Like A Version)", "url": "https://www.youtube.com/watch?v=BGH-qCOSTNU", "thumbnail": "https://i.ytimg.com/vi/BGH-qCOSTNU/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "triple j", "title": "the temper trap cover harry styles' 'sign of the t", "url": "https://www.youtube.com/watch?v=uIw81Hz0_Qo", "thumbnail": "https://i.ytimg.com/vi/uIw81Hz0_Qo/hqdefault.jpg"}, {"timestamp": "06:55", "seconds": 415.3, "artist": "Wh0", "title": "Burnin' Deep [House]", "url": "https://www.youtube.com/watch?v=oc9UVT90hds", "thumbnail": "https://i.ytimg.com/vi/oc9UVT90hds/hqdefault.jpg"}, {"timestamp": "07:23", "seconds": 443.8, "artist": "Snotty", "title": "Stark Pose (Prod. Goodphella)", "url": "https://www.youtube.com/watch?v=Kdm9vObj1Zo", "thumbnail": "https://i.ytimg.com/vi/Kdm9vObj1Zo/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.3, "artist": "Keb\u2019 Mo\u2019", "title": "Just Like You + The Action | 2 Meter Sessions, 199", "url": "https://www.youtube.com/watch?v=W8Q3HYv4kZc", "thumbnail": "https://i.ytimg.com/vi/W8Q3HYv4kZc/hqdefault.jpg"}, {"timestamp": "08:20", "seconds": 500.8, "artist": "Alex Preston, Danny Rhys", "title": "What's Up Man [Tech House]", "url": "https://www.youtube.com/watch?v=fIJPuLi6i4Q", "thumbnail": "https://i.ytimg.com/vi/fIJPuLi6i4Q/hqdefault.jpg"}, {"timestamp": "08:49", "seconds": 529.3, "artist": "JNATHYN", "title": "RICOCHET", "url": "https://www.youtube.com/watch?v=VoIa0vA8gTQ", "thumbnail": "https://i.ytimg.com/vi/VoIa0vA8gTQ/hqdefault.jpg"}, {"timestamp": "09:17", "seconds": 557.8, "artist": "Spinnin' Records", "title": "\u2018Work It\u2019 by @quintino was released 10 years ago i", "url": "https://www.youtube.com/watch?v=t1-oqgVNPBQ", "thumbnail": "https://i.ytimg.com/vi/t1-oqgVNPBQ/hqdefault.jpg"}];
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Bluhm", "title": "Always On Your Mind", "url": "https://www.youtube.com/watch?v=M9Yite_gBGM", "thumbnail": "https://i.ytimg.com/vi/M9Yite_gBGM/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "Kanine & HEIGHTS", "title": "Reflections", "url": "https://www.youtube.com/watch?v=KQ0fHZuLJYY", "thumbnail": "https://i.ytimg.com/vi/KQ0fHZuLJYY/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "Lucca Saettone x Ema Feud", "title": "Body (Official Lyric Video)", "url": "https://www.youtube.com/watch?v=i_J4I1VJCSM", "thumbnail": "https://i.ytimg.com/vi/i_J4I1VJCSM/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "Interpol", "title": "My Desire (Live on KEXP)", "url": "https://www.youtube.com/watch?v=aYj4XwTItVA", "thumbnail": "https://i.ytimg.com/vi/aYj4XwTItVA/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "Tripulse & Boutta", "title": "Fragments [Future Bass Release]", "url": "https://www.youtube.com/watch?v=4r8B64q3VVo", "thumbnail": "https://i.ytimg.com/vi/4r8B64q3VVo/hqdefault.jpg"}, {"timestamp": "02:53", "seconds": 173.3, "artist": "Interpol", "title": "See Out Loud (Live on KEXP)", "url": "https://www.youtube.com/watch?v=vCyKw06g7Y0", "thumbnail": "https://i.ytimg.com/vi/vCyKw06g7Y0/hqdefault.jpg"}, {"timestamp": "03:21", "seconds": 201.8, "artist": "Freaks & Geeks", "title": "Free Your Mind [Drum & Bass | Monstercat]", "url": "https://www.youtube.com/watch?v=0m_gC2CVRp8", "thumbnail": "https://i.ytimg.com/vi/0m_gC2CVRp8/hqdefault.jpg"}, {"timestamp": "03:50", "seconds": 230.3, "artist": "Brendon Moeller", "title": "Dorian Grey Frequencies [SMDE60]", "url": "https://www.youtube.com/watch?v=1Kc_OflIBM4", "thumbnail": "https://i.ytimg.com/vi/1Kc_OflIBM4/hqdefault.jpg"}, {"timestamp": "04:18", "seconds": 258.8, "artist": "Mojave Grey", "title": "Rendezvous (Live from Mojave Desert)", "url": "https://www.youtube.com/watch?v=ZZnEtTU9bGY", "thumbnail": "https://i.ytimg.com/vi/ZZnEtTU9bGY/hqdefault.jpg"}, {"timestamp": "04:47", "seconds": 287.3, "artist": "Netsky & Hannah Boleyn", "title": "Feel Again", "url": "https://www.youtube.com/watch?v=Fmn11x_BsMg", "thumbnail": "https://i.ytimg.com/vi/Fmn11x_BsMg/hqdefault.jpg"}, {"timestamp": "05:15", "seconds": 315.8, "artist": "Cigarettes After Sex", "title": "Apocalypse (lyrics)", "url": "https://www.youtube.com/watch?v=-FsJo_rxGjc", "thumbnail": "https://i.ytimg.com/vi/-FsJo_rxGjc/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.8, "artist": "Interpol", "title": "Wings On Fire (Live on KEXP)", "url": "https://www.youtube.com/watch?v=aBr7iaS_Y64", "thumbnail": "https://i.ytimg.com/vi/aBr7iaS_Y64/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "Fog Lake", "title": "bogus", "url": "https://www.youtube.com/watch?v=tqvDTwTfWUE", "thumbnail": "https://i.ytimg.com/vi/tqvDTwTfWUE/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "KEXP", "title": "Interpol performs \"See Out Loud\" & more Live on KE", "url": "https://www.youtube.com/watch?v=GQkCxHXuPQc", "thumbnail": "https://i.ytimg.com/vi/GQkCxHXuPQc/hqdefault.jpg"}, {"timestamp": "06:40", "seconds": 400.8, "artist": "Joel Corry", "title": "Whisper (Henry Himself Remix) [Official Audio]", "url": "https://www.youtube.com/watch?v=NLpPchCGYqc", "thumbnail": "https://i.ytimg.com/vi/NLpPchCGYqc/hqdefault.jpg"}, {"timestamp": "07:09", "seconds": 429.3, "artist": "Pure Blues: Keb\u2019 Mo\u2019", "title": "Just Like You", "url": "https://www.youtube.com/watch?v=ZnsD5NYMy4Y", "thumbnail": "https://i.ytimg.com/vi/ZnsD5NYMy4Y/hqdefault.jpg"}, {"timestamp": "07:23", "seconds": 443.3, "artist": "Message In A Bottle / Driven To Tears", "title": "Sting and the Police | Singers Showcase (Live at B", "url": "https://www.youtube.com/watch?v=-aRq3n9fO6s", "thumbnail": "https://i.ytimg.com/vi/-aRq3n9fO6s/hqdefault.jpg"}, {"timestamp": "07:51", "seconds": 471.8, "artist": "Greg Freeeman", "title": "Untitled 10", "url": "https://www.youtube.com/watch?v=guZqcSIanu4", "thumbnail": "https://i.ytimg.com/vi/guZqcSIanu4/hqdefault.jpg"}, {"timestamp": "08:20", "seconds": 500.3, "artist": "John Summit", "title": "Don't Believe It (GRiZ Remix)", "url": "https://www.youtube.com/watch?v=5WD0s3zJLmg", "thumbnail": "https://i.ytimg.com/vi/5WD0s3zJLmg/hqdefault.jpg"}, {"timestamp": "08:48", "seconds": 528.8, "artist": "Raphi", "title": "Keep It Movin' (Official Audio)", "url": "https://www.youtube.com/watch?v=V_ooAmmhAe0", "thumbnail": "https://i.ytimg.com/vi/V_ooAmmhAe0/hqdefault.jpg"}, {"timestamp": "09:17", "seconds": 557.3, "artist": "Berklee College of Music", "title": "Sting at 75: celebrating the songs, the voice, and", "url": "https://www.youtube.com/watch?v=UGm7JCIzl9w", "thumbnail": "https://i.ytimg.com/vi/UGm7JCIzl9w/hqdefault.jpg"}, {"timestamp": "09:31", "seconds": 571.3, "artist": "Oden & Fatzo & Astels", "title": "Take Our Time (Live Session)", "url": "https://www.youtube.com/watch?v=dEmulBeAfB0", "thumbnail": "https://i.ytimg.com/vi/dEmulBeAfB0/hqdefault.jpg"}, {"timestamp": "09:59", "seconds": 599.8, "artist": "Interpol", "title": "Rest My Chemistry (Live on KEXP)", "url": "https://www.youtube.com/watch?v=75ibbeLh5t0", "thumbnail": "https://i.ytimg.com/vi/75ibbeLh5t0/hqdefault.jpg"}, {"timestamp": "10:28", "seconds": 628.3, "artist": "Brendon Moeller", "title": "Fate's Rhythm [SAIBAI6]", "url": "https://www.youtube.com/watch?v=UuejRXRkCxw", "thumbnail": "https://i.ytimg.com/vi/UuejRXRkCxw/hqdefault.jpg"}, {"timestamp": "10:56", "seconds": 656.8, "artist": "Cigarettes After Sex", "title": "Sweet (lyrics)", "url": "https://www.youtube.com/watch?v=T8tnu58x680", "thumbnail": "https://i.ytimg.com/vi/T8tnu58x680/hqdefault.jpg"}, {"timestamp": "11:10", "seconds": 670.8, "artist": "Azzecca", "title": "Home", "url": "https://www.youtube.com/watch?v=gbaj5pF3TpA", "thumbnail": "https://i.ytimg.com/vi/gbaj5pF3TpA/hqdefault.jpg"}, {"timestamp": "11:39", "seconds": 699.3, "artist": "Helen", "title": "Stay with me", "url": "https://www.youtube.com/watch?v=W9pHiN3_x2g", "thumbnail": "https://i.ytimg.com/vi/W9pHiN3_x2g/hqdefault.jpg"}, {"timestamp": "12:07", "seconds": 727.8, "artist": "Gorgon City", "title": "Only Love (ft. Caroline Byrne)", "url": "https://www.youtube.com/watch?v=IR264P24ztk", "thumbnail": "https://i.ytimg.com/vi/IR264P24ztk/hqdefault.jpg"}];
     const PAGE_URL = 'https://sarfer02.github.io/sarferprod-dailymix';
     const audio = document.getElementById('audio');
     audio.src = './latest.mp3?v=' + Date.now();
@@ -246,11 +268,12 @@
     const progressFill = document.getElementById('progressFill');
     const tracklistGrid = document.getElementById('tracklistGrid');
     const markersLayer = document.getElementById('markersLayer');
+    const discLabel = document.getElementById('discLabel');
     const volZone = document.getElementById('volZone');
     const volFill = document.getElementById('volFill');
     const volKnob = document.getElementById('volKnob');
     const volumePercent = document.getElementById('volumePercent');
-    const totalDurationSec = 599.544;
+    const totalDurationSec = 784.044;
     let currentTrackIndex = -1;
 
     function formatTime(sec) {
@@ -272,6 +295,7 @@
                     if(idx === activeIndex) r.classList.add('active'); else r.classList.remove('active');
                 });
                 marqueeSpan.textContent = tracks[activeIndex].artist + ' --- ' + tracks[activeIndex].title;
+                discLabel.style.backgroundImage = "url('" + tracks[activeIndex].thumbnail + "')";
             }
         }
         currentTimeSpan.textContent = formatTime(audio.currentTime);
@@ -312,7 +336,7 @@
     volZone.addEventListener('pointermove', e => { if (volDragging) setVolume(e); });
     volZone.addEventListener('pointerup', () => volDragging = false);
 
-    /* Seek : clic dans l'écran waveform de l'image */
+    /* Seek : clic dans l'écran waveform (règle graduée incluse) */
     const waveZone = document.getElementById('waveZone');
     waveZone.addEventListener('click', (e) => {
         if (e.target.closest('.timeline-marker')) return;
