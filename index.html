@@ -26,7 +26,7 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── LCD marquee (police LED + taille agrandie) ── */
+        /* ── LCD marquee : police LED + SARFERPROD • date • titre ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -75,16 +75,15 @@
             color: rgba(111,230,255,.75);
         }
 
-        /* ── RULE-LAYER DEDIEE : couche posée EXACTEMENT sur la règle graduée de
-              l'image (calibrateur : left 7.9% / top 40.2% / width 37.4% / height 2%).
-              Les BILLES y sont en taille FIXE lisible, indépendante du canvas. ── */
+        /* ── RULE-LAYER DEDIEE : posée EXACTEMENT sur la règle graduée de l'image
+              (calibrateur : 7.9% / 40.2% / 37.4% / 2%) — billes en taille FIXE ── */
         .rule-layer {
             position: absolute; left: 7.9%; top: 40.2%; width: 37.4%; height: 2%;
             pointer-events: none; z-index: 6;
         }
-        /* ── BILLE : ronde, taille fixe (8→14px), centrée verticalement sur la règle ── */
+        /* ── BILLE : ronde, une PAR CHANGEMENT DE MORCEAU, positionnée via --left ── */
         .timeline-marker {
-            position: absolute; top: 50%;
+            position: absolute; top: 50%; left: var(--left, 0%);
             width: clamp(8px, 0.85vw, 14px);
             height: clamp(8px, 0.85vw, 14px);
             border-radius: 50%;
@@ -491,9 +490,10 @@
         tracklistGrid.appendChild(row);
     });
 
-    /* ── BILLES sur la règle : clic = seek + vignette YouTube dans le médaillon ── */
+    /* ── BILLES sur la règle : UNE PAR CHANGEMENT DE MORCEAU, positionnée via --left ── */
     tracks.forEach((track) => {
         const marker = document.createElement('div'); marker.className = 'timeline-marker';
+        marker.style.setProperty('--left', (track.seconds / totalDurationSec * 100) + '%');
         marker.dataset.seconds = track.seconds;
         marker.title = track.artist + ' — ' + track.title;
         marker.innerHTML = `<div class="marker-thumb" style="background-image:url(${track.thumbnail})"></div>`;
