@@ -76,29 +76,29 @@
         }
 
         /* ── RULE-LAYER DEDIEE : posée EXACTEMENT sur la règle graduée de l'image
-              (calibrateur : 7.9% / 40.2% / 37.4% / 2%) — billes en taille FIXE ── */
+              (calibrateur : 7.9% / 40.2% / 37.4% / 2%) — traits en taille FIXE ── */
         .rule-layer {
             position: absolute; left: 7.9%; top: 40.2%; width: 37.4%; height: 2%;
             pointer-events: none; z-index: 6;
         }
-        /* ── BILLE : ronde, une PAR CHANGEMENT DE MORCEAU, positionnée via --left ── */
+        /* ── PETIT TRAIT VERTICAL : un PAR CHANGEMENT DE MORCEAU, via --left ── */
         .timeline-marker {
             position: absolute; top: 50%; left: var(--left, 0%);
-            width: clamp(8px, 0.85vw, 14px);
-            height: clamp(8px, 0.85vw, 14px);
-            border-radius: 50%;
+            width: clamp(2px, 0.25vw, 4px);
+            height: clamp(12px, 1.3vw, 20px);
+            border-radius: 1px;
             transform: translate(-50%, -50%);
-            background: radial-gradient(circle at 38% 32%, rgba(160,240,255,.85), rgba(40,140,220,.55) 60%, rgba(20,80,160,.35));
+            background: linear-gradient(180deg, rgba(160,240,255,.9) 0%, rgba(84,228,255,.75) 45%, rgba(40,140,220,.5) 100%);
             box-shadow: 0 0 5px rgba(84,228,255,.55);
             cursor: pointer; pointer-events: auto;
             transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
         }
         .timeline-marker:hover {
-            transform: translate(-50%, -50%) scale(1.5);
-            background: radial-gradient(circle at 38% 32%, #ffffff, #54e4ff 55%, #1f9dff);
-            box-shadow: 0 0 12px #54e4ff, 0 0 26px rgba(84,228,255,.8), 0 0 44px rgba(50,140,255,.5);
+            transform: translate(-50%, -50%) scaleY(1.45);
+            background: linear-gradient(180deg, #ffffff, #54e4ff 55%, #1f9dff);
+            box-shadow: 0 0 10px #54e4ff, 0 0 26px rgba(84,228,255,.8), 0 0 44px rgba(50,140,255,.5);
         }
-        /* Vignette YouTube au-dessus de la bille */
+        /* Vignette YouTube au-dessus du trait */
         .marker-thumb {
             position: absolute; bottom: 210%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
@@ -235,7 +235,7 @@
             <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">7:51</span></div>
         </div>
 
-        <!-- RULE-LAYER : couche dédiée aux billes, posée SUR la règle graduée de l'image -->
+        <!-- RULE-LAYER : couche dédiée aux traits, posée SUR la règle graduée de l'image -->
         <div class="rule-layer" id="markersLayer"></div>
 
         <div class="disc-zone">
@@ -490,7 +490,7 @@
         tracklistGrid.appendChild(row);
     });
 
-    /* ── BILLES sur la règle : UNE PAR CHANGEMENT DE MORCEAU, positionnée via --left ── */
+    /* ── TRAITS VERTICAUX sur la règle : UN PAR CHANGEMENT DE MORCEAU, positionnés via --left ── */
     tracks.forEach((track) => {
         const marker = document.createElement('div'); marker.className = 'timeline-marker';
         marker.style.setProperty('--left', (track.seconds / totalDurationSec * 100) + '%');
