@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        /* ── LCD VIVANT : marquee dans l'écran de l'image (V11) ── */
+        /* ── LCD VIVANT : marquee dans l'écran de l'image (V14) ── */
         .lcd-live {
             position: absolute; left: 25.8%; top: 16.4%; width: 18.8%; height: 13.3%;
             border-radius: 10px; overflow: hidden;
@@ -44,15 +44,15 @@
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── WAVEFORM VIVANTE + REGLE GRADUEE (V11) ── */
+        /* ── WAVEFORM VIVANTE + REGLE GRADUEE (V14 : descend au bas réel de l'écran) ── */
         .wave-live {
-            position: absolute; left: 7.3%; top: 32.0%; width: 39.3%; height: 11.9%;
+            position: absolute; left: 7.5%; top: 33.5%; width: 39.5%; height: 12.7%;
             border-radius: 10px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Ligne de progression : posée SUR la règle graduée de l'image (tout en bas) */
+        /* Ligne de progression : posée SUR les tirets de la règle graduée de l'image */
         .wave-progress {
-            position: absolute; left: 3%; right: 3%; bottom: 4%; height: 3px; border-radius: 2px;
+            position: absolute; left: 2%; right: 2%; bottom: 26%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer;
         }
         .wave-progress-fill {
@@ -65,9 +65,9 @@
             font-family: 'Courier New', monospace; font-size: .5rem; color: rgba(111,230,255,.75);
         }
         .markers-layer { position: absolute; inset: 0; pointer-events: none; }
-        /* Marqueurs de morceaux : s'élèvent depuis la règle graduée, cliquables */
+        /* Marqueurs de morceaux : s'élèvent DE la règle graduée, cliquables */
         .timeline-marker {
-            position: absolute; bottom: 3%; width: 2px; height: 28%; background: #7ce8ff;
+            position: absolute; bottom: 25%; width: 2px; height: 30%; background: #7ce8ff;
             transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
             box-shadow: 0 0 5px #35e0ff; transition: opacity .2s, box-shadow .2s;
         }
@@ -80,9 +80,9 @@
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
 
-        /* ── PLATINE VIVANTE (V11) : disque qui tourne + ETIQUETTE YouTube ── */
+        /* ── PLATINE VIVANTE (V14) : disque qui tourne + ETIQUETTE YouTube ── */
         .disc-zone {
-            position: absolute; left: 15.5%; top: 52.9%; width: 21.0%; height: 37.4%;
+            position: absolute; left: 15.2%; top: 53.5%; width: 21.3%; height: 37.0%;
         }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
@@ -94,7 +94,7 @@
         .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
         /* ÉTIQUETTE VINYLE : la miniature YouTube du morceau en cours tourne avec le disque */
         .disc-label {
-            position: absolute; top: 50%; left: 50%; width: 36%; height: 36%;
+            position: absolute; top: 50%; left: 50%; width: 38%; height: 38%;
             transform: translate(-50%,-50%); border-radius: 50%;
             background-size: cover; background-position: center; background-color: #140d06;
             border: 3px solid rgba(212,175,55,.9);
@@ -135,9 +135,9 @@
         .hotspot:hover { box-shadow: 0 0 18px rgba(120,200,255,.85), 0 0 34px rgba(120,200,255,.45); }
         .hotspot.lit { box-shadow: 0 0 14px rgba(120,200,255,.6), inset 0 0 10px rgba(120,200,255,.35); }
 
-        /* ── VOLUME : le fader vertical DE L'IMAGE (V11) ── */
+        /* ── VOLUME : le fader vertical DE L'IMAGE (V14) ── */
         .vol-zone {
-            position: absolute; left: 41.6%; top: 70.2%; width: 2.8%; height: 16.2%;
+            position: absolute; left: 41.3%; top: 66.0%; width: 2.6%; height: 18.5%;
             cursor: pointer; touch-action: none;
         }
         .vol-fill {
@@ -157,7 +157,20 @@
             text-shadow: 0 0 5px rgba(53,224,255,.8);
         }
 
-        /* ── PLAYLIST VIVANTE dans le panneau de l'image (V11) ── */
+        /* ── CROSSFADER : balance L/R sur le fader horizontal DE L'IMAGE (V14) ── */
+        .cross-zone {
+            position: absolute; left: 7.0%; top: 83.3%; width: 10.6%; height: 6.3%;
+            cursor: pointer; touch-action: none;
+        }
+        .cross-knob {
+            position: absolute; left: 50%; top: 50%; width: 7%; height: 130%;
+            transform: translate(-50%,-50%); border-radius: 3px; pointer-events: none;
+            background: linear-gradient(180deg,#efe9dd,#7a6650 60%,#4a3b2c);
+            border: 1px solid rgba(0,0,0,.6);
+            box-shadow: 0 0 8px rgba(53,224,255,.7), 0 2px 6px rgba(0,0,0,.7);
+        }
+
+        /* ── PLAYLIST VIVANTE dans le panneau de l'image (V14) ── */
         .playlist-zone {
             position: absolute; left: 52.8%; top: 11.5%; width: 44.2%; height: 84.2%;
             display: flex; flex-direction: column;
@@ -215,7 +228,7 @@
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 09:59 --- APPUYEZ SUR PLAY...</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 12:43 --- APPUYEZ SUR PLAY...</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
@@ -233,8 +246,8 @@
             <div class="disc-spindle"></div>
         </div>
 
-        <button class="hotspot" id="pauseBtn" style="--l:7.3%; --t:52.0%; --w:5.7%; --h:8.7%;" title="Pause"></button>
-        <button class="hotspot" id="playBtn"  style="--l:7.3%; --t:66.9%; --w:5.7%; --h:8.8%;" title="Play"></button>
+        <button class="hotspot" id="pauseBtn" style="--l:7.2%; --t:53.2%; --w:6.1%; --h:8.8%;" title="Pause"></button>
+        <button class="hotspot" id="playBtn"  style="--l:7.2%; --t:68.3%; --w:6.1%; --h:8.9%;" title="Play"></button>
 
         <div class="vol-zone" id="volZone" title="Volume">
             <div class="vol-fill" id="volFill"></div>
@@ -242,10 +255,14 @@
             <span class="vol-pct" id="volumePercent">70</span>
         </div>
 
-        <a class="hotspot" id="waBtn" style="--l:21.8%; --t:44.1%; --w:2.7%; --h:4.2%; border-radius:6px;" title="WhatsApp"></a>
-        <a class="hotspot" id="scBtn" style="--l:24.6%; --t:44.1%; --w:2.4%; --h:4.2%; border-radius:6px;" title="SoundCloud"></a>
-        <a class="hotspot" id="mailBtn" style="--l:27.0%; --t:44.1%; --w:2.4%; --h:4.2%; border-radius:6px;" title="Email"></a>
-        <a class="hotspot" id="fbBtn" style="--l:29.4%; --t:44.1%; --w:2.4%; --h:4.2%; border-radius:6px;" title="Facebook"></a>
+        <div class="cross-zone" id="crossZone" title="Balance L/R">
+            <div class="cross-knob" id="crossKnob"></div>
+        </div>
+
+        <a class="hotspot" id="waBtn" style="--l:21.0%; --t:44.0%; --w:3.0%; --h:5.7%; border-radius:6px;" title="WhatsApp"></a>
+        <a class="hotspot" id="scBtn" style="--l:24.2%; --t:44.0%; --w:2.7%; --h:5.7%; border-radius:6px;" title="SoundCloud"></a>
+        <a class="hotspot" id="mailBtn" style="--l:27.1%; --t:44.0%; --w:2.7%; --h:5.7%; border-radius:6px;" title="Email"></a>
+        <a class="hotspot" id="fbBtn" style="--l:30.0%; --t:44.0%; --w:3.2%; --h:5.7%; border-radius:6px;" title="Facebook"></a>
 
         <div class="playlist-zone">
             <div class="playlist-head">Tracklist</div>
@@ -273,6 +290,8 @@
     const volFill = document.getElementById('volFill');
     const volKnob = document.getElementById('volKnob');
     const volumePercent = document.getElementById('volumePercent');
+    const crossZone = document.getElementById('crossZone');
+    const crossKnob = document.getElementById('crossKnob');
     const totalDurationSec = 471.544;
     let currentTrackIndex = -1;
 
@@ -336,6 +355,19 @@
     volZone.addEventListener('pointermove', e => { if (volDragging) setVolume(e); });
     volZone.addEventListener('pointerup', () => volDragging = false);
 
+    /* Crossfader : balance gauche/droite sur le fader horizontal de l'image */
+    let panNode = null, crossDragging = false;
+    function setPan(e) {
+        const r = crossZone.getBoundingClientRect();
+        let p = (e.clientX - r.left) / r.width;
+        p = Math.max(0, Math.min(1, p));
+        crossKnob.style.left = (p * 100) + '%';
+        if (panNode) panNode.pan.value = (p - 0.5) * 2;
+    }
+    crossZone.addEventListener('pointerdown', e => { crossDragging = true; crossZone.setPointerCapture(e.pointerId); setPan(e); });
+    crossZone.addEventListener('pointermove', e => { if (crossDragging) setPan(e); });
+    crossZone.addEventListener('pointerup', () => crossDragging = false);
+
     /* Seek : clic dans l'écran waveform (règle graduée incluse) */
     const waveZone = document.getElementById('waveZone');
     waveZone.addEventListener('click', (e) => {
@@ -354,7 +386,8 @@
                 analyser = audioCtx.createAnalyser(); analyser.fftSize = 256;
                 dataArray = new Uint8Array(analyser.frequencyBinCount);
                 sourceNode = audioCtx.createMediaElementSource(audio);
-                sourceNode.connect(analyser); analyser.connect(audioCtx.destination);
+                panNode = audioCtx.createStereoPanner();
+                sourceNode.connect(panNode); panNode.connect(analyser); analyser.connect(audioCtx.destination);
             } catch (e) { console.warn("AudioContext bloqué", e); }
         }
     }
