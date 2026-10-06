@@ -8,17 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #15100a;
-            font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0;
-            overflow: hidden;
-        }
-        .stage {
-            width: 100vw; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-        }
+        body { background: #15100a; font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0; overflow: hidden; }
+        .stage { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
 
-        /* ── LA CONSOLE = L'IMAGE, en fit plein écran (ratio 16:9) ── */
         .console {
             position: relative;
             width: min(100vw, calc(100vh * 16 / 9));
@@ -27,11 +19,10 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── LCD VIVANT : marquee dans l'écran de l'image (V14) ── */
+        /* ── LCD marquee (calibrateur : 27.4/19/15.8/8.8) ── */
         .lcd-live {
-            position: absolute; left: 25.8%; top: 16.4%; width: 18.8%; height: 13.3%;
-            border-radius: 10px; overflow: hidden;
-            background-color: #030a0d;
+            position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
+            border-radius: 8px; overflow: hidden; background-color: #030a0d;
             display: flex; align-items: center;
         }
         .lcd-live::before {
@@ -42,53 +33,53 @@
         .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
         .marquee-track span {
             display: inline-block; padding-left: 100%; animation: scrollTrack 13s linear infinite;
-            font-family: 'Courier New', monospace; font-size: clamp(.55rem, 1.05vw, 1.05rem);
+            font-family: 'Courier New', monospace; font-size: clamp(.5rem, .95vw, .95rem);
             font-weight: bold; letter-spacing: 2px;
             color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── WAVEFORM VIVANTE LCD + REGLE GRADUEE (V14) ── */
+        /* ── Waveform LCD (34→42.4% : englobe la règle à 40.2%) ── */
         .wave-live {
-            position: absolute; left: 7.5%; top: 33.5%; width: 39.5%; height: 12.7%;
-            border-radius: 10px; overflow: hidden; cursor: pointer;
+            position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
+            border-radius: 8px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Progression : posée PILE sur les tirets de la règle graduée de l'image */
+        /* Progression SUR la règle (règle locale : 73.8%→97.6% du conteneur) */
         .wave-progress {
-            position: absolute; left: 2%; right: 2%; bottom: 12%; height: 3px; border-radius: 2px;
+            position: absolute; left: 1%; right: 1%; top: 75%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer;
         }
         .wave-progress-fill {
             width: 0%; height: 100%; border-radius: 2px; pointer-events: none;
-            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 6px rgba(53,224,255,.7);
+            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 5px rgba(53,224,255,.6);
         }
         .wave-times {
-            position: absolute; left: 3%; right: 3%; bottom: 1%;
+            position: absolute; left: 2%; right: 2%; bottom: 0%;
             display: flex; justify-content: space-between;
-            font-family: 'Courier New', monospace; font-size: clamp(.42rem, .8vw, .72rem);
+            font-family: 'Courier New', monospace; font-size: clamp(.38rem, .7vw, .68rem);
             color: rgba(111,230,255,.75);
         }
         .markers-layer { position: absolute; inset: 0; pointer-events: none; }
-        /* Marqueurs : montent DE la règle (bas de l'écran), cliquables, glow contenu */
+        /* Marqueurs LCD bleu segmenté : ancrés SUR la règle, cliquables */
         .timeline-marker {
-            position: absolute; bottom: 10%; width: 2px; height: 32%; background: #7ce8ff;
-            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .8;
-            box-shadow: 0 0 4px #35e0ff; transition: opacity .2s, box-shadow .2s;
+            position: absolute; bottom: 4%; width: 3px; height: 45%;
+            background: repeating-linear-gradient(0deg, #6cf0ff 0 3px, rgba(108,240,255,.15) 3px 6px);
+            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
+            border-radius: 1px; transition: opacity .2s, filter .2s;
         }
-        .timeline-marker:hover { opacity: 1; box-shadow: 0 0 8px #54e4ff; }
+        .timeline-marker:hover { opacity: 1; filter: drop-shadow(0 0 4px #54e4ff); }
         .marker-thumb {
-            position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) scale(.9);
+            position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
             pointer-events: none; border: 2px solid #35e0ff; transition: opacity .2s;
-            box-shadow: 0 4px 14px rgba(0,0,0,.6);
+            box-shadow: 0 4px 14px rgba(0,0,0,.6); z-index: 10;
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
+        .timeline-marker.show .marker-thumb { opacity: 1; }
 
-        /* ── PLATINE VIVANTE (V14) : disque qui tourne + ETIQUETTE YouTube ── */
-        .disc-zone {
-            position: absolute; left: 15.2%; top: 53.5%; width: 21.3%; height: 37.0%;
-        }
+        /* ── Platine : centre = centre du médaillon calibré (25.95%, 71.1%) ── */
+        .disc-zone { position: absolute; left: 16.7%; top: 54.7%; width: 18.5%; height: 32.9%; }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
             animation: spin 3.6s linear infinite; animation-play-state: paused;
@@ -97,134 +88,90 @@
         body.playing .turntable-disc { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
-        /* ÉTIQUETTE VINYLE : la miniature YouTube du morceau en cours tourne avec le disque */
+        /* Étiquette = le médaillon calibré (6.5x11.4 abs = 35% du disque) */
         .disc-label {
-            position: absolute; top: 50%; left: 50%; width: 38%; height: 38%;
+            position: absolute; top: 50%; left: 50%; width: 35%; height: 35%;
             transform: translate(-50%,-50%); border-radius: 50%;
             background-size: cover; background-position: center; background-color: #140d06;
-            border: 3px solid rgba(212,175,55,.9);
-            box-shadow: 0 0 14px rgba(0,0,0,.75), inset 0 0 12px rgba(0,0,0,.45);
+            border: 2px solid rgba(212,175,55,.9);
+            box-shadow: 0 0 12px rgba(0,0,0,.75), inset 0 0 10px rgba(0,0,0,.45);
+            transition: box-shadow .3s;
         }
         .disc-label::after {
             content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
             background: linear-gradient(115deg, rgba(255,255,255,.25) 0%, transparent 40%, transparent 75%, rgba(255,255,255,.08) 100%);
         }
+        .disc-label.flash { box-shadow: 0 0 20px rgba(120,220,255,.9), inset 0 0 10px rgba(0,0,0,.45); }
         .disc-spindle {
-            position: absolute; top: 50%; left: 50%; width: 4.5%; height: 4.5%;
+            position: absolute; top: 50%; left: 50%; width: 5%; height: 5%;
             transform: translate(-50%,-50%); border-radius: 50%; z-index: 3; pointer-events: none;
             background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
             box-shadow: 0 0 6px rgba(255,220,120,.8);
         }
 
-        /* ── ANNEAU DE LEDs autour du disque ── */
+        /* ── Anneau LEDs ── */
         .led-ring { position: absolute; inset: -5.5%; pointer-events: none; }
         .led-ring .ring-led {
             position: absolute; top: 50%; left: 50%;
-            width: clamp(4px, .55vw, 9px); height: clamp(4px, .55vw, 9px); border-radius: 50%;
+            width: clamp(3px, .5vw, 8px); height: clamp(3px, .5vw, 8px); border-radius: 50%;
             background: rgba(255,255,255,.07);
             transform: translate(-50%,-50%) rotate(var(--a)) translateY(-53%);
             transition: background .09s linear, box-shadow .09s linear;
         }
-        .led-ring .ring-led.on {
-            background: var(--c);
-            box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c);
-        }
+        .led-ring .ring-led.on { background: var(--c); box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c); }
 
-        /* ── HOTSPOTS : les boutons DE L'IMAGE deviennent cliquables ── */
+        /* ── Hotspots : liseré fin ── */
         .hotspot {
             position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h);
             background: transparent; border: none; border-radius: 50%; cursor: pointer; padding: 0;
-            transition: box-shadow .2s;
+            transition: box-shadow .15s;
         }
-        .hotspot:hover { box-shadow: 0 0 18px rgba(120,200,255,.85), 0 0 34px rgba(120,200,255,.45); }
-        .hotspot.lit { box-shadow: 0 0 14px rgba(120,200,255,.6), inset 0 0 10px rgba(120,200,255,.35); }
+        .hotspot:hover { box-shadow: 0 0 0 2px rgba(170,225,255,.35); }
+        .hotspot.lit { box-shadow: 0 0 0 2px rgba(170,225,255,.55); }
 
-        /* ── VOLUME : le fader vertical DE L'IMAGE (V14) ── */
-        .vol-zone {
-            position: absolute; left: 41.3%; top: 66.0%; width: 2.6%; height: 18.5%;
-            cursor: pointer; touch-action: none;
-        }
-        .vol-fill {
-            position: absolute; left: 32%; bottom: 4%; width: 36%;
-            height: 70%; border-radius: 3px; pointer-events: none;
-            background: linear-gradient(180deg, #7ce8ff, #1f9dff); box-shadow: 0 0 8px rgba(53,224,255,.85);
-        }
-        .vol-knob {
-            position: absolute; left: -60%; width: 220%; height: 6%;
-            top: 26%; border-radius: 3px; pointer-events: none;
-            background: linear-gradient(180deg,#efe9dd,#7a6650 60%,#4a3b2c);
-            border: 1px solid rgba(0,0,0,.6); box-shadow: 0 0 6px rgba(0,0,0,.8);
-        }
-        .vol-pct {
-            position: absolute; left: 108%; top: 50%; transform: translateY(-50%);
-            font-family: 'Courier New', monospace; font-size: .55rem; color: #7ce8ff;
-            text-shadow: 0 0 5px rgba(53,224,255,.8);
-        }
-
-        /* ── CROSSFADER : balance L/R, capot réplique du capot bronze de l'image ── */
+        /* ── LE SEUL CROSSFADER (rail horizontal) = VOLUME, poignée = VRAI capot ── */
         .cross-zone {
-            position: absolute; left: 7.0%; top: 83.3%; width: 10.6%; height: 6.3%;
+            position: absolute; left: 7.4%; top: 82.9%; width: 8.3%; height: 6%;
             cursor: pointer; touch-action: none;
         }
         .cross-knob {
-            position: absolute; left: 50%; top: 50%; width: 7.5%; height: 135%;
-            transform: translate(-50%,-50%); border-radius: 3px; pointer-events: none;
-            background: linear-gradient(180deg,#efe6d6,#8a7358 45%,#5c4a35);
-            border: 1px solid rgba(0,0,0,.7);
-            box-shadow: 0 3px 8px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.25);
-        }
-        .cross-knob::after {
-            content: ''; position: absolute; left: 20%; right: 20%; top: 42%; height: 16%;
-            background: #d9c9a8; border-radius: 2px; box-shadow: inset 0 1px 2px rgba(0,0,0,.5);
+            position: absolute; top: 50%; left: 70%; width: 22%; height: 84%;
+            transform: translate(-50%,-50%); pointer-events: none;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
 
-        /* ── PLAYLIST VIVANTE dans le panneau de l'image (V14) ── */
+        /* ── PLAYLIST : 6 cases (51.8→58.7%) + slots (61.1→94.4%), pas 10.8% ── */
         .playlist-zone {
-            position: absolute; left: 52.8%; top: 11.5%; width: 44.2%; height: 84.2%;
-            display: flex; flex-direction: column;
-            background: rgba(24,15,6,.82); backdrop-filter: blur(5px);
-            border-radius: 16px; border: 1px solid rgba(212,175,55,.35);
-            box-shadow: inset 0 0 24px rgba(0,0,0,.55);
-            padding: 10px 12px 12px;
+            position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
+            display: flex; flex-direction: column; padding: 0;
         }
-        .playlist-head {
-            text-align: center; font-family: 'Georgia', serif; font-size: clamp(.8rem, 1.4vw, 1.15rem);
-            letter-spacing: 5px; color: #f0d48a; text-transform: uppercase;
-            border-bottom: 1px solid rgba(212,175,55,.6); padding-bottom: 7px; margin-bottom: 9px;
-            text-shadow: 0 0 12px rgba(212,175,55,.6);
-        }
-        .tracklist-grid { flex: 1; overflow-y: auto; display: grid; gap: 7px; align-content: start; padding-right: 4px; }
-        .tracklist-grid::-webkit-scrollbar { width: 6px; }
-        .tracklist-grid::-webkit-scrollbar-track { background: rgba(0,0,0,.35); border-radius: 3px; }
-        .tracklist-grid::-webkit-scrollbar-thumb { background: rgba(201,161,59,.6); border-radius: 3px; }
+        .tracklist-grid { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6.4%; padding-right: 0; }
+        .tracklist-grid::-webkit-scrollbar { width: 0; }
         .track-row {
-            display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 6px;
-            background: rgba(10,6,2,.55); border: 1px solid rgba(212,175,55,.22); border-radius: 10px;
-            transition: transform .2s ease, background .2s ease;
+            flex: 0 0 auto; height: 11.35%;
+            display: flex; align-items: center;
+            padding: 0; background: transparent; border: none; border-radius: 6px;
+            transition: background .2s ease;
         }
-        .track-row:hover { transform: translateX(4px); background: rgba(53,224,255,.08); }
-        .track-row.active { background: rgba(53,224,255,.14); border-left: 3px solid #54e4ff; box-shadow: 0 0 10px rgba(53,224,255,.25); }
-        .track-index {
-            font-family: 'Courier New', monospace; font-size: .6rem; color: #6fe6ff;
-            width: 20px; text-align: center; flex-shrink: 0; text-shadow: 0 0 5px rgba(53,224,255,.7);
-        }
-        .track-vignette-link { text-decoration: none; flex-shrink: 0; }
+        .track-row:hover { background: rgba(255,214,120,.07); }
+        .track-row.active { background: rgba(120,220,255,.10); }
+        .track-vignette-link { text-decoration: none; flex: 0 0 16%; height: 100%; display: block; }
         .track-vignette {
-            position: relative; width: clamp(44px, 5.6vw, 64px); height: clamp(32px, 4vw, 46px); border-radius: 5px;
+            position: relative; width: 100%; height: 100%; border-radius: 6px;
             background-size: cover; background-position: center; cursor: pointer; transition: all .2s;
-            border: 2px solid rgba(201,161,59,.85); box-shadow: inset 0 0 8px rgba(0,0,0,.6);
+            border: 2px solid rgba(201,161,59,.95);
+            box-shadow: inset 0 0 10px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.5);
         }
         .track-vignette::after {
-            content: ''; position: absolute; inset: 0; border-radius: 3px; pointer-events: none;
-            background: linear-gradient(115deg, rgba(255,255,255,.22) 0%, transparent 35%, transparent 70%, rgba(255,255,255,.07) 100%);
+            content: ''; position: absolute; inset: 0; border-radius: 4px; pointer-events: none;
+            background: linear-gradient(115deg, rgba(255,255,255,.25) 0%, transparent 38%, transparent 72%, rgba(255,255,255,.07) 100%);
         }
-        .track-vignette-link:hover .track-vignette { transform: scale(1.07); box-shadow: 0 0 12px rgba(53,224,255,.75); }
-        .track-details { flex: 1; cursor: pointer; min-width: 0; }
-        .track-artist-name { font-weight: 600; color: #ffcf7d; font-size: clamp(.55rem, .95vw, .8rem); text-shadow: 0 0 5px rgba(255,166,43,.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-song-title { font-style: italic; color: rgba(242,226,196,.7); font-size: clamp(.5rem, .85vw, .72rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-duration { font-family: 'Courier New', monospace; font-size: .6rem; color: #6fe6ff; flex-shrink: 0; }
+        .track-vignette-link:hover .track-vignette { transform: scale(1.04); box-shadow: 0 0 10px rgba(120,220,255,.6); }
+        .track-details { flex: 1; cursor: pointer; min-width: 0; margin-left: 5.5%; height: 70%; display: flex; flex-direction: column; justify-content: center; }
+        .track-artist-name { font-weight: 600; color: #ffd98a; font-size: clamp(.48rem, .95vw, .92rem); text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 0 8px rgba(0,0,0,.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-song-title { font-style: italic; color: rgba(242,226,196,.85); font-size: clamp(.4rem, .8vw, .78rem); text-shadow: 0 1px 3px rgba(0,0,0,.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-duration { font-family: 'Courier New', monospace; font-size: clamp(.4rem, .75vw, .7rem); color: #9feeff; flex-shrink: 0; margin-right: 2%; text-shadow: 0 1px 3px rgba(0,0,0,.95); }
 
-        /* ── Bouton copier : discret, en bas de l'écran ── */
         .under-console {
             position: fixed; bottom: 6px; left: 0; right: 0;
             text-align: center; z-index: 50; pointer-events: none;
@@ -241,7 +188,7 @@
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 12:56 --- APPUYEZ SUR PLAY...</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 14:06 --- APPUYEZ SUR PLAY...</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
@@ -259,26 +206,19 @@
             <div class="disc-spindle"></div>
         </div>
 
-        <button class="hotspot" id="pauseBtn" style="--l:7.2%; --t:53.2%; --w:6.1%; --h:8.8%;" title="Pause"></button>
-        <button class="hotspot" id="playBtn"  style="--l:7.2%; --t:68.3%; --w:6.1%; --h:8.9%;" title="Play"></button>
+        <button class="hotspot" id="pauseBtn" style="--l:6.5%; --t:52.1%; --w:6.0%; --h:11%;" title="Pause"></button>
+        <button class="hotspot" id="playBtn"  style="--l:6.4%; --t:67.2%; --w:5.9%; --h:10.3%;" title="Play"></button>
 
-        <div class="vol-zone" id="volZone" title="Volume">
-            <div class="vol-fill" id="volFill"></div>
-            <div class="vol-knob" id="volKnob"></div>
-            <span class="vol-pct" id="volumePercent">70</span>
+        <div class="cross-zone" id="crossZone" title="Volume">
+            <img class="cross-knob" id="crossKnob" src="assets_vintage/fader_cross_knob.png" alt="">
         </div>
 
-        <div class="cross-zone" id="crossZone" title="Balance L/R">
-            <div class="cross-knob" id="crossKnob"></div>
-        </div>
-
-        <a class="hotspot" id="waBtn" style="--l:21.0%; --t:44.0%; --w:3.0%; --h:5.7%; border-radius:6px;" title="WhatsApp"></a>
-        <a class="hotspot" id="scBtn" style="--l:24.2%; --t:44.0%; --w:2.7%; --h:5.7%; border-radius:6px;" title="SoundCloud"></a>
-        <a class="hotspot" id="mailBtn" style="--l:27.1%; --t:44.0%; --w:2.7%; --h:5.7%; border-radius:6px;" title="Email"></a>
-        <a class="hotspot" id="fbBtn" style="--l:30.0%; --t:44.0%; --w:3.2%; --h:5.7%; border-radius:6px;" title="Facebook"></a>
+        <a class="hotspot" id="waBtn" style="--l:20.9%; --t:43.9%; --w:2.6%; --h:4.8%; border-radius:6px;" title="WhatsApp"></a>
+        <a class="hotspot" id="scBtn" style="--l:23.9%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="SoundCloud"></a>
+        <a class="hotspot" id="mailBtn" style="--l:26.7%; --t:43.8%; --w:2.5%; --h:4.8%; border-radius:6px;" title="Email"></a>
+        <a class="hotspot" id="fbBtn" style="--l:29.5%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="Facebook"></a>
 
         <div class="playlist-zone">
-            <div class="playlist-head">Tracklist</div>
             <div class="tracklist-grid" id="tracklistGrid"></div>
         </div>
     </div>
@@ -299,10 +239,6 @@
     const tracklistGrid = document.getElementById('tracklistGrid');
     const markersLayer = document.getElementById('markersLayer');
     const discLabel = document.getElementById('discLabel');
-    const volZone = document.getElementById('volZone');
-    const volFill = document.getElementById('volFill');
-    const volKnob = document.getElementById('volKnob');
-    const volumePercent = document.getElementById('volumePercent');
     const crossZone = document.getElementById('crossZone');
     const crossKnob = document.getElementById('crossKnob');
     const totalDurationSec = 471.544;
@@ -312,6 +248,11 @@
         if(isNaN(sec)) return '00:00';
         const m = Math.floor(sec / 60); const s = Math.floor(sec % 60);
         return m + ':' + s.toString().padStart(2,'0');
+    }
+
+    function flashDiscLabel() {
+        discLabel.classList.add('flash');
+        setTimeout(() => discLabel.classList.remove('flash'), 1200);
     }
 
     function updateProgress() {
@@ -346,42 +287,24 @@
 
     playBtn.addEventListener('click', startPlaying);
     pauseBtn.addEventListener('click', stopPlaying);
-    document.querySelectorAll('.track-details').forEach(d => d.addEventListener('click', (e) => {
-        audio.currentTime = parseFloat(e.currentTarget.dataset.seconds);
-        startPlaying();
-    }));
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('ended', stopPlaying);
 
-    /* Volume : glisser sur le fader vertical de l'image */
+    /* ── Crossfader (rail horizontal) = VOLUME, poignée = vrai capot ── */
     let volDragging = false;
     function setVolume(e) {
-        const r = volZone.getBoundingClientRect();
-        let v = 1 - (e.clientY - r.top) / r.height;
+        const r = crossZone.getBoundingClientRect();
+        let v = (e.clientX - r.left) / r.width;
         v = Math.max(0, Math.min(1, v));
         audio.volume = v;
-        volFill.style.height = (v * 92) + '%';
-        volKnob.style.top = ((1 - v) * 93) + '%';
-        volumePercent.textContent = Math.round(v * 100);
+        crossKnob.style.left = (v * 100) + '%';
     }
-    volZone.addEventListener('pointerdown', e => { volDragging = true; volZone.setPointerCapture(e.pointerId); setVolume(e); });
-    volZone.addEventListener('pointermove', e => { if (volDragging) setVolume(e); });
-    volZone.addEventListener('pointerup', () => volDragging = false);
+    crossZone.addEventListener('pointerdown', e => { volDragging = true; crossZone.setPointerCapture(e.pointerId); setVolume(e); });
+    crossZone.addEventListener('pointermove', e => { if (volDragging) setVolume(e); });
+    crossZone.addEventListener('pointerup', () => volDragging = false);
+    crossKnob.style.left = '70%';
 
-    /* Crossfader : balance gauche/droite sur le fader horizontal de l'image */
-    let panNode = null, crossDragging = false;
-    function setPan(e) {
-        const r = crossZone.getBoundingClientRect();
-        let p = (e.clientX - r.left) / r.width;
-        p = Math.max(0, Math.min(1, p));
-        crossKnob.style.left = (p * 100) + '%';
-        if (panNode) panNode.pan.value = (p - 0.5) * 2;
-    }
-    crossZone.addEventListener('pointerdown', e => { crossDragging = true; crossZone.setPointerCapture(e.pointerId); setPan(e); });
-    crossZone.addEventListener('pointermove', e => { if (crossDragging) setPan(e); });
-    crossZone.addEventListener('pointerup', () => crossDragging = false);
-
-    /* Seek : clic dans l'écran waveform (règle graduée incluse) */
+    /* Seek : clic dans l'écran waveform */
     const waveZone = document.getElementById('waveZone');
     waveZone.addEventListener('click', (e) => {
         if (e.target.closest('.timeline-marker')) return;
@@ -399,13 +322,12 @@
                 analyser = audioCtx.createAnalyser(); analyser.fftSize = 256;
                 dataArray = new Uint8Array(analyser.frequencyBinCount);
                 sourceNode = audioCtx.createMediaElementSource(audio);
-                panNode = audioCtx.createStereoPanner();
-                sourceNode.connect(panNode); panNode.connect(analyser); analyser.connect(audioCtx.destination);
+                sourceNode.connect(analyser); analyser.connect(audioCtx.destination);
             } catch (e) { console.warn("AudioContext bloqué", e); }
         }
     }
 
-    /* ── ANNEAU DE LEDs : bleu foncé → bleu → bleu clair → bleu-vert ── */
+    /* ── Anneau de LEDs ── */
     const LED_COLORS = [
         '#0b2a7a', '#10359c', '#1543c4', '#1a55e8',
         '#2e6bff', '#3f82ff', '#549aff', '#6fb0ff',
@@ -440,8 +362,9 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
+    /* ── Rendu LCD point-matrix (limité au-dessus de la règle : 0→73%) ── */
     function animateWave() {
-        const w = waveCanvas.width, h = waveCanvas.height, mid = h / 2;
+        const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.37;
         waveCtx.clearRect(0, 0, w, h);
         let bass = 0, midFreq = 0, treble = 0;
         if (!audio.paused && analyser) {
@@ -455,7 +378,6 @@
         }
         updateLeds();
 
-        /* ── RENDU LCD POINT-MATRIX : colonnes de segments cyan (comme l'écran de l'image) ── */
         const LCD = '#3ee8c8';
         waveCtx.fillStyle = LCD;
         waveCtx.shadowColor = LCD;
@@ -473,18 +395,18 @@
             const shape = 0.35 + 0.65 * Math.pow(Math.sin(phase * Math.PI), 0.7);
             const live = audio.paused ? 0.35 : (bass * 0.6 + midFreq * 0.3 + treble * 0.1);
             const wiggle = 0.75 + 0.25 * Math.sin(phase * 12 + wavePhase * 2 + t * 3);
-            const amp = Math.max(h * 0.05, live * shape * wiggle * h * 0.44);
+            const amp = Math.max(h * 0.06, live * shape * wiggle * h * 0.34);
             for (let y = mid - amp; y <= mid + amp; y += segH + segGap) {
                 waveCtx.fillRect(x, y, barW, segH);
             }
         }
 
-        /* Playhead LCD : fine ligne verticale claire qui suit la lecture */
+        /* Playhead LCD dans la partie haute */
         if (audio.duration) {
             const px = Math.floor((audio.currentTime / audio.duration) * w);
             waveCtx.fillStyle = '#c8faff';
             waveCtx.shadowBlur = 9;
-            waveCtx.fillRect(px - 1, Math.floor(h * 0.10), 2, Math.floor(h * 0.80));
+            waveCtx.fillRect(px - 1, Math.floor(h * 0.05), 2, Math.floor(h * 0.62));
         }
         waveCtx.shadowBlur = 0;
         wavePhase += 0.05;
@@ -492,28 +414,43 @@
     }
     animateWave();
 
+    /* ── Tracklist : vignettes dans les cases, textes sur les slots ── */
     tracks.forEach((track, i) => {
         const row = document.createElement('div'); row.className = 'track-row';
-        const indexDiv = document.createElement('div'); indexDiv.className = 'track-index';
-        indexDiv.textContent = String(i + 1).padStart(2, '0');
         const vignetteLink = document.createElement('a'); vignetteLink.className = 'track-vignette-link';
         vignetteLink.href = track.url; vignetteLink.target = '_blank'; vignetteLink.rel = 'noopener';
         vignetteLink.innerHTML = `<div class="track-vignette" style="background-image:url(${track.thumbnail})"></div>`;
         const detailsDiv = document.createElement('div'); detailsDiv.className = 'track-details';
         detailsDiv.dataset.seconds = track.seconds;
         detailsDiv.innerHTML = `<div class="track-artist-name">${track.artist}</div><div class="track-song-title">${track.title}</div>`;
+        detailsDiv.addEventListener('click', () => {
+            audio.currentTime = track.seconds;
+            discLabel.style.backgroundImage = "url('" + track.thumbnail + "')";
+            flashDiscLabel();
+            startPlaying();
+        });
         const durationDiv = document.createElement('div'); durationDiv.className = 'track-duration';
         durationDiv.textContent = `${track.timestamp}`;
-        row.appendChild(indexDiv); row.appendChild(vignetteLink); row.appendChild(detailsDiv); row.appendChild(durationDiv);
+        row.appendChild(vignetteLink); row.appendChild(detailsDiv); row.appendChild(durationDiv);
         tracklistGrid.appendChild(row);
     });
 
+    /* ── Marqueurs LCD cliquables : seek + vignette YouTube dans le médaillon ── */
     tracks.forEach((track) => {
-        const marker = document.createElement('a'); marker.className = 'timeline-marker';
-        marker.href = track.url; marker.target = '_blank'; marker.rel = 'noopener';
-        marker.style.left = (track.seconds / totalDurationSec * 100) + '%';
+        const marker = document.createElement('div'); marker.className = 'timeline-marker';
+        marker.dataset.seconds = track.seconds;
         marker.title = track.artist + ' — ' + track.title;
         marker.innerHTML = `<div class="marker-thumb" style="background-image:url(${track.thumbnail})"></div>`;
+        marker.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audio.currentTime = track.seconds;
+            discLabel.style.backgroundImage = "url('" + track.thumbnail + "')";
+            flashDiscLabel();
+            document.querySelectorAll('.timeline-marker.show').forEach(m => m.classList.remove('show'));
+            marker.classList.add('show');
+            setTimeout(() => marker.classList.remove('show'), 1600);
+            startPlaying();
+        });
         markersLayer.appendChild(marker);
     });
 
