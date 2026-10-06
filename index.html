@@ -9,19 +9,22 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: radial-gradient(ellipse at 50% 40%, #d9d0c3, #b8ad9c 70%, #8f8676);
-            font-family: 'Inter', sans-serif; min-height: 100vh;
-            display: flex; justify-content: center; align-items: center; padding: 24px 12px;
-        }
-        .stage { max-width: 1280px; width: 100%; }
-
-        /* ── LA CONSOLE = L'IMAGE (ratio 16:9) ── */
-        .console {
-            position: relative; width: 100%; aspect-ratio: 16 / 9;
-            background-image: url('assets_vintage/panel_full.png');
-            background-size: 100% 100%; border-radius: 14px;
-            box-shadow: 0 24px 60px rgba(40,25,5,.45), 0 4px 14px rgba(40,25,5,.35);
+            background: #15100a;
+            font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0;
             overflow: hidden;
+        }
+        .stage {
+            width: 100vw; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── LA CONSOLE = L'IMAGE, en fit plein écran (ratio 16:9) ── */
+        .console {
+            position: relative;
+            width: min(100vw, calc(100vh * 16 / 9));
+            height: min(100vh, calc(100vw * 9 / 16));
+            background-image: url('assets_vintage/panel_full.png');
+            background-size: 100% 100%; overflow: hidden;
         }
 
         /* ── LCD VIVANT : marquee dans l'écran de l'image (V14) ── */
@@ -39,39 +42,41 @@
         .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
         .marquee-track span {
             display: inline-block; padding-left: 100%; animation: scrollTrack 13s linear infinite;
-            font-family: 'Courier New', monospace; font-size: .72rem; font-weight: bold; letter-spacing: 2px;
+            font-family: 'Courier New', monospace; font-size: clamp(.55rem, 1.05vw, 1.05rem);
+            font-weight: bold; letter-spacing: 2px;
             color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── WAVEFORM VIVANTE + REGLE GRADUEE (V14 : descend au bas réel de l'écran) ── */
+        /* ── WAVEFORM VIVANTE LCD + REGLE GRADUEE (V14) ── */
         .wave-live {
             position: absolute; left: 7.5%; top: 33.5%; width: 39.5%; height: 12.7%;
             border-radius: 10px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Ligne de progression : posée SUR les tirets de la règle graduée de l'image */
+        /* Progression : posée PILE sur les tirets de la règle graduée de l'image */
         .wave-progress {
-            position: absolute; left: 2%; right: 2%; bottom: 26%; height: 3px; border-radius: 2px;
+            position: absolute; left: 2%; right: 2%; bottom: 12%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer;
         }
         .wave-progress-fill {
             width: 0%; height: 100%; border-radius: 2px; pointer-events: none;
-            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 8px rgba(53,224,255,.9);
+            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 6px rgba(53,224,255,.7);
         }
         .wave-times {
             position: absolute; left: 3%; right: 3%; bottom: 1%;
             display: flex; justify-content: space-between;
-            font-family: 'Courier New', monospace; font-size: .5rem; color: rgba(111,230,255,.75);
+            font-family: 'Courier New', monospace; font-size: clamp(.42rem, .8vw, .72rem);
+            color: rgba(111,230,255,.75);
         }
         .markers-layer { position: absolute; inset: 0; pointer-events: none; }
-        /* Marqueurs de morceaux : s'élèvent DE la règle graduée, cliquables */
+        /* Marqueurs : montent DE la règle (bas de l'écran), cliquables, glow contenu */
         .timeline-marker {
-            position: absolute; bottom: 25%; width: 2px; height: 30%; background: #7ce8ff;
-            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
-            box-shadow: 0 0 5px #35e0ff; transition: opacity .2s, box-shadow .2s;
+            position: absolute; bottom: 10%; width: 2px; height: 32%; background: #7ce8ff;
+            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .8;
+            box-shadow: 0 0 4px #35e0ff; transition: opacity .2s, box-shadow .2s;
         }
-        .timeline-marker:hover { opacity: 1; box-shadow: 0 0 10px #54e4ff, 0 0 18px #54e4ff; }
+        .timeline-marker:hover { opacity: 1; box-shadow: 0 0 8px #54e4ff; }
         .marker-thumb {
             position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
@@ -104,7 +109,6 @@
             content: ''; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
             background: linear-gradient(115deg, rgba(255,255,255,.25) 0%, transparent 40%, transparent 75%, rgba(255,255,255,.08) 100%);
         }
-        /* Trou d'axe au centre de l'étiquette */
         .disc-spindle {
             position: absolute; top: 50%; left: 50%; width: 4.5%; height: 4.5%;
             transform: translate(-50%,-50%); border-radius: 50%; z-index: 3; pointer-events: none;
@@ -157,17 +161,21 @@
             text-shadow: 0 0 5px rgba(53,224,255,.8);
         }
 
-        /* ── CROSSFADER : balance L/R sur le fader horizontal DE L'IMAGE (V14) ── */
+        /* ── CROSSFADER : balance L/R, capot réplique du capot bronze de l'image ── */
         .cross-zone {
             position: absolute; left: 7.0%; top: 83.3%; width: 10.6%; height: 6.3%;
             cursor: pointer; touch-action: none;
         }
         .cross-knob {
-            position: absolute; left: 50%; top: 50%; width: 7%; height: 130%;
+            position: absolute; left: 50%; top: 50%; width: 7.5%; height: 135%;
             transform: translate(-50%,-50%); border-radius: 3px; pointer-events: none;
-            background: linear-gradient(180deg,#efe9dd,#7a6650 60%,#4a3b2c);
-            border: 1px solid rgba(0,0,0,.6);
-            box-shadow: 0 0 8px rgba(53,224,255,.7), 0 2px 6px rgba(0,0,0,.7);
+            background: linear-gradient(180deg,#efe6d6,#8a7358 45%,#5c4a35);
+            border: 1px solid rgba(0,0,0,.7);
+            box-shadow: 0 3px 8px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.25);
+        }
+        .cross-knob::after {
+            content: ''; position: absolute; left: 20%; right: 20%; top: 42%; height: 16%;
+            background: #d9c9a8; border-radius: 2px; box-shadow: inset 0 1px 2px rgba(0,0,0,.5);
         }
 
         /* ── PLAYLIST VIVANTE dans le panneau de l'image (V14) ── */
@@ -216,19 +224,24 @@
         .track-song-title { font-style: italic; color: rgba(242,226,196,.7); font-size: clamp(.5rem, .85vw, .72rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .track-duration { font-family: 'Courier New', monospace; font-size: .6rem; color: #6fe6ff; flex-shrink: 0; }
 
-        .under-console { text-align: center; margin-top: 14px; }
-        .copy-btn {
-            background: rgba(28,18,8,.75); border: 1px solid rgba(212,175,55,.6); border-radius: 30px;
-            color: #ffe9b0; font-family: 'Courier New', monospace; font-size: .72rem;
-            padding: 7px 22px; cursor: pointer; text-shadow: 0 0 6px rgba(255,233,176,.4); transition: all .25s;
+        /* ── Bouton copier : discret, en bas de l'écran ── */
+        .under-console {
+            position: fixed; bottom: 6px; left: 0; right: 0;
+            text-align: center; z-index: 50; pointer-events: none;
         }
-        .copy-btn:hover { color: #7ce8ff; border-color: #35e0ff; box-shadow: 0 0 14px rgba(53,224,255,.45); }
+        .copy-btn {
+            pointer-events: auto; opacity: .75;
+            background: rgba(28,18,8,.85); border: 1px solid rgba(212,175,55,.6); border-radius: 30px;
+            color: #ffe9b0; font-family: 'Courier New', monospace; font-size: .68rem;
+            padding: 5px 18px; cursor: pointer; text-shadow: 0 0 6px rgba(255,233,176,.4); transition: all .25s;
+        }
+        .copy-btn:hover { opacity: 1; color: #7ce8ff; border-color: #35e0ff; box-shadow: 0 0 14px rgba(53,224,255,.45); }
     </style>
 </head>
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 12:43 --- APPUYEZ SUR PLAY...</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 12:56 --- APPUYEZ SUR PLAY...</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
@@ -269,8 +282,8 @@
             <div class="tracklist-grid" id="tracklistGrid"></div>
         </div>
     </div>
-    <div class="under-console"><button class="copy-btn" id="copyBtn">Copier le lien du mix</button></div>
 </div>
+<div class="under-console"><button class="copy-btn" id="copyBtn">Copier le lien du mix</button></div>
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
 <script>
     const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Helado Tropical", "title": "Sensacio\u0301n (Live on KEXP)", "url": "https://www.youtube.com/watch?v=zEP4B8SgwtU", "thumbnail": "https://i.ytimg.com/vi/zEP4B8SgwtU/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "QZB & Duskee", "title": "Colder At The Peak", "url": "https://www.youtube.com/watch?v=ZJ7Vu_X0wGg", "thumbnail": "https://i.ytimg.com/vi/ZJ7Vu_X0wGg/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "Lara", "title": "Sleep through it", "url": "https://www.youtube.com/watch?v=TLOwv4l631I", "thumbnail": "https://i.ytimg.com/vi/TLOwv4l631I/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "YORK x Bella Claxton & Mike Momburg", "title": "On The Beach (Official Music Video)", "url": "https://www.youtube.com/watch?v=QhVlEXGWa3Y", "thumbnail": "https://i.ytimg.com/vi/QhVlEXGWa3Y/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "The Nightclubs", "title": "CD-R", "url": "https://www.youtube.com/watch?v=GpE2YKmbi1Y", "thumbnail": "https://i.ytimg.com/vi/GpE2YKmbi1Y/hqdefault.jpg"}, {"timestamp": "02:53", "seconds": 173.3, "artist": "Virtual Riot & Whales", "title": "Insanity [Hybrid Trap | Monstercat]", "url": "https://www.youtube.com/watch?v=RUKdk6NJpHU", "thumbnail": "https://i.ytimg.com/vi/RUKdk6NJpHU/hqdefault.jpg"}, {"timestamp": "03:21", "seconds": 201.8, "artist": "Bluhm", "title": "Pontiac", "url": "https://www.youtube.com/watch?v=V8AlNn1woiQ", "thumbnail": "https://i.ytimg.com/vi/V8AlNn1woiQ/hqdefault.jpg"}, {"timestamp": "03:50", "seconds": 230.3, "artist": "AL GREEN", "title": "Tired of Being Alone (Martin Gray) (Re-Edit) (1971", "url": "https://www.youtube.com/watch?v=X3j-2Ra8SqQ", "thumbnail": "https://i.ytimg.com/vi/X3j-2Ra8SqQ/hqdefault.jpg"}, {"timestamp": "04:18", "seconds": 258.8, "artist": "Helado Tropical", "title": "De\u0301jate Caer (Live on KEXP)", "url": "https://www.youtube.com/watch?v=R4Af5fwS4AE", "thumbnail": "https://i.ytimg.com/vi/R4Af5fwS4AE/hqdefault.jpg"}, {"timestamp": "04:47", "seconds": 287.3, "artist": "Helado Tropical", "title": "Fluye (Live on KEXP)", "url": "https://www.youtube.com/watch?v=lUbzwb80sd8", "thumbnail": "https://i.ytimg.com/vi/lUbzwb80sd8/hqdefault.jpg"}, {"timestamp": "05:15", "seconds": 315.8, "artist": "Hamdi & D Double E", "title": "Heart & Soul", "url": "https://www.youtube.com/watch?v=TuE1-tyb2Fs", "thumbnail": "https://i.ytimg.com/vi/TuE1-tyb2Fs/hqdefault.jpg"}, {"timestamp": "05:44", "seconds": 344.3, "artist": "KEXP", "title": "Helado Tropical performs \"Tocando\" & more Live on ", "url": "https://www.youtube.com/watch?v=p0xEdSGVYQk", "thumbnail": "https://i.ytimg.com/vi/p0xEdSGVYQk/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "Criminal Issues", "title": "Run For Cover", "url": "https://www.youtube.com/watch?v=-ZSoSaeoK-g", "thumbnail": "https://i.ytimg.com/vi/-ZSoSaeoK-g/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "Helado Tropical", "title": "Tocando (Live on KEXP)", "url": "https://www.youtube.com/watch?v=oFxaH-mKRgg", "thumbnail": "https://i.ytimg.com/vi/oFxaH-mKRgg/hqdefault.jpg"}, {"timestamp": "06:55", "seconds": 415.3, "artist": "Computerwife", "title": "You Didn't Know", "url": "https://www.youtube.com/watch?v=xrB2GamOmXw", "thumbnail": "https://i.ytimg.com/vi/xrB2GamOmXw/hqdefault.jpg"}];
@@ -418,7 +431,7 @@
 
     const waveCanvas = document.getElementById('waveformCanvas');
     const waveCtx = waveCanvas.getContext('2d');
-    let wavePhase = 0, particles = [];
+    let wavePhase = 0;
 
     function resizeWaveCanvas() {
         const rect = waveCanvas.getBoundingClientRect();
@@ -426,11 +439,6 @@
     }
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
-
-    function spawnParticle(x, y) {
-        particles.push({ x: x, y: y, vx: (Math.random() - 0.5) * 2, vy: -Math.random() * 2 - 0.5,
-            life: 1.0, size: Math.random() * 2 + 1, color: Math.random() > 0.4 ? '#54e4ff' : '#ffb054' });
-    }
 
     function animateWave() {
         const w = waveCanvas.width, h = waveCanvas.height, mid = h / 2;
@@ -441,42 +449,44 @@
             let bassSum = 0; for(let i=0; i<5; i++) bassSum += dataArray[i]; bass = (bassSum/5)/255;
             let midSum = 0; for(let i=5; i<20; i++) midSum += dataArray[i]; midFreq = (midSum/15)/255;
             let trebSum = 0; for(let i=20; i<60; i++) trebSum += dataArray[i]; treble = (trebSum/40)/255;
-            if (bass > 0.5 && Math.random() > 0.5) {
-                for(let i=0; i<2; i++) spawnParticle(Math.random() * w, mid + (Math.random() - 0.5) * 12);
-            }
             targetLevel = Math.min(1, bass * 0.55 + midFreq * 0.3 + treble * 0.15 + 0.06);
         } else {
             targetLevel = 0;
         }
         updateLeds();
 
-        const t = Date.now() * 0.001;
-        const lfo1 = Math.sin(t * 2.1) * 0.5 + 0.5; const lfo2 = Math.cos(t * 1.3) * 0.5 + 0.5;
-        const ampBass = (h * 0.08) + (bass * h * 0.42) * (1 + 0.3 * lfo1);
-        const ampMid = (h * 0.05) + (midFreq * h * 0.26) * (1 + 0.4 * lfo2);
-        const ampTreble = (h * 0.03) + (treble * h * 0.11) * (1 + 0.6 * lfo1);
+        /* ── RENDU LCD POINT-MATRIX : colonnes de segments cyan (comme l'écran de l'image) ── */
+        const LCD = '#3ee8c8';
+        waveCtx.fillStyle = LCD;
+        waveCtx.shadowColor = LCD;
+        waveCtx.shadowBlur = 6;
 
-        function drawWaveDynamic(freq, amp, phase, speed, color, glowAmount) {
-            waveCtx.beginPath(); waveCtx.lineWidth = 1.5; waveCtx.strokeStyle = color; waveCtx.shadowColor = color; waveCtx.shadowBlur = glowAmount;
-            for (let x = 0; x <= w; x += 2) {
-                const dyn_phase = Math.sin(x * 0.01 + t * speed * 2) * 4;
-                const y = mid + Math.sin((x * freq) + (wavePhase * speed) + phase + dyn_phase) * amp;
-                if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+        const bars = 52;
+        const step = w / bars;
+        const barW = Math.max(2, Math.floor(step * 0.55));
+        const segH = 3, segGap = 3;
+        const t = Date.now() * 0.001;
+
+        for (let i = 0; i < bars; i++) {
+            const x = Math.floor(i * step + (step - barW) / 2);
+            const phase = i / bars;
+            const shape = 0.35 + 0.65 * Math.pow(Math.sin(phase * Math.PI), 0.7);
+            const live = audio.paused ? 0.35 : (bass * 0.6 + midFreq * 0.3 + treble * 0.1);
+            const wiggle = 0.75 + 0.25 * Math.sin(phase * 12 + wavePhase * 2 + t * 3);
+            const amp = Math.max(h * 0.05, live * shape * wiggle * h * 0.44);
+            for (let y = mid - amp; y <= mid + amp; y += segH + segGap) {
+                waveCtx.fillRect(x, y, barW, segH);
             }
-            waveCtx.stroke();
         }
 
-        drawWaveDynamic(0.015, ampBass, 0, 1, '#54e4ff', 12 + bass * 35);
-        drawWaveDynamic(0.035, ampMid, Math.PI / 3, -1.2, '#ffb054', 8 + midFreq * 25);
-        drawWaveDynamic(0.08, ampTreble, Math.PI / 1.5, 1.8, '#ffffff', 4 + treble * 16);
-
-        particles.forEach((p, i) => {
-            p.x += p.vx; p.y += p.vy; p.life -= 0.02;
-            if (p.life <= 0) { particles.splice(i, 1); return; }
-            waveCtx.globalAlpha = p.life; waveCtx.fillStyle = p.color; waveCtx.shadowColor = p.color; waveCtx.shadowBlur = 8;
-            waveCtx.beginPath(); waveCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2); waveCtx.fill();
-        });
-        waveCtx.globalAlpha = 1.0; waveCtx.shadowBlur = 0;
+        /* Playhead LCD : fine ligne verticale claire qui suit la lecture */
+        if (audio.duration) {
+            const px = Math.floor((audio.currentTime / audio.duration) * w);
+            waveCtx.fillStyle = '#c8faff';
+            waveCtx.shadowBlur = 9;
+            waveCtx.fillRect(px - 1, Math.floor(h * 0.10), 2, Math.floor(h * 0.80));
+        }
+        waveCtx.shadowBlur = 0;
         wavePhase += 0.05;
         requestAnimationFrame(animateWave);
     }
