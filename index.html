@@ -19,7 +19,7 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── LCD marquee (calibrateur : 27.4/19/15.8/8.8) ── */
+        /* ── LCD marquee ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -39,20 +39,25 @@
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── Waveform LCD (34→42.4% : englobe la règle à 40.2%) ── */
+        /* ── Waveform LCD (sinusoïdes croisées néon + occlusion ambiante) ── */
         .wave-live {
             position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
             border-radius: 8px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Progression SUR la règle (règle locale : 73.8%→97.6% du conteneur) */
+        /* Ligne de progression SUR la règle : S'ALLUME AU SURVOL, clic pour avancer */
         .wave-progress {
             position: absolute; left: 1%; right: 1%; top: 75%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer;
+            transition: height .12s ease, background .12s ease, box-shadow .12s ease;
+        }
+        .wave-progress:hover {
+            height: 6px; background: rgba(120,240,255,.35);
+            box-shadow: 0 0 10px rgba(84,228,255,.9), 0 0 24px rgba(84,228,255,.5);
         }
         .wave-progress-fill {
             width: 0%; height: 100%; border-radius: 2px; pointer-events: none;
-            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 5px rgba(53,224,255,.6);
+            background: linear-gradient(90deg, #1f9dff, #54e4ff); box-shadow: 0 0 6px rgba(53,224,255,.8);
         }
         .wave-times {
             position: absolute; left: 2%; right: 2%; bottom: 0%;
@@ -61,14 +66,14 @@
             color: rgba(111,230,255,.75);
         }
         .markers-layer { position: absolute; inset: 0; pointer-events: none; }
-        /* Marqueurs LCD bleu segmenté : ancrés SUR la règle, cliquables */
+        /* Marqueurs LCD des samples : visibles en permanence, cliquables */
         .timeline-marker {
             position: absolute; bottom: 4%; width: 3px; height: 45%;
             background: repeating-linear-gradient(0deg, #6cf0ff 0 3px, rgba(108,240,255,.15) 3px 6px);
-            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .85;
+            transform: translateX(-50%); cursor: pointer; pointer-events: auto; opacity: .9;
             border-radius: 1px; transition: opacity .2s, filter .2s;
         }
-        .timeline-marker:hover { opacity: 1; filter: drop-shadow(0 0 4px #54e4ff); }
+        .timeline-marker:hover { opacity: 1; filter: drop-shadow(0 0 6px #54e4ff) drop-shadow(0 0 12px rgba(84,228,255,.6)); }
         .marker-thumb {
             position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
@@ -78,7 +83,7 @@
         .timeline-marker:hover .marker-thumb { opacity: 1; }
         .timeline-marker.show .marker-thumb { opacity: 1; }
 
-        /* ── Platine : centre = centre du médaillon calibré (25.95%, 71.1%) ── */
+        /* ── Platine + étiquette YouTube ── */
         .disc-zone { position: absolute; left: 16.7%; top: 54.7%; width: 18.5%; height: 32.9%; }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
@@ -88,7 +93,6 @@
         body.playing .turntable-disc { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .turntable-disc img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
-        /* Étiquette = le médaillon calibré (6.5x11.4 abs = 35% du disque) */
         .disc-label {
             position: absolute; top: 50%; left: 50%; width: 35%; height: 35%;
             transform: translate(-50%,-50%); border-radius: 50%;
@@ -120,14 +124,24 @@
         }
         .led-ring .ring-led.on { background: var(--c); box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c); }
 
-        /* ── Hotspots : liseré fin ── */
+        /* ── Hotspots : LUEUR BLEUE INCANDESCENTE (double halo + lueur interne) ── */
         .hotspot {
             position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h);
             background: transparent; border: none; border-radius: 50%; cursor: pointer; padding: 0;
-            transition: box-shadow .15s;
+            transition: box-shadow .2s;
         }
-        .hotspot:hover { box-shadow: 0 0 0 2px rgba(170,225,255,.35); }
-        .hotspot.lit { box-shadow: 0 0 0 2px rgba(170,225,255,.55); }
+        .hotspot:hover {
+            box-shadow: 0 0 18px rgba(90,190,255,.95),
+                        0 0 42px rgba(50,140,255,.65),
+                        0 0 70px rgba(30,100,255,.35),
+                        inset 0 0 16px rgba(90,190,255,.5);
+        }
+        .hotspot.lit {
+            box-shadow: 0 0 22px rgba(90,190,255,1),
+                        0 0 50px rgba(50,140,255,.8),
+                        0 0 80px rgba(30,100,255,.45),
+                        inset 0 0 20px rgba(90,190,255,.6);
+        }
 
         /* ── LE SEUL CROSSFADER (rail horizontal) = VOLUME, poignée = VRAI capot ── */
         .cross-zone {
@@ -140,7 +154,7 @@
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
 
-        /* ── PLAYLIST : 6 cases (51.8→58.7%) + slots (61.1→94.4%), pas 10.8% ── */
+        /* ── PLAYLIST : 6 cases + slots (calage calibrateur) ── */
         .playlist-zone {
             position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
             display: flex; flex-direction: column; padding: 0;
@@ -188,7 +202,7 @@
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 14:06 --- APPUYEZ SUR PLAY...</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">SARFERPROD DAILY MIX --- TUE 06 OCT 14:33 --- APPUYEZ SUR PLAY...</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
@@ -304,15 +318,18 @@
     crossZone.addEventListener('pointerup', () => volDragging = false);
     crossKnob.style.left = '70%';
 
-    /* Seek : clic dans l'écran waveform */
+    /* ── Timeline : clic n'importe où dans l'écran OU sur la ligne allumée = avancer ── */
     const waveZone = document.getElementById('waveZone');
-    waveZone.addEventListener('click', (e) => {
+    const progressBar = document.getElementById('progressBar');
+    function doSeek(e) {
         if (e.target.closest('.timeline-marker')) return;
         const r = waveZone.getBoundingClientRect();
         const percent = (e.clientX - r.left) / r.width;
         if (audio.duration) audio.currentTime = percent * audio.duration;
         else if (totalDurationSec) audio.currentTime = percent * totalDurationSec;
-    });
+    }
+    waveZone.addEventListener('click', doSeek);
+    progressBar.addEventListener('click', doSeek);
 
     let audioCtx, analyser, dataArray, sourceNode;
     function initAudioContext() {
@@ -351,6 +368,7 @@
         ringLeds.forEach((led, i) => led.classList.toggle('on', i < active));
     }
 
+    /* ── Visualiseur : SINUSOÏDES CROISÉES NÉON LCD + OCCLUSION AMBIANTE ── */
     const waveCanvas = document.getElementById('waveformCanvas');
     const waveCtx = waveCanvas.getContext('2d');
     let wavePhase = 0;
@@ -362,9 +380,22 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
-    /* ── Rendu LCD point-matrix (limité au-dessus de la règle : 0→73%) ── */
+    function drawWave(freq, phaseOffset, speedMult, amp, color, blur) {
+        const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.42;
+        waveCtx.beginPath();
+        waveCtx.lineWidth = 2;
+        waveCtx.strokeStyle = color;
+        waveCtx.shadowColor = color;
+        waveCtx.shadowBlur = blur;
+        for (let x = 0; x <= w; x += 2) {
+            const y = mid + Math.sin((x * freq) + wavePhase * speedMult + phaseOffset) * amp;
+            if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+        }
+        waveCtx.stroke();
+    }
+
     function animateWave() {
-        const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.37;
+        const w = waveCanvas.width, h = waveCanvas.height;
         waveCtx.clearRect(0, 0, w, h);
         let bass = 0, midFreq = 0, treble = 0;
         if (!audio.paused && analyser) {
@@ -378,38 +409,43 @@
         }
         updateLeds();
 
-        const LCD = '#3ee8c8';
-        waveCtx.fillStyle = LCD;
-        waveCtx.shadowColor = LCD;
-        waveCtx.shadowBlur = 6;
+        /* OCCLUSION AMBIANTE : vignette sombre radiale (les bords de l'écran s'enfoncent) */
+        const grad = waveCtx.createRadialGradient(w/2, h*0.42, h*0.15, w/2, h*0.5, w*0.62);
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(0.75, 'rgba(0,6,10,0.35)');
+        grad.addColorStop(1, 'rgba(0,6,10,0.72)');
+        waveCtx.fillStyle = grad;
+        waveCtx.fillRect(0, 0, w, h);
 
-        const bars = 52;
-        const step = w / bars;
-        const barW = Math.max(2, Math.floor(step * 0.55));
-        const segH = 3, segGap = 3;
-        const t = Date.now() * 0.001;
-
-        for (let i = 0; i < bars; i++) {
-            const x = Math.floor(i * step + (step - barW) / 2);
-            const phase = i / bars;
-            const shape = 0.35 + 0.65 * Math.pow(Math.sin(phase * Math.PI), 0.7);
-            const live = audio.paused ? 0.35 : (bass * 0.6 + midFreq * 0.3 + treble * 0.1);
-            const wiggle = 0.75 + 0.25 * Math.sin(phase * 12 + wavePhase * 2 + t * 3);
-            const amp = Math.max(h * 0.06, live * shape * wiggle * h * 0.34);
-            for (let y = mid - amp; y <= mid + amp; y += segH + segGap) {
-                waveCtx.fillRect(x, y, barW, segH);
+        /* GRILLE DOT-MATRIX LCD en fond (typo LCD) */
+        waveCtx.fillStyle = 'rgba(62,232,200,0.10)';
+        for (let gx = 4; gx < w; gx += 9) {
+            for (let gy = 4; gy < h; gy += 9) {
+                waveCtx.fillRect(gx, gy, 2, 2);
             }
         }
 
-        /* Playhead LCD dans la partie haute */
+        /* SINUSOÏDES CROISÉES NÉON (amplitude pilotée par le sample en cours) */
+        const amp = audio.paused
+            ? h * 0.14
+            : h * (0.20 + bass * 0.14 + midFreq * 0.06);
+        /* onde 1 : cyan LCD principale, glow fort */
+        drawWave(0.035, 0, 1, amp, '#3ee8c8', 14);
+        /* onde 2 : bleu clair, contre-phase, glow moyen */
+        drawWave(0.05, Math.PI / 3, -1.35, amp * 0.72, '#5cd6ff', 10);
+        /* onde 3 : fine ligne blanche-turquoise haute fréquence (aigus) */
+        drawWave(0.085, Math.PI / 1.5, 1.9, amp * 0.32 * (0.5 + treble), '#d6fbff', 6);
+
+        /* Playhead LCD qui suit la lecture */
         if (audio.duration) {
             const px = Math.floor((audio.currentTime / audio.duration) * w);
             waveCtx.fillStyle = '#c8faff';
-            waveCtx.shadowBlur = 9;
-            waveCtx.fillRect(px - 1, Math.floor(h * 0.05), 2, Math.floor(h * 0.62));
+            waveCtx.shadowColor = '#c8faff';
+            waveCtx.shadowBlur = 10;
+            waveCtx.fillRect(px - 1, Math.floor(h * 0.05), 2, Math.floor(h * 0.66));
         }
         waveCtx.shadowBlur = 0;
-        wavePhase += 0.05;
+        wavePhase += 0.045;
         requestAnimationFrame(animateWave);
     }
     animateWave();
@@ -435,7 +471,7 @@
         tracklistGrid.appendChild(row);
     });
 
-    /* ── Marqueurs LCD cliquables : seek + vignette YouTube dans le médaillon ── */
+    /* ── Marqueurs LCD des samples : cliquables, seek + vignette dans le médaillon ── */
     tracks.forEach((track) => {
         const marker = document.createElement('div'); marker.className = 'timeline-marker';
         marker.dataset.seconds = track.seconds;
