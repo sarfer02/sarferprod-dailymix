@@ -26,7 +26,7 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── LCD marquee : police LED réelle, taille agrandie, SARFERPROD • date • titre ── */
+        /* ── LCD marquee (police LED + taille agrandie) ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -47,16 +47,16 @@
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── Waveform LCD : 3 sinusoides en POINTS reactifs bass/med/aigu ── */
+        /* ── Waveform LCD : 3 sinusoides EN POINTS reactifs bass/med/aigu ── */
         .wave-live {
             position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
             border-radius: 8px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Ligne de progression SUR la règle : s'allume au survol, clic pour avancer */
+        /* Ligne de progression alignée sur la règle (règle locale = 73.8% du conteneur) */
         .wave-progress {
-            position: absolute; left: 1%; right: 1%; top: 75%; height: 3px; border-radius: 2px;
-            background: rgba(255,255,255,.10); cursor: pointer;
+            position: absolute; left: 1%; right: 1%; top: 73.8%; height: 3px; border-radius: 2px;
+            background: rgba(255,255,255,.10); cursor: pointer; z-index: 3;
             transition: height .12s ease, background .12s ease, box-shadow .12s ease;
         }
         .wave-progress:hover {
@@ -74,26 +74,37 @@
             font-size: clamp(.4rem, .75vw, .72rem);
             color: rgba(111,230,255,.75);
         }
-        .markers-layer { position: absolute; inset: 0; pointer-events: none; }
 
-        /* ── BILLES de la règle : une par morceau, s'allument au survol, vignette au-dessus ── */
+        /* ── RULE-LAYER DEDIEE : couche posée EXACTEMENT sur la règle graduée de
+              l'image (calibrateur : left 7.9% / top 40.2% / width 37.4% / height 2%).
+              Les BILLES y sont en taille FIXE lisible, indépendante du canvas. ── */
+        .rule-layer {
+            position: absolute; left: 7.9%; top: 40.2%; width: 37.4%; height: 2%;
+            pointer-events: none; z-index: 6;
+        }
+        /* ── BILLE : ronde, taille fixe (8→14px), centrée verticalement sur la règle ── */
         .timeline-marker {
-            position: absolute; bottom: 23%;
-            width: 1.9%; aspect-ratio: 1 / 1;
+            position: absolute; top: 50%;
+            width: clamp(8px, 0.85vw, 14px);
+            height: clamp(8px, 0.85vw, 14px);
             border-radius: 50%;
-            background: radial-gradient(circle at 38% 32%, rgba(140,235,255,.55), rgba(40,140,220,.35) 65%);
-            transform: translateX(-50%); cursor: pointer; pointer-events: auto;
-            transition: all .18s ease;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at 38% 32%, rgba(160,240,255,.85), rgba(40,140,220,.55) 60%, rgba(20,80,160,.35));
+            box-shadow: 0 0 5px rgba(84,228,255,.55);
+            cursor: pointer; pointer-events: auto;
+            transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
         }
         .timeline-marker:hover {
-            background: radial-gradient(circle at 38% 32%, #eafcff, #54e4ff 55%, #1f9dff);
-            box-shadow: 0 0 10px #54e4ff, 0 0 22px rgba(84,228,255,.7), 0 0 38px rgba(50,140,255,.4);
+            transform: translate(-50%, -50%) scale(1.5);
+            background: radial-gradient(circle at 38% 32%, #ffffff, #54e4ff 55%, #1f9dff);
+            box-shadow: 0 0 12px #54e4ff, 0 0 26px rgba(84,228,255,.8), 0 0 44px rgba(50,140,255,.5);
         }
+        /* Vignette YouTube au-dessus de la bille */
         .marker-thumb {
-            position: absolute; bottom: 150%; left: 50%; transform: translateX(-50%) scale(.9);
+            position: absolute; bottom: 210%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
             pointer-events: none; border: 2px solid #35e0ff; transition: opacity .2s;
-            box-shadow: 0 4px 14px rgba(0,0,0,.6); z-index: 10;
+            box-shadow: 0 4px 14px rgba(0,0,0,.6); z-index: 20;
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
         .timeline-marker.show .marker-thumb { opacity: 1; }
@@ -139,7 +150,7 @@
         }
         .led-ring .ring-led.on { background: var(--c); box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c); }
 
-        /* ── Hotspots : lueur bleue incandescente (triple halo + interne) ── */
+        /* ── Hotspots : lueur bleue incandescente ── */
         .hotspot {
             position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h);
             background: transparent; border: none; border-radius: 50%; cursor: pointer; padding: 0;
@@ -169,7 +180,7 @@
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
 
-        /* ── PLAYLIST : 6 cases + slots (calage calibrateur) ── */
+        /* ── PLAYLIST : 6 cases + slots ── */
         .playlist-zone {
             position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
             display: flex; flex-direction: column; padding: 0;
@@ -221,10 +232,12 @@
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
-            <div class="markers-layer" id="markersLayer"></div>
             <div class="wave-progress" id="progressBar"><div class="wave-progress-fill" id="progressFill"></div></div>
             <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">7:51</span></div>
         </div>
+
+        <!-- RULE-LAYER : couche dédiée aux billes, posée SUR la règle graduée de l'image -->
+        <div class="rule-layer" id="markersLayer"></div>
 
         <div class="disc-zone">
             <div class="led-ring" id="ledRing"></div>
@@ -397,7 +410,6 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
-    /* Une sinusoïde dessinée en petits rectangles luminescents (typo LCD) */
     function drawLcdWave(freq, phaseOffset, speedMult, amp, color, dotW, dotH, blur) {
         const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.40;
         waveCtx.fillStyle = color;
@@ -436,7 +448,7 @@
         /* 3) AIGUS : onde rapide et fine, tout petits points, blanc-turquoise */
         drawLcdWave(0.095, Math.PI / 1.5, 1.9, ampTreb, 'rgba(200,250,255,0.85)', 2, 2, 5);
 
-        /* OCCLUSION AMBIANTE : voile radial sombre PAR-DESSUS les ondes (effet tube LCD) */
+        /* OCCLUSION AMBIANTE : voile radial sombre PAR-DESSUS les ondes */
         const grad = waveCtx.createRadialGradient(w/2, h*0.42, h*0.14, w/2, h*0.5, w*0.60);
         grad.addColorStop(0, 'rgba(0,0,0,0)');
         grad.addColorStop(0.72, 'rgba(0,6,10,0.30)');
@@ -479,7 +491,7 @@
         tracklistGrid.appendChild(row);
     });
 
-    /* ── BILLES de la règle : clic = seek + vignette YouTube dans le médaillon ── */
+    /* ── BILLES sur la règle : clic = seek + vignette YouTube dans le médaillon ── */
     tracks.forEach((track) => {
         const marker = document.createElement('div'); marker.className = 'timeline-marker';
         marker.dataset.seconds = track.seconds;
