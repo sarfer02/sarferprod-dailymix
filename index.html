@@ -227,12 +227,12 @@
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">• SARFERPROD • 11/10/2026 • APPUYEZ SUR PLAY • SARFERPROD • 11/10/2026 •</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">• SARFERPROD • 12/10/2026 • APPUYEZ SUR PLAY • SARFERPROD • 12/10/2026 •</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
             <div class="wave-progress" id="progressBar"><div class="wave-progress-fill" id="progressFill"></div></div>
-            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">5:00</span></div>
+            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">2:24</span></div>
         </div>
 
         <!-- RULE-LAYER : couche dédiée aux traits, posée SUR la règle graduée de l'image -->
@@ -242,7 +242,7 @@
             <div class="led-ring" id="ledRing"></div>
             <div class="turntable-disc">
                 <img src="assets_vintage/turntable.png" alt="">
-                <div class="disc-label" id="discLabel" style="background-image:url('https://i.ytimg.com/vi/uPjExk5002g/hqdefault.jpg')"></div>
+                <div class="disc-label" id="discLabel" style="background-image:url('https://i.ytimg.com/vi/ktOMZ636mNY/hqdefault.jpg')"></div>
             </div>
             <div class="disc-spindle"></div>
         </div>
@@ -267,9 +267,9 @@
 <div class="under-console"><button class="copy-btn" id="copyBtn">Copier le lien du mix</button></div>
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
 <script>
-    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "DJ Suzy", "title": "end scene", "url": "https://www.youtube.com/watch?v=uPjExk5002g", "thumbnail": "https://i.ytimg.com/vi/uPjExk5002g/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "Gravel 9y", "title": "Experimental Tapes Meritocracy Curation (Beat Tape", "url": "https://www.youtube.com/watch?v=7-d_SApkwjo", "thumbnail": "https://i.ytimg.com/vi/7-d_SApkwjo/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "r.aymon & progress", "title": "cloud.", "url": "https://www.youtube.com/watch?v=pVve1sTOXX0", "thumbnail": "https://i.ytimg.com/vi/pVve1sTOXX0/hqdefault.jpg"}, {"timestamp": "01:56", "seconds": 116.3, "artist": "Computer Kill", "title": "Dry Spell", "url": "https://www.youtube.com/watch?v=xy8Xsjs4cOE", "thumbnail": "https://i.ytimg.com/vi/xy8Xsjs4cOE/hqdefault.jpg"}, {"timestamp": "02:24", "seconds": 144.8, "artist": "Lifeloose", "title": "07XXXXXXXXX", "url": "https://www.youtube.com/watch?v=okos75Ab61Y", "thumbnail": "https://i.ytimg.com/vi/okos75Ab61Y/hqdefault.jpg"}, {"timestamp": "02:53", "seconds": 173.3, "artist": "helen island", "title": "Memoria", "url": "https://www.youtube.com/watch?v=4Psh2e5OHzE", "thumbnail": "https://i.ytimg.com/vi/4Psh2e5OHzE/hqdefault.jpg"}, {"timestamp": "03:21", "seconds": 201.8, "artist": "Massiah Kaine", "title": "Ground 0 (Freestyle)", "url": "https://www.youtube.com/watch?v=sNMMFvr3u9I", "thumbnail": "https://i.ytimg.com/vi/sNMMFvr3u9I/hqdefault.jpg"}, {"timestamp": "03:50", "seconds": 230.3, "artist": "Spinnin' Records", "title": "'My Motto' is the latest main stage weapon from @2", "url": "https://www.youtube.com/watch?v=xGw4wpBHe2k", "thumbnail": "https://i.ytimg.com/vi/xGw4wpBHe2k/hqdefault.jpg"}, {"timestamp": "04:04", "seconds": 244.3, "artist": "dance arts center", "title": "what it takes", "url": "https://www.youtube.com/watch?v=5PZxgJO-Tfs", "thumbnail": "https://i.ytimg.com/vi/5PZxgJO-Tfs/hqdefault.jpg"}];
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Cephas Azariah & Kidnap", "title": "Lightning", "url": "https://www.youtube.com/watch?v=ktOMZ636mNY", "thumbnail": "https://i.ytimg.com/vi/ktOMZ636mNY/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "Computer Kill", "title": "everything", "url": "https://www.youtube.com/watch?v=6Lt-dTcmCWI", "thumbnail": "https://i.ytimg.com/vi/6Lt-dTcmCWI/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "A Country Western", "title": "I Found", "url": "https://www.youtube.com/watch?v=MUmbDjITvmE", "thumbnail": "https://i.ytimg.com/vi/MUmbDjITvmE/hqdefault.jpg"}];
     const PAGE_URL = 'https://sarfer02.github.io/sarferprod-dailymix';
-    const DATE_STR = '11/10/2026';
+    const DATE_STR = '12/10/2026';
     const audio = document.getElementById('audio');
     audio.src = './latest.mp3?v=' + Date.now();
     audio.volume = 0.7;
@@ -283,7 +283,7 @@
     const discLabel = document.getElementById('discLabel');
     const crossZone = document.getElementById('crossZone');
     const crossKnob = document.getElementById('crossKnob');
-    const totalDurationSec = 300.544;
+    const totalDurationSec = 144.044;
     let currentTrackIndex = -1;
 
     function formatTime(sec) {
