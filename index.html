@@ -227,12 +227,12 @@
 <body>
 <div class="stage">
     <div class="console">
-        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">• SARFERPROD • 12/10/2026 • APPUYEZ SUR PLAY • SARFERPROD • 12/10/2026 •</span></div></div>
+        <div class="lcd-live"><div class="marquee-track"><span id="marqueeText">• SARFERPROD • 13/10/2026 • APPUYEZ SUR PLAY • SARFERPROD • 13/10/2026 •</span></div></div>
 
         <div class="wave-live" id="waveZone">
             <canvas id="waveformCanvas"></canvas>
             <div class="wave-progress" id="progressBar"><div class="wave-progress-fill" id="progressFill"></div></div>
-            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">2:24</span></div>
+            <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">8:48</span></div>
         </div>
 
         <!-- RULE-LAYER : couche dédiée aux traits, posée SUR la règle graduée de l'image -->
@@ -242,7 +242,7 @@
             <div class="led-ring" id="ledRing"></div>
             <div class="turntable-disc">
                 <img src="assets_vintage/turntable.png" alt="">
-                <div class="disc-label" id="discLabel" style="background-image:url('https://i.ytimg.com/vi/ktOMZ636mNY/hqdefault.jpg')"></div>
+                <div class="disc-label" id="discLabel" style="background-image:url('https://i.ytimg.com/vi/yih0jyU23eA/hqdefault.jpg')"></div>
             </div>
             <div class="disc-spindle"></div>
         </div>
@@ -267,9 +267,9 @@
 <div class="under-console"><button class="copy-btn" id="copyBtn">Copier le lien du mix</button></div>
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
 <script>
-    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Cephas Azariah & Kidnap", "title": "Lightning", "url": "https://www.youtube.com/watch?v=ktOMZ636mNY", "thumbnail": "https://i.ytimg.com/vi/ktOMZ636mNY/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "Computer Kill", "title": "everything", "url": "https://www.youtube.com/watch?v=6Lt-dTcmCWI", "thumbnail": "https://i.ytimg.com/vi/6Lt-dTcmCWI/hqdefault.jpg"}, {"timestamp": "01:27", "seconds": 87.8, "artist": "A Country Western", "title": "I Found", "url": "https://www.youtube.com/watch?v=MUmbDjITvmE", "thumbnail": "https://i.ytimg.com/vi/MUmbDjITvmE/hqdefault.jpg"}];
+    const tracks = [{"timestamp": "00:30", "seconds": 30.8, "artist": "Diavol Str\u00e2in", "title": "Terminal Del Silencio (Live on KEXP)", "url": "https://www.youtube.com/watch?v=yih0jyU23eA", "thumbnail": "https://i.ytimg.com/vi/yih0jyU23eA/hqdefault.jpg"}, {"timestamp": "00:59", "seconds": 59.3, "artist": "KEXP", "title": "Diavol Str\u00e2in perform \"Un Camino A La Muerte\" & mo", "url": "https://www.youtube.com/watch?v=7eRphwN7PxI", "thumbnail": "https://i.ytimg.com/vi/7eRphwN7PxI/hqdefault.jpg"}, {"timestamp": "01:13", "seconds": 73.3, "artist": "La Belle Musique", "title": "\ud83d\ude80 Boris Brejcha's electrifying beats at BUENOS AIR", "url": "https://www.youtube.com/watch?v=xtU4HBNtFiU", "thumbnail": "https://i.ytimg.com/vi/xtU4HBNtFiU/hqdefault.jpg"}, {"timestamp": "01:41", "seconds": 101.8, "artist": "swell foop", "title": "Laying Down", "url": "https://www.youtube.com/watch?v=0bkm9Xs6eZo", "thumbnail": "https://i.ytimg.com/vi/0bkm9Xs6eZo/hqdefault.jpg"}, {"timestamp": "02:10", "seconds": 130.3, "artist": "THE TEMPTATIONS", "title": "Treat Her Like A Lady (Remix) (John Morales) (1984", "url": "https://www.youtube.com/watch?v=T0Q80cchWac", "thumbnail": "https://i.ytimg.com/vi/T0Q80cchWac/hqdefault.jpg"}, {"timestamp": "02:38", "seconds": 158.8, "artist": "Blaq Medici & Raggo Zulu Rebel", "title": "Purple (Official Music Video)", "url": "https://www.youtube.com/watch?v=5AYOmgbvM2k", "thumbnail": "https://i.ytimg.com/vi/5AYOmgbvM2k/hqdefault.jpg"}, {"timestamp": "03:07", "seconds": 187.3, "artist": "Defected Records", "title": "David Rodigan premieres 'Heaven' at Defected Croat", "url": "https://www.youtube.com/watch?v=9JQ9D31ouYI", "thumbnail": "https://i.ytimg.com/vi/9JQ9D31ouYI/hqdefault.jpg"}, {"timestamp": "03:35", "seconds": 215.8, "artist": "ATLiens & GG Magree", "title": "Black Sheep (Blankface Remix) [Dubstep | Monsterca", "url": "https://www.youtube.com/watch?v=sd5bsp6FPhA", "thumbnail": "https://i.ytimg.com/vi/sd5bsp6FPhA/hqdefault.jpg"}, {"timestamp": "04:04", "seconds": 244.3, "artist": "Kings Of The Rollers & Grace Barton", "title": "Should've Known Better", "url": "https://www.youtube.com/watch?v=Px76x50E52o", "thumbnail": "https://i.ytimg.com/vi/Px76x50E52o/hqdefault.jpg"}, {"timestamp": "04:32", "seconds": 272.8, "artist": "Diavol Str\u00e2in", "title": "Un Camino A La Muerte (Live on KEXP)", "url": "https://www.youtube.com/watch?v=-IZ8xtStKRo", "thumbnail": "https://i.ytimg.com/vi/-IZ8xtStKRo/hqdefault.jpg"}, {"timestamp": "05:01", "seconds": 301.3, "artist": "Clara Kimera", "title": "malice", "url": "https://www.youtube.com/watch?v=988SpHE7hJ4", "thumbnail": "https://i.ytimg.com/vi/988SpHE7hJ4/hqdefault.jpg"}, {"timestamp": "05:29", "seconds": 329.8, "artist": "Diavol Str\u00e2in", "title": "Solve Et Coagula (Live on KEXP)", "url": "https://www.youtube.com/watch?v=MJndAmIyyoc", "thumbnail": "https://i.ytimg.com/vi/MJndAmIyyoc/hqdefault.jpg"}, {"timestamp": "05:58", "seconds": 358.3, "artist": "Obsk\u00fcr", "title": "Speechless", "url": "https://www.youtube.com/watch?v=FGrrh9_V_jU", "thumbnail": "https://i.ytimg.com/vi/FGrrh9_V_jU/hqdefault.jpg"}, {"timestamp": "06:26", "seconds": 386.8, "artist": "Savanna Kate & Tevlo", "title": "Ghost", "url": "https://www.youtube.com/watch?v=G588Jzc642M", "thumbnail": "https://i.ytimg.com/vi/G588Jzc642M/hqdefault.jpg"}, {"timestamp": "06:55", "seconds": 415.3, "artist": "be kind", "title": "gasoline heart", "url": "https://www.youtube.com/watch?v=dQ7lGjBBt7g", "thumbnail": "https://i.ytimg.com/vi/dQ7lGjBBt7g/hqdefault.jpg"}, {"timestamp": "07:23", "seconds": 443.8, "artist": "Le Nomad", "title": "Cette Ge\u0301n\u00e9ration (A1)", "url": "https://www.youtube.com/watch?v=j5vI53S8Od4", "thumbnail": "https://i.ytimg.com/vi/j5vI53S8Od4/hqdefault.jpg"}, {"timestamp": "07:52", "seconds": 472.3, "artist": "Fontaines D.C. & ROSAL\u00cdA", "title": "Where Is Gone?", "url": "https://www.youtube.com/watch?v=pARXEf-XoEo", "thumbnail": "https://i.ytimg.com/vi/pARXEf-XoEo/hqdefault.jpg"}];
     const PAGE_URL = 'https://sarfer02.github.io/sarferprod-dailymix';
-    const DATE_STR = '12/10/2026';
+    const DATE_STR = '13/10/2026';
     const audio = document.getElementById('audio');
     audio.src = './latest.mp3?v=' + Date.now();
     audio.volume = 0.7;
@@ -283,7 +283,7 @@
     const discLabel = document.getElementById('discLabel');
     const crossZone = document.getElementById('crossZone');
     const crossKnob = document.getElementById('crossKnob');
-    const totalDurationSec = 144.044;
+    const totalDurationSec = 528.544;
     let currentTrackIndex = -1;
 
     function formatTime(sec) {
