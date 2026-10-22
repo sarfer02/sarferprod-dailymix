@@ -7,17 +7,14 @@
     <title>SARFERPROD • Daily Mix</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ── POLICE LCD REELLE (copiée par mix.py depuis "The Led Display St.ttf") ── */
         @font-face {
             font-family: 'LED Display';
             src: url('led_display.ttf') format('truetype');
             font-display: swap;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #15100a; font-family: 'Inter', sans-serif; min-height: 100vh; padding: 0; overflow: hidden; }
         .stage { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
-
         .console {
             position: relative;
             width: min(100vw, calc(100vh * 16 / 9));
@@ -25,8 +22,6 @@
             background-image: url('assets_vintage/panel_full.png');
             background-size: 100% 100%; overflow: hidden;
         }
-
-        /* ── LCD marquee : police LED + SARFERPROD • date • titre ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -46,14 +41,11 @@
             color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-
-        /* ── Waveform LCD : 3 sinusoides EN POINTS reactifs bass/med/aigu ── */
         .wave-live {
             position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
             border-radius: 8px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        /* Ligne de progression alignée sur la règle (règle locale = 73.8% du conteneur) */
         .wave-progress {
             position: absolute; left: 1%; right: 1%; top: 73.8%; height: 3px; border-radius: 2px;
             background: rgba(255,255,255,.10); cursor: pointer; z-index: 3;
@@ -74,14 +66,10 @@
             font-size: clamp(.4rem, .75vw, .72rem);
             color: rgba(111,230,255,.75);
         }
-
-        /* ── RULE-LAYER DEDIEE : posée EXACTEMENT sur la règle graduée de l'image
-              (calibrateur : 7.9% / 40.2% / 37.4% / 2%) — traits en taille FIXE ── */
         .rule-layer {
             position: absolute; left: 7.9%; top: 40.2%; width: 37.4%; height: 2%;
             pointer-events: none; z-index: 6;
         }
-        /* ── PETIT TRAIT VERTICAL : un PAR CHANGEMENT DE MORCEAU, via --left ── */
         .timeline-marker {
             position: absolute; top: 50%; left: var(--left, 0%);
             width: clamp(2px, 0.25vw, 4px);
@@ -98,7 +86,6 @@
             background: linear-gradient(180deg, #ffffff, #54e4ff 55%, #1f9dff);
             box-shadow: 0 0 10px #54e4ff, 0 0 26px rgba(84,228,255,.8), 0 0 44px rgba(50,140,255,.5);
         }
-        /* Vignette YouTube au-dessus du trait */
         .marker-thumb {
             position: absolute; bottom: 210%; left: 50%; transform: translateX(-50%) scale(.9);
             width: 84px; height: 52px; border-radius: 6px; background-size: cover; opacity: 0;
@@ -107,8 +94,6 @@
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
         .timeline-marker.show .marker-thumb { opacity: 1; }
-
-        /* ── Platine + étiquette YouTube ── */
         .disc-zone { position: absolute; left: 16.7%; top: 54.7%; width: 18.5%; height: 32.9%; }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
@@ -137,8 +122,6 @@
             background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
             box-shadow: 0 0 6px rgba(255,220,120,.8);
         }
-
-        /* ── Anneau LEDs ── */
         .led-ring { position: absolute; inset: -5.5%; pointer-events: none; }
         .led-ring .ring-led {
             position: absolute; top: 50%; left: 50%;
@@ -148,27 +131,17 @@
             transition: background .09s linear, box-shadow .09s linear;
         }
         .led-ring .ring-led.on { background: var(--c); box-shadow: 0 0 6px var(--c), 0 0 14px var(--c), 0 0 24px var(--c); }
-
-        /* ── Hotspots : lueur bleue incandescente ── */
         .hotspot {
             position: absolute; left: var(--l); top: var(--t); width: var(--w); height: var(--h);
             background: transparent; border: none; border-radius: 50%; cursor: pointer; padding: 0;
             transition: box-shadow .2s;
         }
         .hotspot:hover {
-            box-shadow: 0 0 18px rgba(90,190,255,.95),
-                        0 0 42px rgba(50,140,255,.65),
-                        0 0 70px rgba(30,100,255,.35),
-                        inset 0 0 16px rgba(90,190,255,.5);
+            box-shadow: 0 0 18px rgba(90,190,255,.95), 0 0 42px rgba(50,140,255,.65), 0 0 70px rgba(30,100,255,.35), inset 0 0 16px rgba(90,190,255,.5);
         }
         .hotspot.lit {
-            box-shadow: 0 0 22px rgba(90,190,255,1),
-                        0 0 50px rgba(50,140,255,.8),
-                        0 0 80px rgba(30,100,255,.45),
-                        inset 0 0 20px rgba(90,190,255,.6);
+            box-shadow: 0 0 22px rgba(90,190,255,1), 0 0 50px rgba(50,140,255,.8), 0 0 80px rgba(30,100,255,.45), inset 0 0 20px rgba(90,190,255,.6);
         }
-
-        /* ── LE SEUL CROSSFADER (rail horizontal) = VOLUME, poignée = VRAI capot ── */
         .cross-zone {
             position: absolute; left: 7.4%; top: 82.9%; width: 8.3%; height: 6%;
             cursor: pointer; touch-action: none;
@@ -178,8 +151,6 @@
             transform: translate(-50%,-50%); pointer-events: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
-
-        /* ── PLAYLIST : 6 cases + slots ── */
         .playlist-zone {
             position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
             display: flex; flex-direction: column; padding: 0;
@@ -210,7 +181,6 @@
         .track-artist-name { font-weight: 600; color: #ffd98a; font-size: clamp(.48rem, .95vw, .92rem); text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 0 8px rgba(0,0,0,.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .track-song-title { font-style: italic; color: rgba(242,226,196,.85); font-size: clamp(.4rem, .8vw, .78rem); text-shadow: 0 1px 3px rgba(0,0,0,.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .track-duration { font-family: 'LED Display', 'Courier New', monospace; font-size: clamp(.4rem, .75vw, .7rem); color: #9feeff; flex-shrink: 0; margin-right: 2%; text-shadow: 0 1px 3px rgba(0,0,0,.95); }
-
         .under-console {
             position: fixed; bottom: 6px; left: 0; right: 0;
             text-align: center; z-index: 50; pointer-events: none;
@@ -235,7 +205,6 @@
             <div class="wave-times"><span id="currentTime">00:00</span><span id="duration">7:09</span></div>
         </div>
 
-        <!-- RULE-LAYER : couche dédiée aux traits, posée SUR la règle graduée de l'image -->
         <div class="rule-layer" id="markersLayer"></div>
 
         <div class="disc-zone">
@@ -332,7 +301,6 @@
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('ended', stopPlaying);
 
-    /* ── Crossfader (rail horizontal) = VOLUME, poignée = vrai capot ── */
     let volDragging = false;
     function setVolume(e) {
         const r = crossZone.getBoundingClientRect();
@@ -346,7 +314,6 @@
     crossZone.addEventListener('pointerup', () => volDragging = false);
     crossKnob.style.left = '70%';
 
-    /* ── Timeline : clic dans l'écran OU sur la ligne allumée = avancer ── */
     const waveZone = document.getElementById('waveZone');
     const progressBar = document.getElementById('progressBar');
     function doSeek(e) {
@@ -372,7 +339,6 @@
         }
     }
 
-    /* ── Anneau de LEDs ── */
     const LED_COLORS = [
         '#0b2a7a', '#10359c', '#1543c4', '#1a55e8',
         '#2e6bff', '#3f82ff', '#549aff', '#6fb0ff',
@@ -396,8 +362,6 @@
         ringLeds.forEach((led, i) => led.classList.toggle('on', i < active));
     }
 
-    /* ── Visualiseur LCD : 3 sinusoides EN POINTS RECTANGULAIRES,
-          chacune pilotée par SA bande (bass / mid / treble) ── */
     const waveCanvas = document.getElementById('waveformCanvas');
     const waveCtx = waveCanvas.getContext('2d');
     let wavePhase = 0;
@@ -440,14 +404,10 @@
         const ampMid  = audio.paused ? h * 0.05 : base * (0.25 + midFreq * 1.70);
         const ampTreb = audio.paused ? h * 0.04 : base * (0.20 + treble * 2.20);
 
-        /* 1) BASSES : onde lente et ample, points larges, bleu profond */
         drawLcdWave(0.022, 0, 0.6, ampBass, 'rgba(40,140,220,0.95)', 4, 4, 8);
-        /* 2) MEDIUMS : onde moyenne contre-phase, points moyens, bleu clair */
         drawLcdWave(0.048, Math.PI / 3, -1.25, ampMid, 'rgba(92,214,255,0.9)', 3, 3, 7);
-        /* 3) AIGUS : onde rapide et fine, tout petits points, blanc-turquoise */
         drawLcdWave(0.095, Math.PI / 1.5, 1.9, ampTreb, 'rgba(200,250,255,0.85)', 2, 2, 5);
 
-        /* OCCLUSION AMBIANTE : voile radial sombre PAR-DESSUS les ondes */
         const grad = waveCtx.createRadialGradient(w/2, h*0.42, h*0.14, w/2, h*0.5, w*0.60);
         grad.addColorStop(0, 'rgba(0,0,0,0)');
         grad.addColorStop(0.72, 'rgba(0,6,10,0.30)');
@@ -455,7 +415,6 @@
         waveCtx.fillStyle = grad;
         waveCtx.fillRect(0, 0, w, h);
 
-        /* Playhead LCD par-dessus (reste visible) */
         if (audio.duration) {
             const px = Math.floor((audio.currentTime / audio.duration) * w);
             waveCtx.fillStyle = '#c8faff';
@@ -469,7 +428,6 @@
     }
     animateWave();
 
-    /* ── Tracklist : vignettes dans les cases, textes sur les slots ── */
     tracks.forEach((track, i) => {
         const row = document.createElement('div'); row.className = 'track-row';
         const vignetteLink = document.createElement('a'); vignetteLink.className = 'track-vignette-link';
@@ -490,7 +448,6 @@
         tracklistGrid.appendChild(row);
     });
 
-    /* ── TRAITS VERTICAUX sur la règle : UN PAR CHANGEMENT DE MORCEAU, positionnés via --left ── */
     tracks.forEach((track) => {
         const marker = document.createElement('div'); marker.className = 'timeline-marker';
         marker.style.setProperty('--left', (track.seconds / totalDurationSec * 100) + '%');
