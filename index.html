@@ -22,31 +22,39 @@
             background-image: url('assets_vintage/panel_full.png');
             background-size: 100% 100%; overflow: hidden;
         }
+        /* ÉCRAN LCD SUPÉRIEUR AVEC VITRE, REFLETS ET RAYURES */
         .lcd-live {
-            position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
-            border-radius: 8px; overflow: hidden; background-color: #030a0d;
+            position: absolute; left: 24.5%; top: 16.5%; width: 21.0%; height: 9.5%;
+            border-radius: 6px; overflow: hidden; background-color: #030a0d;
             display: flex; align-items: center;
-            border: 1px solid rgba(84,228,255,0.35);
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.9), 0 0 10px rgba(53,224,255,0.25);
+            border: 1px solid rgba(84,228,255,0.45);
+            box-shadow: inset 0 0 14px rgba(0,0,0,0.95), 0 0 12px rgba(53,224,255,0.3);
+        }
+        .lcd-live::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 10;
+            background: 
+                linear-gradient(115deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 30%, transparent 50%, rgba(255,255,255,0.12) 80%, transparent 100%),
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 36px),
+                linear-gradient(0deg, rgba(0,0,0,0.2) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
         }
         .lcd-live::after {
-            content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 5;
-            background: 
-                linear-gradient(135deg, rgba(255,255,255,0.28) 0%, transparent 42%, transparent 58%, rgba(255,255,255,0.1) 100%),
-                repeating-linear-gradient(55deg, transparent, transparent 12px, rgba(255,255,255,0.025) 12px, rgba(255,255,255,0.025) 13px);
+            content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 11;
+            background: repeating-linear-gradient(-60deg, transparent, transparent 50px, rgba(255,255,255,0.04) 50px, rgba(255,255,255,0.04) 51px);
         }
         .marquee-track { width: 100%; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
         .marquee-track span {
             display: inline-block; padding-left: 100%; animation: scrollTrack 16s linear infinite;
             font-family: 'LED Display', 'Courier New', monospace;
-            font-size: clamp(.62rem, 1.2vw, 1.25rem);
+            font-size: clamp(.7rem, 1.3vw, 1.35rem);
             letter-spacing: 2px;
             color: #54e4ff; text-shadow: 0 0 6px rgba(53,224,255,.95), 0 0 16px rgba(53,224,255,.55);
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        
+        /* ZONE VISUALISATEUR / ONDES */
         .wave-live {
-            position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
-            border-radius: 8px; overflow: hidden; cursor: pointer;
+            position: absolute; left: 6.5%; top: 31.5%; width: 39.5%; height: 9.2%;
+            border-radius: 6px; overflow: hidden; cursor: pointer;
         }
         .wave-live canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
         .wave-progress {
@@ -70,7 +78,7 @@
             color: rgba(111,230,255,.75);
         }
         .rule-layer {
-            position: absolute; left: 7.9%; top: 40.2%; width: 37.4%; height: 2%;
+            position: absolute; left: 6.5%; top: 38.5%; width: 39.5%; height: 2%;
             pointer-events: none; z-index: 6;
         }
         .timeline-marker {
@@ -97,7 +105,9 @@
         }
         .timeline-marker:hover .marker-thumb { opacity: 1; }
         .timeline-marker.show .marker-thumb { opacity: 1; }
-        .disc-zone { position: absolute; left: 16.7%; top: 54.7%; width: 18.5%; height: 32.9%; }
+
+        /* PLATINE VINYLE ET BRAS DE LECTURE */
+        .disc-zone { position: absolute; left: 11.5%; top: 51.5%; width: 23.5%; height: 38.0%; }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
             animation: spin 3.6s linear infinite; animation-play-state: paused;
@@ -121,14 +131,15 @@
             background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
         }
         .tonearm {
-            position: absolute; left: 72%; top: -12%; width: 48%; height: 95%;
+            position: absolute; left: 63%; top: -8%; width: 55%; height: 102%;
             pointer-events: none; z-index: 12;
-            transform-origin: 82% 18%;
-            transform: rotate(-18deg);
+            transform-origin: 78% 16%;
+            transform: rotate(-16deg);
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             filter: drop-shadow(-3px 5px 8px rgba(0,0,0,0.8));
         }
-        body.playing .tonearm { transform: rotate(0deg); }
+        body.playing .tonearm { transform: rotate(2deg); }
+
         .led-ring { position: absolute; inset: -5.5%; pointer-events: none; }
         .led-ring .ring-led {
             position: absolute; top: 50%; left: 50%;
@@ -150,7 +161,7 @@
             box-shadow: 0 0 22px rgba(90,190,255,1), 0 0 50px rgba(50,140,255,.8);
         }
         .cross-zone {
-            position: absolute; left: 7.4%; top: 82.9%; width: 8.3%; height: 6%;
+            position: absolute; left: 4.8%; top: 82.5%; width: 8.5%; height: 6.5%;
             cursor: pointer; touch-action: none;
         }
         .cross-knob {
@@ -158,35 +169,41 @@
             transform: translate(-50%,-50%); pointer-events: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
+        
+        /* PLAYLIST DROITE AVEC LISERÉ BLEU ET LUEUR NÉON */
         .playlist-zone {
-            position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
+            position: absolute; left: 51.5%; top: 22.0%; width: 44.5%; height: 63.5%;
             display: flex; flex-direction: column; padding: 0;
         }
-        .tracklist-grid { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6.4%; padding-right: 0; scroll-behavior: smooth; }
-        .tracklist-grid::-webkit-scrollbar { width: 0; }
+        .tracklist-grid { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; scroll-behavior: smooth; }
+        .tracklist-grid::-webkit-scrollbar { width: 4px; }
+        .tracklist-grid::-webkit-scrollbar-thumb { background: rgba(53,224,255,0.3); border-radius: 4px; }
         .track-row {
-            flex: 0 0 auto; height: 11.35%;
+            flex: 0 0 auto; height: auto; min-height: 56px;
             display: flex; align-items: center;
-            padding: 0 6px; background: rgba(18,12,7,0.45); 
-            border: 1px solid rgba(53,224,255,0.18); border-radius: 6px;
+            padding: 6px 10px; background: rgba(18,12,7,0.55); 
+            border: 1px solid rgba(53,224,255,0.4); 
+            box-shadow: 0 0 8px rgba(53,224,255,0.15);
+            border-radius: 8px;
             transition: all .25s ease;
         }
-        .track-row:hover { background: rgba(255,214,120,.07); border-color: rgba(53,224,255,0.45); }
+        .track-row:hover { background: rgba(255,214,120,.07); border-color: rgba(53,224,255,0.7); box-shadow: 0 0 12px rgba(53,224,255,0.35); }
         .track-row.active { 
-            background: rgba(120,220,255,0.16); 
-            border: 1px solid rgba(53,224,255,0.95); 
-            box-shadow: 0 0 18px rgba(53,224,255,0.6); 
+            background: rgba(120,220,255,0.22); 
+            border: 1px solid rgba(53,224,255,1); 
+            box-shadow: 0 0 20px rgba(53,224,255,0.9), inset 0 0 10px rgba(53,224,255,0.5); 
         }
-        .track-vignette-link { text-decoration: none; flex: 0 0 16%; height: 100%; display: block; }
+        .track-vignette-link { text-decoration: none; flex: 0 0 44px; height: 44px; display: block; }
         .track-vignette {
             position: relative; width: 100%; height: 100%; border-radius: 6px;
             background-size: cover; background-position: center; cursor: pointer; transition: all .2s;
             border: 2px solid rgba(201,161,59,.95);
         }
-        .track-details { flex: 1; cursor: pointer; min-width: 0; margin-left: 5.5%; height: 70%; display: flex; flex-direction: column; justify-content: center; }
-        .track-artist-name { font-weight: 600; color: #ffd98a; font-size: clamp(.48rem, .95vw, .92rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-song-title { font-style: italic; color: rgba(242,226,196,.85); font-size: clamp(.4rem, .8vw, .78rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-duration { font-family: 'LED Display', 'Courier New', monospace; font-size: clamp(.4rem, .75vw, .7rem); color: #9feeff; flex-shrink: 0; margin-right: 2%; }
+        .track-details { flex: 1; cursor: pointer; min-width: 0; margin-left: 14px; display: flex; flex-direction: column; justify-content: center; gap: 3px; }
+        .track-artist-name { font-weight: 600; color: #ffd98a; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+        .track-song-title { font-style: italic; color: rgba(242,226,196,.85); font-size: 0.74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+        .track-duration { font-family: 'LED Display', 'Courier New', monospace; font-size: 0.78rem; color: #9feeff; flex-shrink: 0; margin-left: 10px; }
+        
         .under-console { position: fixed; bottom: 6px; left: 0; right: 0; text-align: center; z-index: 50; pointer-events: none; }
         .copy-btn {
             pointer-events: auto; opacity: .75;
@@ -220,17 +237,17 @@
             <div class="disc-spindle"></div>
         </div>
 
-        <button class="hotspot" id="pauseBtn" style="--l:6.5%; --t:52.1%; --w:6.0%; --h:11%;" title="Pause"></button>
-        <button class="hotspot" id="playBtn"  style="--l:6.4%; --t:67.2%; --w:5.9%; --h:10.3%;" title="Play"></button>
+        <button class="hotspot" id="pauseBtn" style="--l:4.5%; --t:52.5%; --w:6.2%; --h:11.5%;" title="Pause"></button>
+        <button class="hotspot" id="playBtn"  style="--l:4.4%; --t:68.5%; --w:6.1%; --h:11.0%;" title="Play"></button>
 
         <div class="cross-zone" id="crossZone" title="Volume">
             <img class="cross-knob" id="crossKnob" src="assets_vintage/fader_cross_knob.png" alt="">
         </div>
 
-        <a class="hotspot" id="waBtn" style="--l:20.9%; --t:43.9%; --w:2.6%; --h:4.8%; border-radius:6px;" title="WhatsApp"></a>
-        <a class="hotspot" id="scBtn" style="--l:23.9%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="SoundCloud"></a>
-        <a class="hotspot" id="mailBtn" style="--l:26.7%; --t:43.8%; --w:2.5%; --h:4.8%; border-radius:6px;" title="Email"></a>
-        <a class="hotspot" id="fbBtn" style="--l:29.5%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="Facebook"></a>
+        <a class="hotspot" id="waBtn" style="--l:18.5%; --t:43.9%; --w:2.6%; --h:4.8%; border-radius:6px;" title="WhatsApp"></a>
+        <a class="hotspot" id="scBtn" style="--l:21.5%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="SoundCloud"></a>
+        <a class="hotspot" id="mailBtn" style="--l:24.4%; --t:43.8%; --w:2.5%; --h:4.8%; border-radius:6px;" title="Email"></a>
+        <a class="hotspot" id="fbBtn" style="--l:27.3%; --t:43.8%; --w:2.6%; --h:4.8%; border-radius:6px;" title="Facebook"></a>
 
         <div class="playlist-zone">
             <div class="tracklist-grid" id="tracklistGrid"></div>
@@ -382,17 +399,19 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
-    function drawRibbonWave(freq, phaseOffset, speedMult, amp, strokeColor) {
+    function drawRibbon(freq1, freq2, speed1, speed2, amp1, amp2, strokeColor) {
         const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.40;
         waveCtx.beginPath();
         let first = true;
         for (let x = 0; x <= w; x += 4) {
-            const y = mid + Math.sin((x * freq) + wavePhase * speedMult + phaseOffset) * amp;
+            const y1 = mid + Math.sin((x * freq1) + wavePhase * speed1) * amp1;
+            const y2 = mid + Math.sin((x * freq2) - wavePhase * speed2) * amp2;
+            const y = (y1 + y2) / 2; // Crée le ruban croisé reliant les deux fréquences
             if (first) { waveCtx.moveTo(x, y); first = false; }
             else { waveCtx.lineTo(x, y); }
         }
         waveCtx.strokeStyle = strokeColor;
-        waveCtx.lineWidth = 2.5;
+        waveCtx.lineWidth = 2.2;
         waveCtx.shadowColor = strokeColor;
         waveCtx.shadowBlur = 10;
         waveCtx.stroke();
@@ -414,14 +433,16 @@
         updateLeds();
 
         const base = h * 0.17;
-        const ampBass = audio.paused ? h * 0.07 : base * (0.30 + bass * 1.50);
-        const ampMid  = audio.paused ? h * 0.05 : base * (0.25 + midFreq * 1.70);
-        const ampTreb = audio.paused ? h * 0.04 : base * (0.20 + treble * 2.20);
+        const ampB = audio.paused ? h * 0.07 : base * (0.30 + bass * 1.50);
+        const ampM = audio.paused ? h * 0.05 : base * (0.25 + midFreq * 1.70);
+        const ampT = audio.paused ? h * 0.04 : base * (0.20 + treble * 2.20);
 
-        drawRibbonWave(0.025, 0, 0.7, ampBass, 'rgba(40,140,220,0.9)');
-        drawRibbonWave(0.045, Math.PI / 3, -1.2, (ampBass + ampMid) / 1.8, 'rgba(92,214,255,0.85)');
-        drawRibbonWave(0.075, Math.PI / 1.5, 1.6, (ampMid + ampTreb) / 1.8, 'rgba(150,240,255,0.8)');
-        drawRibbonWave(0.035, Math.PI, -0.9, (ampTreb + ampBass) / 1.8, 'rgba(200,255,255,0.65)');
+        // 1. Ruban Basse & Médiums
+        drawRibbon(0.025, 0.045, 0.7, 1.2, ampB, ampM, 'rgba(40,160,240,0.85)');
+        // 2. Ruban Aigus & Médiums
+        drawRibbon(0.045, 0.075, 1.2, 1.6, ampM, ampT, 'rgba(92,230,255,0.85)');
+        // 3. Ruban Aigus & Basses
+        drawRibbon(0.025, 0.075, 0.8, 1.4, ampB, ampT, 'rgba(180,240,255,0.75)');
 
         const grad = waveCtx.createRadialGradient(w/2, h*0.42, h*0.14, w/2, h*0.5, w*0.60);
         grad.addColorStop(0, 'rgba(0,0,0,0)');
