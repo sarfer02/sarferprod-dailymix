@@ -23,7 +23,7 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── Écran LCD supérieur avec vitre bombée, reflets et rayures d'usure ── */
+        /* ── Vitre bombée + rayures sur l'écran LCD du haut ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -47,7 +47,6 @@
         }
         @keyframes scrollTrack { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* ── Visualiseur LCD / Rubans ── */
         .wave-live {
             position: absolute; left: 7.9%; top: 34%; width: 37.5%; height: 8.4%;
             border-radius: 8px; overflow: hidden; cursor: pointer;
@@ -131,7 +130,6 @@
             background: radial-gradient(circle at 35% 30%, #ffe9b0, #c9a13b 55%, #6e5a2a);
             box-shadow: 0 0 6px rgba(255,220,120,.8);
         }
-        /* Animation du bras de lecture */
         .tonearm {
             position: absolute; left: 72%; top: -12%; width: 48%; height: 95%;
             pointer-events: none; z-index: 12;
@@ -172,7 +170,7 @@
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
 
-        /* ── Tracklist avec liserés et éclairage du morceau actif ── */
+        /* ── Tracklist avec liserés et centrage auto ── */
         .playlist-zone {
             position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
             display: flex; flex-direction: column; padding: 0;
@@ -407,7 +405,7 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
-    /* ── Fonction de tracé de rubans interconnectés ── */
+    /* ── Tracé de rubans interconnectés ── */
     function drawRibbonWave(freq, phaseOffset, speedMult, amp, strokeColor) {
         const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.40;
         waveCtx.beginPath();
@@ -444,16 +442,12 @@
         const ampMid  = audio.paused ? h * 0.05 : base * (0.25 + midFreq * 1.70);
         const ampTreb = audio.paused ? h * 0.04 : base * (0.20 + treble * 2.20);
 
-        /* Rubans interconnectés :
-           1) Basses <-> Médiums
-           2) Médiums <-> Aigus
-           3) Aigus <-> Basses */
+        /* Rubans interconnectés (Basses/Médiums/Aigus) */
         drawRibbonWave(0.025, 0, 0.7, ampBass, 'rgba(40,140,220,0.9)');
         drawRibbonWave(0.045, Math.PI / 3, -1.2, (ampBass + ampMid) / 1.8, 'rgba(92,214,255,0.85)');
         drawRibbonWave(0.075, Math.PI / 1.5, 1.6, (ampMid + ampTreb) / 1.8, 'rgba(150,240,255,0.8)');
         drawRibbonWave(0.035, Math.PI, -0.9, (ampTreb + ampBass) / 1.8, 'rgba(200,255,255,0.65)');
 
-        /* Voile de profondeur ambré/sombre sur le visualiseur */
         const grad = waveCtx.createRadialGradient(w/2, h*0.42, h*0.14, w/2, h*0.5, w*0.60);
         grad.addColorStop(0, 'rgba(0,0,0,0)');
         grad.addColorStop(0.72, 'rgba(0,6,10,0.30)');
