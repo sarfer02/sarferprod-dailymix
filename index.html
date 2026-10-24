@@ -23,7 +23,6 @@
             background-size: 100% 100%; overflow: hidden;
         }
 
-        /* ── Vitre bombée + rayures sur l'écran LCD du haut ── */
         .lcd-live {
             position: absolute; left: 27.4%; top: 19%; width: 15.8%; height: 8.8%;
             border-radius: 8px; overflow: hidden; background-color: #030a0d;
@@ -101,7 +100,6 @@
         .timeline-marker:hover .marker-thumb { opacity: 1; }
         .timeline-marker.show .marker-thumb { opacity: 1; }
 
-        /* ── Platine et Bras de lecture (Tonearm) ── */
         .disc-zone { position: absolute; left: 16.7%; top: 54.7%; width: 18.5%; height: 32.9%; }
         .turntable-disc {
             position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
@@ -170,7 +168,6 @@
             filter: drop-shadow(0 2px 5px rgba(0,0,0,.65));
         }
 
-        /* ── Tracklist avec liserés et centrage auto ── */
         .playlist-zone {
             position: absolute; left: 51.8%; top: 23.5%; width: 43.2%; height: 60.9%;
             display: flex; flex-direction: column; padding: 0;
@@ -405,7 +402,6 @@
     window.addEventListener('resize', resizeWaveCanvas);
     setTimeout(resizeWaveCanvas, 60);
 
-    /* ── Tracé de rubans interconnectés ── */
     function drawRibbonWave(freq, phaseOffset, speedMult, amp, strokeColor) {
         const w = waveCanvas.width, h = waveCanvas.height, mid = h * 0.40;
         waveCtx.beginPath();
@@ -442,7 +438,6 @@
         const ampMid  = audio.paused ? h * 0.05 : base * (0.25 + midFreq * 1.70);
         const ampTreb = audio.paused ? h * 0.04 : base * (0.20 + treble * 2.20);
 
-        /* Rubans interconnectés (Basses/Médiums/Aigus) */
         drawRibbonWave(0.025, 0, 0.7, ampBass, 'rgba(40,140,220,0.9)');
         drawRibbonWave(0.045, Math.PI / 3, -1.2, (ampBass + ampMid) / 1.8, 'rgba(92,214,255,0.85)');
         drawRibbonWave(0.075, Math.PI / 1.5, 1.6, (ampMid + ampTreb) / 1.8, 'rgba(150,240,255,0.8)');
